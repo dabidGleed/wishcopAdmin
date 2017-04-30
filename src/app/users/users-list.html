@@ -1,0 +1,76 @@
+<div class="page-content-inner">
+
+    <!-- Ecommerce Products List -->
+    <section class="panel panel-with-borders">
+        <div class="panel-heading">
+            <h2>
+                
+              Users List
+            </h2>
+        </div>
+        <div class="panel-body">
+            <table class="table table-hover nowrap" id="example1" width="100%"  >
+                <thead class="thead-default">
+                <tr>
+                    <th>ID</th>
+                    <th>Thumbnail</th>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Email</th>
+                     
+                    <th>Mobile Number</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>ID</th>
+                    <th>Thumbnail</th>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Email</th>
+     
+                    
+                     <th>Mobile Number</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                </tfoot>
+                <tbody>
+                <tr ng-repeat="users in userList track by $index">
+                    <td><a href="javascript: void(0);" class="link-underlined">000010</a></td>
+                    <td><a href="javascript: void(0);" class="cui-ecommerce--dashboard--list--img"><img ng-src="{{users.gravatarUrl}}" /></a></td>
+                    <td><a href="javascript: void(0);" class="link-underlined">{{users.firstName}} {{users.lastName}}</a></td>
+                    <td>{{users.role}}</td>
+                    <td>{{users.email}}</td>
+                    <td>{{users.mobileNumber}}</td>
+                    <td><span  class="label {{users.status == 'ACTIVE' ? 'label-success' : 'label-default'}} ">{{users.status}}</span></td>
+                    <td>
+                        <a href="javascript: void(0);" class="link-underlined margin-right-5"><i class="icmn-pencil5"><!-- --></i> View</a>
+                        <a href="javascript: void(0);" class="link-underlined"><i class="icmn-cross2"><!-- --></i> Remove</a>
+                    </td>
+                </tr>
+ 
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <!-- End Ecommerce Products List -->
+
+</div>
+
+<!-- Page Scripts -->
+<script>
+    $(function () {
+
+        // Datatables
+        $('#example1').DataTable({
+            "lengthMenu": [[50, 100, 200, -1], [50, 100, 200, "All"]],
+            responsive: true,
+            "autoWidth": false
+        });
+
+    })
+</script>
+<!-- End Page Scripts -->

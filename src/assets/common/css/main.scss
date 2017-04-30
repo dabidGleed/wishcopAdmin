@@ -1,0 +1,71 @@
+// We don't need to concatenate ".scss" resulting files to one here, that's why we just import "" files
+
+// Helpers
+@import 'mixins';
+@import 'helpers/fonts';
+@import 'helpers/typography';
+@import 'helpers/base.default';
+@import 'helpers/base.responsive';
+@import 'helpers/rtl.version';
+
+// Themes
+@import 'themes/theme-dark';
+@import 'themes/theme-blue';
+@import 'themes/theme-green';
+@import 'themes/theme-orange';
+@import 'themes/theme-red';
+@import 'themes/theme-inverse';
+
+// Forms
+@import 'forms/basic-form-elements';
+@import 'forms/buttons';
+@import 'forms/dropdowns';
+@import 'forms/checkboxes-radio';
+@import 'forms/form-validation';
+@import 'forms/selectboxes';
+@import 'forms/autocomplete';
+
+// Components
+@import 'components/utilities';
+@import 'components/tables';
+@import 'components/steps';
+@import 'components/tooltips-popovers';
+@import 'components/modal';
+@import 'components/progress-bars';
+@import 'components/badges-labels';
+@import 'components/pagination';
+@import 'components/collapse';
+@import 'components/tabs';
+@import 'components/notifications-alerts';
+@import 'components/carousel';
+@import 'components/widgets';
+@import 'components/breadcrumbs';
+
+// Vendors
+@import 'vendors/jscrollpane';
+@import 'vendors/select2';
+@import 'vendors/eonasdan-bootstrap-datetimepicker';
+@import 'vendors/fullcalendar';
+@import 'vendors/summernote';
+@import 'vendors/ionrangeslider';
+@import 'vendors/nestable';
+@import 'vendors/datatables-fixedcolumns';
+@import 'vendors/datatables-responsive';
+@import 'vendors/editable-table';
+@import 'vendors/chartist';
+@import 'vendors/chartist-tooltip-plugin';
+@import 'vendors/nprogress';
+@import 'vendors/juqery-steps';
+@import 'vendors/bootstrap-select';
+@import 'vendors/dropify';
+
+// Pages
+@import 'pages/pricing-table';
+@import 'pages/ecommerce';
+
+// Apps
+@import 'apps/profile';
+@import 'apps/messaging';
+@import 'apps/mail';
+@import 'apps/calendar';
+@import 'apps/gallery';

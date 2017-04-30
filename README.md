@@ -5,4 +5,4 @@ Wishcop Admin
 > - Install Gulp and Bower
 > - Run  **npm install** in command prompt in the directory to install all dependencies.
 > - Simply run **gulp** to run the project.
-> -  Font render issues still exists
+> -  Font render issues still exists, to fix copy the fonts into Build Manually for now.

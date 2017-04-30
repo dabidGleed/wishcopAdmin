@@ -1,5 +1,3 @@
-# wishcopAdmin
-
 Wishcop Admin
 ===================
 

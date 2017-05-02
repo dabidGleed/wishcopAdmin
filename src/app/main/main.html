@@ -1,0 +1,9 @@
+<!--<div ui-view="leftMenu"></div>-->
+
+   <nav class="left-menu" ui-view="leftMenu" left-menu ng-class="{'hidden-left-menu': hideLeftMenu}"> </nav>
+   <nav class="top-menu" ui-view="topMenu" ng-class="{'hidden-top-menu': hideTopMenu}"></nav>
+   <!--<div ui-view="topMenu"></div>-->
+<section class="page-content" ui-view></section>
+<!--<div ui-view="footer"></div>-->
+<div class="cwt__footer" ng-class="{'visible-footer': showFooter}">
+    </div>

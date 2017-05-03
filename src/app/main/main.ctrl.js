@@ -3,8 +3,6 @@
  */
 
 app.controller('homeCtrl',  function( $location, $scope, $rootScope, $timeout  ) {
-
-
  NProgress.configure({
         minimum: 0.2,
         trickleRate: 0.1,
@@ -44,5 +42,6 @@ app.controller('homeCtrl',  function( $location, $scope, $rootScope, $timeout  )
         }, 1000);
         $('body').removeClass('cui-page-loading-state');
     });
+
 
 });

@@ -11,7 +11,7 @@ angular.module('cleanUI', [
                 url: "/",
                 views: {
                     '': { templateUrl: "main/main.html",controller: "homeCtrl" },
-                    'leftMenu@main': { templateUrl: "left-menu/_left-menu.html", controller: "leftMenuCtrl" },
+                    'leftMenuBlock@main': { templateUrl: "left-menu/_left-menu.html", controller: "leftMenuCtrl" },
                     'footer@main': { templateUrl: "footer/_footer.html", controller:"footerCtrl" },
                     'topMenu@main': { templateUrl: "top-menu/_top-menu.html", controller:"topMenuCtrl"  },
                 }
@@ -21,20 +21,20 @@ angular.module('cleanUI', [
                 templateUrl: "dashboards/dashboard.html",
                 
             })
-            .state('userslist', {  
-                url: "/users/list",
+            .state('main.userslist', {  
+                url: "users/list",
                 templateUrl: "users/users-list.html",
                 controller: "usersListCtrl"
                 
             })
-            .state('saleslist', {  
-                url: "/sales-list",
+            .state('main.saleslist', {  
+                url: "sales-list",
                 templateUrl: "sales-list/sales-list.html",
                 controller: "salesListCtrl"
                 
             })
-             .state('productslist', {  
-                url: "/products-list",
+             .state('main.productslist', {  
+                url: "products-list",
                 templateUrl: "products-list/products-list.html",
                 controller: "productsListCtrl"
                 
@@ -489,7 +489,7 @@ app.controller('MainCtrl', function($location, $scope, $rootScope, $timeout) {
         }, 1000);
         $('body').removeClass('cui-page-loading-state');
     });
-
+ 
 });
 
 app.directive('leftMenu', function() {
@@ -497,6 +497,7 @@ app.directive('leftMenu', function() {
         restrict: 'A',
         link: function(scope, element, attrs) {
             element.on('click', '.left-menu-link', function() {
+                 
 
                 if (!$(this).closest('.left-menu-list-submenu').length) {
                     $('.left-menu-list-opened > a + ul').slideUp(200, function(){

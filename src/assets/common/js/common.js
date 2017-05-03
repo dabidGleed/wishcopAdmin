@@ -18,6 +18,7 @@ $(function(){
     // Slide toggle menu items on click
 
     $('.left-menu .left-menu-list-submenu > a').on('click', function(){
+   
         var accessDenied = $('body').hasClass('menu-top') && $(window).width() > 768;
 
         if (!accessDenied) {
@@ -36,6 +37,7 @@ $(function(){
     // Main menu scripts
 
     if (!$('body').hasClass('menu-top')) {
+       
         if (!cleanUI.hasTouch) {
             if (!cleanUI.hasTouch) {
                 $('nav.left-menu .scroll-pane').each(function() {
@@ -133,6 +135,7 @@ $(function(){
 
     $('.left-menu-toggle').on('click', function(){
         $(this).toggleClass('active');
+ 
         $('nav.left-menu').toggleClass('left-menu-showed');
         $('.main-backdrop').toggleClass('main-backdrop-showed')
     });
@@ -148,6 +151,7 @@ $(function(){
     });
     
     $('nav.left-menu a.left-menu-link').on('click', function(){
+    
         if (!$(this).parent().hasClass('left-menu-list-submenu')) {
             $('.left-menu-toggle').removeClass('active');
             $('nav.left-menu').removeClass('left-menu-showed');

@@ -191,7 +191,7 @@ gulp.task('cont:build', function () {
     return gulp.src('src/app/**/*.js')
         .pipe(concat("app.min.js"))
         .pipe(gulp.dest('build/assets'))
-       // .pipe(reload({stream: true}))
+        .pipe(reload({stream: true}))
 });
 // gulp.task('compress', function (cb) { 
 //         gulp.src('src/**/*.js')
@@ -324,7 +324,8 @@ gulp.task('watch', function(){
         gulp.start('css:build');
     });
     watch([path.watch.js], function(event, cb) {
-        gulp.start('js:build');
+        gulp.start(['js:build','cont:build']);
+        
     });
     watch([path.watch.vendors], function(event, cb) {
       //  gulp.start('vendors:bower:build');

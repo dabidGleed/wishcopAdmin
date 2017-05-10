@@ -58,7 +58,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
        
  
   
-        $urlRouterProvider.otherwise("/dashboard");
+        $urlRouterProvider.otherwise("/login");
         // $locationProvider.html5Mode(true);
     })
 

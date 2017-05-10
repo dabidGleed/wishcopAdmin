@@ -11,8 +11,8 @@ var cleanUI = {
 /**
  * CLEAN UI TEMPLATE SCRIPTS
  */
-
-$(function(){
+$( document ).ready(function() {
+// $(function(){
     
     /////////////////////////////////////////////////////////////////////////////
     // Slide toggle menu items on click

@@ -32,7 +32,7 @@ var path = {
         version_html: 'src/version_html/**/*.*',
         version_angular: 'src/app/**/*.*',
         img: 'src/assets/common/img/**/*.*',
-        fonts: 'src/assets/common/fonts/',
+        fonts: 'src/assets/common/fonts/*.*',
         css: 'src/assets/common/css/*.scss',
         js: 'src/assets/common/js/**/*.*',
         vendors_bower: 'src/assets/vendors/bower/**/*.*',
@@ -120,7 +120,7 @@ var path = {
     watch: {
         templates: 'src/templates/**/*.html',
         version_html: 'src/version_html/**/*.*',
-        version_angular: 'src/version_angular/**/*.*',
+        version_angular: 'src/app/**/*.*',
         img: 'src/assets/common/img/**/*.*',
         fonts: 'src/assets/common/fonts/**/*.*',
         css: 'src/assets/common/css/**/*.scss',

@@ -1,7 +1,7 @@
   /**
  * USERS LIST PAGE SERVICE
  */
-
+   
 app.factory('usersService', ['$http', function($http) {
     var usersServiceMethods = {};
      var baseURL = "http://ec2-52-43-72-177.us-west-2.compute.amazonaws.com/";

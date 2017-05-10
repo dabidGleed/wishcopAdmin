@@ -60,8 +60,7 @@ $( document ).ready(function() {
         }
     }
 
-    if ($('body').hasClass('menu-top')) {
-
+    if ($('body').hasClass('menu-top')) {``
         var translateSelector = $('nav.left-menu .left-menu-inner'),
             startTranslateX = 0;
 

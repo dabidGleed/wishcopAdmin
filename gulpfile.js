@@ -324,8 +324,11 @@ gulp.task('watch', function(){
         gulp.start('css:build');
     });
     watch([path.watch.js], function(event, cb) {
-        gulp.start(['js:build','cont:build']);
+        gulp.start(['js:build']);
         
+    });
+    watch([path.watch.version_angular], function(event, cb) {
+        gulp.start(['cont:build']);
     });
     watch([path.watch.vendors], function(event, cb) {
       //  gulp.start('vendors:bower:build');

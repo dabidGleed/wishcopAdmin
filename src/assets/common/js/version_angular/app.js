@@ -1,7 +1,7 @@
 'use strict';
 
 var app = angular.module('cleanUI', [
-    "ui.router" 
+    "ui.router" ,"angularUtils.directives.dirPagination"
 ])
 app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
   

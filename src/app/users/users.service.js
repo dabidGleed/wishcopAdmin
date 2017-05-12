@@ -18,6 +18,30 @@ app.factory('usersService', ['$http', function($http) {
             }) 
         };
 
+         //service to active user
+        usersServiceMethods.activeUserStatus = function(userId) {
+             
+            var finalUrl = baseURL + "admin/"+userId+"/make/active"
+            return $http({
+                method: 'POST',
+                url: finalUrl
+                // data: dataObj,
+                // headers:  
+            }) 
+        };
+
+         //service to delete user
+        usersServiceMethods.deleteUserStatus = function(userId) {
+             
+            var finalUrl = baseURL + "admin/"+userId+"/delete"
+            return $http({
+                method: 'DELETE',
+                url: finalUrl
+                // data: dataObj,
+                // headers:  
+            }) 
+        };
+
          
         return usersServiceMethods;
     }])

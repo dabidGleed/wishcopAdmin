@@ -106,8 +106,7 @@
 
  
     <!-- Clean UI Scripts -->
-    <script src="assets/common/js/common.js"></script>
-    <script src="assets/common/js/demo.temp.js"></script>
+   
 </head>
 
 
@@ -358,7 +357,7 @@
         </ul>
     </div>
   </nav>
-   <nav class="top-menu" ng-class="{'hidden-top-menu': hideTopMenu}">
+   <nav class="top-menu" ng-class="{'hidden-top-menu': hideTopMenu}" ng-controller="topMenuCtrl" >
        
     <div class="menu-icon-container hidden-md-up">
         <div class="animate-menu-button left-menu-toggle">
@@ -381,7 +380,7 @@
                     <a class="dropdown-item" href="javascript:void(0)"><i class="dropdown-icon icmn-circle-right"></i> User Boards</a>
                     <a class="dropdown-item" href="javascript:void(0)"><i class="dropdown-icon icmn-circle-right"></i> Issue Navigator (35 New)</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="javascript:void(0)"><i class="dropdown-icon icmn-exit"></i> Logout</a>
+                    <a class="dropdown-item" href="javascript:void(0)"  ng-click="logout()"><i class="dropdown-icon icmn-exit"></i> Logout</a>
                 </ul>
             </div>
         </div>
@@ -550,4 +549,7 @@
 <div class="main-backdrop"><!-- --></div>
 
 </body>
+ <script src="assets/common/js/common.js"></script>
+    <script src="assets/common/js/demo.temp.js"></script>
+        <script src="assets/vendors/dirpagenation/dirPagination.js"></script>
 </html>

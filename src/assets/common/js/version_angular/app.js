@@ -1,7 +1,7 @@
 'use strict';
 
 var app = angular.module('cleanUI', [
-    "ui.router" 
+    "ui.router" ,"angularUtils.directives.dirPagination"
 ])
 app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
   
@@ -58,7 +58,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
        
  
   
-        $urlRouterProvider.otherwise("/dashboard");
+        $urlRouterProvider.otherwise("/login");
         // $locationProvider.html5Mode(true);
     })
 
@@ -113,10 +113,9 @@ app.directive('leftMenu', function() {
         restrict: 'A',
         link: function(scope, element, attrs) {
             element.on('click', '.left-menu-link', function() {
-                 
-          console.log($(this).closest('.left-menu-list-submenu').length)
+              
                 if (!$(this).closest('.left-menu-list-submenu').length) {
-                    console.log("hi");
+                   
                     $('.left-menu-list-opened > a + ul').slideUp(200, function(){
                         $('.left-menu-list-opened').removeClass('left-menu-list-opened');
                     });

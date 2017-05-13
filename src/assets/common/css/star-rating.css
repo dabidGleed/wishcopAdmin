@@ -1,0 +1,32 @@
+
+canvas.star {
+  float: left;
+  z-index: 1; }
+
+.stars {
+  visibility: hidden;
+  display: inline-block;
+  position: relative;
+  z-index: 0; }
+
+  .stars-selected {
+  position: absolute;
+  max-width: 100%;
+  height: 100%;
+  z-index: -1; }
+
+  .star-rating {
+  font-weight: 400;
+  margin-bottom: 25px; }
+  .star-rating .review-point span, .star-rating .review-point .starRate, .star-rating .itemPoint span, .star-rating .itemPoint .starRate {
+    background: #ed4221;
+    padding: 5px 5px;
+    border-radius: 5px;
+    color: white;
+    float: left; }
+    .star-rating .review-point span .star, .star-rating .review-point .starRate .star, .star-rating .itemPoint span .star, .star-rating .itemPoint .starRate .star {
+      float: none;
+      padding: 0; }
+  .star-rating .review-point p, .star-rating .itemPoint p {
+    float: left;
+    margin-left: 10px; }

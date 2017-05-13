@@ -18,6 +18,28 @@ app.factory('salesService', ['$http', function($http) {
             }) 
         };
 
+         salesServiceMethods.getVendorsList = function() {
+             
+            var finalUrl = baseURL + "admin/vendor/list"
+            return $http({
+                method: 'GET',
+                url: finalUrl
+                // data: dataObj,
+                // headers:  
+            }) 
+        };
+
+        salesServiceMethods.blockSale = function(saleID) {
+             
+            var finalUrl = baseURL + "admin/"+saleID+"/block/sale"
+            return $http({
+                method: 'POST',
+                url: finalUrl
+                // data: dataObj,
+                // headers:  
+            }) 
+        };
+
          
         return salesServiceMethods;
     }])

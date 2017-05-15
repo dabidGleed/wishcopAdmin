@@ -4,17 +4,17 @@
     <section class="panel panel-with-borders">
         <div class="panel-heading">
             <h2>
-               
-            
+
+
                 Products List
             </h2>
-            
-             
+
+
         </div>
         <div class="panel-body">
             <h4>
                  Filters
-                 
+
             </h4>
             <div class="col-xs-12">
                  <div class="col-xs-3  ">
@@ -35,12 +35,12 @@
                                 <div class="col-md-9">
                                     <select class="form-control" name="searchvendor" ng-model="search.vendor" ng-options="vendors.id as vendors.firstName for vendors in vendorList " >
                                         <option value=""  selected >All</option>
-                                        
-                                        
+
+
                                     </select>
                                 </div>
                             </div>
-                     
+
                   </div>
                   <div class="col-xs-3">
                      <div class="form-group row">
@@ -52,27 +52,25 @@
                                         <option value="" selected >All</option>
                                         <option value="ACTIVE">Active</option>
                                         <option value="DELETED">Deleted</option>
-                                       
-                                        
                                     </select>
                                 </div>
                             </div>
-                     
+
                   </div>
-          
+
                    <div class="col-xs-2"><a href="javascript: void(0);" class="pull-right btn btn-primary" ng-click="resetFilters()">Reset</a></div>
             </div>
         </div>
-          
+
         <div class="panel-body">
 
             <div class="cui-ecommerce--catalog">
-              
+
                 <div class="row">
                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12" ng-repeat="products in productsList  | filter :{ title : search.name,owner:search.vendor,status:search.status}">
                         <div class="cui-ecommerce--catalog--item">
                             <div class="cui-ecommerce--catalog--item--img">
-                                <div class="cui-ecommerce--catalog--item--status">
+                                <div class="cui-ecommerce--catalog--item--status" ng-class="products.status">
                                     <span class="cui-ecommerce--catalog--item--status--title" ng-if="products.status == 'DELETED'">Deleted</span>
                                     <span class="cui-ecommerce--catalog--item--status--title" ng-if="products.status == 'ACTIVE'">Active</span>
                                 </div>
@@ -87,7 +85,7 @@
                                 <a href="javascript: void(0);">{{products.title}}</a>
                                 <div class="cui-ecommerce--catalog--item--price">
                                     {{products.price | currency:currency}}
-                                    
+
                                 </div>
                             </div>
                             <div class="cui-ecommerce--catalog--item--descr">
@@ -95,7 +93,7 @@
                             </div>
                         </div>
                     </div>
-                     
+
                 </div>
             </div>
         </div>
@@ -121,7 +119,7 @@
                                     <col class="col-xs-4">
                                     <col class="col-xs-8">
                                 </colgroup>
-                                
+
                                 <tbody>
                                      <tr>
                                     <td class="text-nowrap">
@@ -129,8 +127,8 @@
                                     </td>
                                     <td>{{modalDetials.owner}}</td>
                                 </tr>
-                                    
-                                    
+
+
                                 <tr>
                                     <td class="text-nowrap">
                                    Product Title
@@ -155,10 +153,10 @@
                                     </td>
                                     <td>{{modalDetials.price | currency:currency}}</td>
                                 </tr>
-                                
+
                                 <tr>
                                     <td class="text-nowrap">
-                                    Category 
+                                    Category
                                     </td>
                                     <td>{{modalDetials.category}}</td>
                                 </tr>
@@ -177,18 +175,18 @@
                                         <tr>
                                             <th>Sale</th>
                                             <th>Discount (%)</th>
-                                            
+
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr ng-repeat="taxes in modalDetials.taxes">
-                                            
+
                                             <td>{{taxes.sale}}</td>
                                             <td>{{taxes.discount}} </td>
-                                            
+
                                         </tr>
                                      </tbody>
-                                </table> 
+                                </table>
                                 </td>
                                 </tr>
                                 <tr>
@@ -202,13 +200,13 @@
                                      Variants
                                     </td>
                                     <td><table class="table table-inverse">
-                                        
+
                                         <tbody>
                                         <tr ng-repeat="variators in modalDetials.variator">
-                                            
+
                                             <td>{{variators.name}}</td>
                                             <td><span ng-repeat="variant in variators.value "><span class="label label-info font-size-14 margin-inline">{{variant}}</span> </span> </td>
-                                            
+
                                         </tr>
                                      </tbody>
                                 </table> </td>
@@ -223,38 +221,38 @@
                                             <th>Product</th>
                                              <th ng-repeat="variator in modalDetials.variator">{{variator.name}} </th>
                                             <th>Available</th>
-                                            
+
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr ng-repeat="variantsData in modalDetials.variants">
-                                            
+
                                             <td><span ng-repeat="imageDetail in variantsData.images"> <img ng-src="{{imageDetail.imageURL}}" class="messaging-img" />  </span></td>
                                             <td ng-repeat="variators in modalDetials.variator">{{variantsData[variators.name]}} </td>
                                             <td>{{variantsData.isActive}}</td>
-                                            
+
                                         </tr>
                                      </tbody>
                                 </table> </td>
                                 </tr>
- 
+
                                 <tr>
                                     <td class="text-nowrap">
                                        Specifications
                                     </td>
                                     <td><table class="table table-inverse">
                                         <thead>
-                                         
+
                                         </thead>
                                         <tbody>
                                         <tr ng-repeat="specifications in modalDetials.specifications">
-                                            
+
                                             <td>{{specifications.name}}</td>
                                             <td>{{specifications.value}} </td>
-                                            
+
                                         </tr>
                                      </tbody>
-                                </table> 
+                                </table>
                                 </td>
                                 </tr>
                                  <tr>
@@ -292,14 +290,14 @@
                                       Status
                                     </td>
                                     <td>   <select class="form-control" name="userStatus" ng-model="modalDetials.status">
-                                       
+
                                         <option value="ACTIVE">Active</option>
                                         <option value="DELETED">Delete</option>
-                                       
-                                        
+
+
                                     </select></td>
                                 </tr>
-                                 
+
                                 </tbody>
                             </table>
                         </div>

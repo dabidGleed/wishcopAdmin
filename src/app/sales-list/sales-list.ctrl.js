@@ -19,11 +19,11 @@ app.controller('salesListCtrl',["$location", "$scope", "$rootScope","salesServic
         });
 
 
-         $scope.search={name:"",vendor:"",status:""};
+            $scope.search={name:"",vendor:undefined,status:""};
 
             // users list filters
             $scope.resetFilters = function(){
-                 $scope.search={name:"",vendor:"",status:""};
+                 $scope.search={name:"",vendor:undefined,status:""};
             }
 
              //modal popup details of the Sale

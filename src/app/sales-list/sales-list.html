@@ -5,16 +5,16 @@
         <div class="panel-heading">
             <h2>
                              Sales List
-              
+
             </h2>
-             
-                            
-             
+
+
+
         </div>
           <div class="panel-body">
             <h4>
                  Filters
-                 
+
             </h4>
             <div class="col-xs-12">
                  <div class="col-xs-3  ">
@@ -35,12 +35,12 @@
                                 <div class="col-md-9">
                                     <select class="form-control" name="searchvendor" ng-model="search.vendor" ng-options="vendors.id as vendors.firstName for vendors in vendorList " >
                                         <option value=""  selected >All</option>
-                                        
-                                        
+
+
                                     </select>
                                 </div>
                             </div>
-                     
+
                   </div>
                   <div class="col-xs-3">
                      <div class="form-group row">
@@ -53,39 +53,35 @@
                                         <option value="SALE_APPROVED">Approved</option>
                                         <option value="SALE_FROZEN">Frozen</option>
                                         <option value="SALE_REJECTED">Rejected</option>
-                                        
+
                                     </select>
                                 </div>
                             </div>
-                     
+
                   </div>
-          
+
                    <div class="col-xs-2"><a href="javascript: void(0);" class="pull-right btn btn-primary" ng-click="resetFilters()">Reset</a></div>
             </div>
         </div>
         <div class="panel-body">
-
             <div class="cui-ecommerce--catalog">
-              
                 <div class="row">
                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12" ng-repeat="sales in salesList  | filter :{ title : search.name,owner:search.vendor,status:search.status}">
                         <div class="cui-ecommerce--catalog--item">
                             <div class="cui-ecommerce--catalog--item--img">
-                                <div class="cui-ecommerce--catalog--item--status" ng-if="sales.status">
+                                <div class="cui-ecommerce--catalog--item--status"  ng-class="sales.status" ng-if="sales.status">
                                     <span class="cui-ecommerce--catalog--item--status--title" ng-if="sales.status == 'SALE_APPROVED'">APPROVED</span>
                                     <span class="cui-ecommerce--catalog--item--status--title" ng-if="sales.status == 'SALE_REJECTED'">REJECTED</span>
                                     <span class="cui-ecommerce--catalog--item--status--title" ng-if="sales.status == 'SALE_FROZEN'">FROZEN</span>
-
                                 </div>
                                 <div class="cui-ecommerce--catalog--item--like cui-ecommerce--catalog--item--like__selected">
                                     <i class="icmn-file-eye cui-ecommerce--catalog--item--like--liked" data-toggle="modal" data-target="#saleDetails" ng-click="saleDetails(sales);"> </i>
-                                    
                                 </div>
                                 <!--<div class="cui-ecommerce--catalog--item--like cui-ecommerce--catalog--item--like__selected">
                                     <i class="icmn-bin cui-ecommerce--catalog--item--like--liked" data-toggle="modal" data-target="#saleDetails" ng-click="saleDetails(sales);"> </i>
-                                    
+
                                 </div>-->
-                                
+
                                 <a href="javascript: void(0);">
                                     <img ng-src="{{sales.sale_image.imageURL}}"  alt="{{sales.sale_image.filename}}"/>
                                 </a>
@@ -96,22 +92,25 @@
                                     <!--$678.00-->
                                  {{sales.percentageFinalSalePrice | currency:currency}}
                                     <div ng-show="discountExists(sales.discount_percentage)" class="cui-ecommerce--catalog--item--price--old" >
-                                        {{sales.total_price | currency:currency}}  ( {{sales.discount_percentage}}% Discount )
+                                        <span>{{sales.total_price | currency:currency}}</span>  ( {{sales.discount_percentage}}% Discount )
+                                    </div>
+                                    <div class="emptySpace" ng-class="sales.discount_percentage>=1 ? 'emptySpaceTrue' : '' ">
+                                      <span></span>
                                     </div>
                                 </div>
                             </div>
                             <div class="cui-ecommerce--catalog--item--descr">
-                                <div class="cui-ecommerce--catalog--item--descr--sizes">
+                                <!-- <div class="cui-ecommerce--catalog--item--descr--sizes">
                                     <span data-toggle="tooltip" data-placement="right" title="Size S">S</span>
                                     <span data-toggle="tooltip" data-placement="right" title="Size M">M</span>
                                     <span data-toggle="tooltip" data-placement="right" title="Size XL">XL</span>
-                                </div>
+                                </div> -->
                                <div star-rating stars="5" outer-star-selection="stars" outer-percent="rating"   star-radius="10" rating-stars="{{sales.ratings}}"  star-radius="10" sel-color="gold" back-color="white"></div>
                                 <button type="button" id="notify-warning" class="btn btn-warning" ng-click="blockSaleConfirm(sales)"  >Block</button>
                             </div>
                         </div>
                     </div>
-                     
+
                 </div>
             </div>
         </div>
@@ -138,10 +137,10 @@
                                     <col class="col-xs-4">
                                     <col class="col-xs-8">
                                 </colgroup>
-                                
+
                                 <tbody>
-                                    
-                                    
+
+
                                 <tr>
                                     <td class="text-nowrap">
                                    Sale Title
@@ -166,10 +165,10 @@
                                     </td>
                                     <td>{{modalDetials.end_date | date : 'yyyy-MM-dd'}}</td>
                                 </tr>
-                                
+
                                 <tr>
                                     <td class="text-nowrap">
-                                    Sale Quantity 
+                                    Sale Quantity
                                     </td>
                                     <td>{{modalDetials.quantity}}</td>
                                 </tr>
@@ -203,15 +202,15 @@
                                     </td>
                                     <td><span ng-repeat="items in modalDetials.sale_items">{{items.id}} <span ng-repeat="variants in items.variants">{{variants}}</span> </span> </td>
                                 </tr>
- 
+
                                 <tr>
                                     <td class="text-nowrap">
                                        Sale Discounts
                                     </td>
                                     <td><span ng-repeat="discounts in modalDetials.sale_discounts">sale Quantity  :{{discounts.sale_qty}} ,Sale Discount :{{discounts.sale_discount_percentage}} </span><br></td>
                                 </tr>
-                                
-                                 
+
+
                                 </tbody>
                             </table>
                         </div>
@@ -220,7 +219,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn" data-dismiss="modal">Close</button>
-                                 
+
                             </div>
                         </div>
                     </div>

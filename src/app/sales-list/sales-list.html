@@ -68,12 +68,13 @@
                 <div class="row">
                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12" ng-repeat="sales in salesList  | filter :{ title : search.name,owner:search.vendor,status:search.status}">
                         <div class="cui-ecommerce--catalog--item">
+                          <span class="cui-ecommerce--catalog--item--status--title" ng-class="sales.status" ng-if="sales.status == 'SALE_APPROVED'">APPROVED</span>
+                          <span class="cui-ecommerce--catalog--item--status--title" ng-class="sales.status" ng-if="sales.status == 'SALE_REJECTED'">REJECTED</span>
+                          <span class="cui-ecommerce--catalog--item--status--title" ng-class="sales.status" ng-if="sales.status == 'SALE_FROZEN'">FROZEN</span>
                             <div class="cui-ecommerce--catalog--item--img">
-                                <div class="cui-ecommerce--catalog--item--status"  ng-class="sales.status" ng-if="sales.status">
-                                    <span class="cui-ecommerce--catalog--item--status--title" ng-if="sales.status == 'SALE_APPROVED'">APPROVED</span>
-                                    <span class="cui-ecommerce--catalog--item--status--title" ng-if="sales.status == 'SALE_REJECTED'">REJECTED</span>
-                                    <span class="cui-ecommerce--catalog--item--status--title" ng-if="sales.status == 'SALE_FROZEN'">FROZEN</span>
-                                </div>
+                                <!-- <div class="cui-ecommerce--catalog--item--status"  ng-class="sales.status" ng-if="sales.status"> -->
+
+                                <!-- </div> -->
                                 <div class="cui-ecommerce--catalog--item--like cui-ecommerce--catalog--item--like__selected">
                                     <i class="icmn-file-eye cui-ecommerce--catalog--item--like--liked" data-toggle="modal" data-target="#saleDetails" ng-click="saleDetails(sales);"> </i>
                                 </div>

@@ -10,12 +10,12 @@ app.controller('salesListCtrl',["$location", "$scope", "$rootScope","salesServic
                     value.percentageFinalSalePrice=calculatePercentageDiscount(value.total_price,value.discount_percentage );
 
                     })
-                    
+
                 });
-    
+
        salesServiceMethods.getVendorsList().then(function(response) {
             $scope.vendorList = response.data;
-            
+
         });
 
 
@@ -32,9 +32,9 @@ app.controller('salesListCtrl',["$location", "$scope", "$rootScope","salesServic
                 $scope.modalDetials ={};
                 angular.copy(saleData, $scope.modalDetials);
             }
-     
-        
- 
+
+
+
      calculatePercentageDiscount = function(price, perecentage){
          return (price-((perecentage/100)*price).toFixed(2));
         };
@@ -56,7 +56,7 @@ app.controller('salesListCtrl',["$location", "$scope", "$rootScope","salesServic
 
         }
 
-   
+
 
          //block sale
         $scope.blockSale = function(modaldetails){
@@ -66,7 +66,7 @@ app.controller('salesListCtrl',["$location", "$scope", "$rootScope","salesServic
                     salesServiceMethods.blockSale(modaldetails.id).then(function(response) {
                                 if(response.status == 200){
                                     $scope.filterData[0].status = modaldetails.status;
-                            
+
                                         $.notify({
                                                 title: '<strong>Success!</strong>',
                                                 message: response.data.message
@@ -82,10 +82,10 @@ app.controller('salesListCtrl',["$location", "$scope", "$rootScope","salesServic
                                             });
                                }
                           });
-                
-                }  
-                        
-             };
- 
+
+                }
+
+             }
+
 
 }]);

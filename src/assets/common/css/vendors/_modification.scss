@@ -1,0 +1,31 @@
+.cui-ecommerce--catalog--item--status{
+  .cui-ecommerce--catalog--item--status--title{
+    top: 7px;
+    left: -22px;
+    font-size: 9px;
+  }
+}
+.cui-ecommerce--catalog--item{
+  .cui-ecommerce--catalog--item--title,.cui-ecommerce--catalog--item--descr{
+      padding-right: 0;
+      font-size: 14px;
+    .cui-ecommerce--catalog--item--price{
+      font-size: 18px;
+      position: relative;
+      top:0;
+      text-align: left;
+      .cui-ecommerce--catalog--item--price--old{
+        text-decoration: none;
+        font-size: 14px;
+        span{
+          text-decoration: line-through;
+        }
+      }
+    }
+  }
+}
+
+.emptySpace{height: 21px;}
+.emptySpaceTrue{display: none;}
+.cui-ecommerce--catalog--item--status.SALE_APPROVED,.cui-ecommerce--catalog--item--status.ACTIVE{border-color: #008000 transparent transparent #008000;}
+.cui-ecommerce--catalog--item--status.SALE_FROZEN{border-color: #01a8fe transparent transparent #01a8fe;}

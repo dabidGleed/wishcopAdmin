@@ -69,11 +69,11 @@
                 <div class="row">
                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12" ng-repeat="products in productsList  | filter :{ title : search.name,owner:search.vendor,status:search.status}">
                         <div class="cui-ecommerce--catalog--item">
+                          <span class="cui-ecommerce--catalog--item--status--title" ng-class="products.status" ng-if="products.status == 'DELETED'">Deleted</span>
+                          <span class="cui-ecommerce--catalog--item--status--title" ng-class="products.status" ng-if="products.status == 'ACTIVE'">Active</span>
                             <div class="cui-ecommerce--catalog--item--img">
-                                <div class="cui-ecommerce--catalog--item--status" ng-class="products.status">
-                                    <span class="cui-ecommerce--catalog--item--status--title" ng-if="products.status == 'DELETED'">Deleted</span>
-                                    <span class="cui-ecommerce--catalog--item--status--title" ng-if="products.status == 'ACTIVE'">Active</span>
-                                </div>
+                                <!-- <div class="cui-ecommerce--catalog--item--status" ng-class="products.status">
+                                    </div> -->
                                 <div class="cui-ecommerce--catalog--item--like cui-ecommerce--catalog--item--like__selected">
                                     <i class="icmn-file-eye cui-ecommerce--catalog--item--like--liked" data-toggle="modal" data-target="#productDetails" ng-click="productDetails(products);"> </i>
                                 </div>

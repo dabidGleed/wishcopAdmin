@@ -44,6 +44,12 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
                 controller: "productsListCtrl"
 
             })
+            .state('main.referralslist', {
+                url: "referrals-list",
+                templateUrl: "referrals/referrals.html",
+                controller: "referralsListCtrl"
+
+            })
             .state('login', {
                 url: "/login",
                 templateUrl: "login/login.html",

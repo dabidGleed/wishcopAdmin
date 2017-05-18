@@ -5,7 +5,7 @@
         <div class="panel-heading">
             <h2>
                 
-              Users List
+              Users Referrals List
             </h2>
         </div>
         <div class="panel-body">
@@ -41,7 +41,7 @@
                      
                   </div>
                   <div class="col-xs-3">
-                     <div class="form-group row">
+                     <!--<div class="form-group row">
                                 <div class="col-md-3">
                                     <label class="form-control-label" for="l0">Status </label>
                                 </div>
@@ -54,7 +54,7 @@
                                         
                                     </select>
                                 </div>
-                            </div>
+                            </div>-->
                      
                   </div>
           
@@ -71,12 +71,13 @@
                                     <th>Thumbnail</th>
                                     <th>Name</th>
                                     <th>Role</th>
-                                    <th>Email</th>
+                                   <th>Referred by</th>
+                                   <th>Referral Money</th>
                                     
-                                    <th>Mobile Number</th>
-                                    <th>Created Date</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    <!--<th>Mobile Number</th>
+                                    <th>Created Date</th>-->
+                                    <!--<th>Status</th>-->
+                                    <th>Transactions</th>
                                 </tr>
                             </thead>
                             <!--<tfoot>
@@ -93,23 +94,29 @@
                                 </tr>
                             </tfoot>-->
                             <tbody> 
-                                <tr dir-paginate="users in userList   | filter : {firstName:search.name,role:search.role,status:search.status} | itemsPerPage:15" >
+                                <tr dir-paginate="users in userList   | filter : {firstName:search.name,role:search.role} | itemsPerPage:15" >
                                     <!--<td><a href="javascript: void(0);" class="link-underlined">{{$index+1}}</a></td>-->
                                     <td><a href="javascript: void(0);" class="cui-ecommerce--dashboard--list--img"><img ng-src="{{users.gravatarUrl}}" /></a></td>
                                     <td>{{users.firstName}} {{users.lastName}}</td>
-                                    <td><span ng-repeat="role in users.role" class="label label-pill label-default font-size-14 margin-inline">{{role}}</span> </td>
-                                    <td>{{users.email}}</td>
-                                    <td>{{users.mobileNumber}}</td>
-                                    <td>{{users.createdAt | date : 'yyyy-MM-dd'}}</td>
-                                    <td><span  class="label {{users.status == 'ACTIVE' ? 'label-success' : ''}} {{users.status == 'DELETED' ? 'label-danger':''}} {{users.status == 'NOTVERIFIED' ? 'label-default':''}} ">{{users.status}}</span></td>
+                                    <td> <span ng-repeat="role in users.role" class="label label-pill label-default font-size-14 margin-inline">{{role}}</span> </td>
+                                     <td> <span ng-if="users.referred_by">
+                                         <p>Referred by : {{users.referred_by.user.firstName}} {{users.referred_by.user.lastName}} </p>
+                                         <p>Code : {{users.referred_by.code  }} </p>
+                                         <p>Expire Date : {{users.referred_by.expire_date | date : 'yyyy-MM-dd' }} </p> </span>
+                                     </td>
+                                     <td>{{users.TotalReferralMoney | currency:currency}}</td>
+                                    <!--<td>{{users.mobileNumber}}</td>
+                                    <td>{{users.createdAt | date : 'yyyy-MM-dd'}}</td>-->
+                                    <!--<td><span  class="label {{users.status == 'ACTIVE' ? 'label-success' : ''}} {{users.status == 'DELETED' ? 'label-danger':''}} {{users.status == 'NOTVERIFIED' ? 'label-default':''}} ">{{users.status}}</span></td>-->
                                     <td>
-                                        <!--<a href="javascript: void(0);" class="link-underlined margin-right-5"><i class="icmn-pencil5"> </i> View</a>-->
-                                       <button type="button" class="btn btn-rounded btn-secondary-outline margin-inline" data-toggle="modal" data-target="#userData" ng-click="userDetails(users);">
-                                           <i class="icmn-pencil5"> </i> View
+                                        
+                                       <button type="button" class="btn btn-rounded btn-secondary-outline margin-inline" ng-disabled="!users.ReferralTransactions.length > 0"   data-toggle="modal" data-target="#userData" ng-click="userDetails(users) && users.ReferralTransactions.length > 0 ">
+                                           <!--<i class="icmn-pencil5"> </i> View -->
+                                           {{users.ReferralTransactions.length}}
                                        </button>
                                     </td>
                 </tr>
-                <tr ng-show="!(userList   | filter : {firstName:search.name,role:search.role,status:search.status}).length">
+                <tr ng-show="!(userList   | filter : {firstName:search.name,role:search.role }).length">
                     <td colspan="9"> <center>No data found</center></td>
                     
                 </tr>
@@ -127,14 +134,14 @@
 
 </div>
 <!-- modal popup to edit users list-->
- <div class="modal fade" id="userData" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+ <div class="modal fade modal-size-large" id="userData" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
-                                <h4 class="modal-title" id="myModalLabel">User Details</h4>
+                                <h4 class="modal-title" id="myModalLabel">Referral Details</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="table-responsive">
@@ -160,60 +167,56 @@
                                 </tr>
                                 <tr>
                                     <td class="text-nowrap">
-                                        Email 
-                                    </td>
-                                    <td>{{modalDetials.email}}</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-nowrap">
-                                        Mobile Number 
-                                    </td>
-                                    <td>{{modalDetials.mobileNumber}}</td>
-                                </tr>
-                                
-                                <tr>
-                                    <td class="text-nowrap">
                                        Role
                                     </td>
-                                    <td><span ng-repeat="role in modalDetials.role" class="label label-pill label-default font-size-14 margin-inline">{{role}}</span>  </td>
+                                    <td><span ng-repeat="role in modalDetials.role" class="label label-pill label-default font-size-14 margin-inline">{{role}}</span></td>
                                 </tr>
                                 <tr>
                                     <td class="text-nowrap">
-                                       Gender
+                                        Referral Details
                                     </td>
-                                    <td>{{modalDetials.gender}}</td>
+                                    <td><p>Referred by : {{modalDetials.referred_by.user.firstName}} {{modalDetials.referred_by.user.lastName}} </p>
+                                         <p>Code : {{modalDetials.referred_by.code  }} </p>
+                                         <p>Expire Date : {{modalDetials.referred_by.expire_date | date : 'yyyy-MM-dd' }} </p></td>
                                 </tr>
                                 <tr>
                                     <td class="text-nowrap">
-                                       Date of Birth
+                                      Total Referred Amount 
                                     </td>
-                                    <td>{{modalDetials.dateofBirth | date : 'yyyy-MM-dd'}}</td>
+                                    <td>{{modalDetials.TotalReferralMoney | currency:currency}}</td>
                                 </tr>
                                 <tr>
-                                    <td class="text-nowrap">
-                                       Mobile Number
-                                    </td>
-                                    <td>{{modalDetials.mobileNumber}}</td>
+                                   <td>Transactions</td>
+                                   <td><table class="table table-inverse">
+                                        <thead>
+                                        <tr>
+                                            <th>S.No</th>
+                                             <th>Amount</th>
+                                             <th>Transaction Type</th>
+                                             <th>Purpose</th>
+                                             <th>Description</th>
+                                             <th>Status</th>
+                                             <th>Created at</th>
+                                            
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="trannsactions in modalDetials.ReferralTransactions">
+                                            <td>{{$index+1}}</td>
+                                        <td>{{trannsactions.transaction_amount | currency:currency}}</td>
+                                        <td>{{trannsactions.transaction_type}}</td>
+                                        <td>{{trannsactions.purpose}}</td>
+                                        <td>{{trannsactions.description}}</td>
+                                        <td>{{trannsactions.status}}</td>
+                                        <td>{{trannsactions.createdAt | date : 'yyyy-MM-dd'}}</td>
+
+                                        </tr>
+                                     </tbody>
+                                </table></td>
+
                                 </tr>
-                                <tr>
-                                    <td class="text-nowrap">
-                                       Created 
-                                    </td>
-                                    <td>{{modalDetials.createdAt | date : 'yyyy-MM-dd'}}</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-nowrap">
-                                      Status
-                                    </td>
-                                    <td>   <select class="form-control" name="userStatus" ng-model="modalDetials.status">
-                                       
-                                        <option value="ACTIVE">Active</option>
-                                        <option value="DELETED">Delete</option>
-                                       
-                                        
-                                    </select></td>
-                                </tr>
-                                 
+                               
                                 </tbody>
                             </table>
                         </div>
@@ -222,7 +225,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" ng-click="saveStatus(modalDetials)" >Save changes</button>
+                                <!--<button type="button" class="btn btn-primary" ng-click="saveStatus(modalDetials)" >Save changes</button>-->
                             </div>
                         </div>
                     </div>

@@ -12,18 +12,22 @@ app.controller('salesListCtrl',["$location", "$scope", "$rootScope","salesServic
                     })
 
                 });
-
+ 
        salesServiceMethods.getVendorsList().then(function(response) {
             $scope.vendorList = response.data;
 
         });
 
-
-            $scope.search={name:"",vendor:undefined,status:""};
+         
+            $scope.search={name:"",vendor:"",status:""};
+             $scope.$watch("search.vendor", function() {
+                   
+                   if($scope.search.vendor == null){$scope.search.vendor;} 
+                });
 
             // users list filters
             $scope.resetFilters = function(){
-                 $scope.search={name:"",vendor:undefined,status:""};
+                 $scope.search={name:"",vendor:"",status:""};
             }
 
              //modal popup details of the Sale

@@ -10,7 +10,7 @@ app.controller('productsListCtrl',["$location", "$scope", "$rootScope","products
                     value.htmlDesc=$sce.trustAsHtml(value.description);
                     
                     })
-                    console.log($scope.productsList )
+              
          
             });
     
@@ -26,6 +26,11 @@ app.controller('productsListCtrl',["$location", "$scope", "$rootScope","products
             $scope.resetFilters = function(){
                  $scope.search={name:"",vendor:"",status:""};
       }
+
+       $scope.$watch("search.vendor", function() {
+                   
+                   if($scope.search.vendor == null){$scope.search.vendor="";} 
+                });
   
       //modal popup details of the Product
             $scope.productDetails= function(productData){
@@ -43,7 +48,7 @@ app.controller('productsListCtrl',["$location", "$scope", "$rootScope","products
                     $('#productDetails').modal('hide');
                 $scope.filterData = $filter('filter')($scope.productsList,{ id:modaldetails.id});
                 if($scope.filterData[0].id == modaldetails.id &&  modaldetails.status == "DELETED" && modaldetails.status != $scope.filterData[0].status){
-                    productsServiceMethods.blockproduct(modaldetails.id).then(function(response) {
+                    productsServiceMethods.blockProduct(modaldetails.id).then(function(response) {
                                 if(response.status == 200){
                                     $scope.filterData[0].status = modaldetails.status;
                             
@@ -63,16 +68,37 @@ app.controller('productsListCtrl',["$location", "$scope", "$rootScope","products
                                }
                           });
                 
-                }else{
-                    $.notify({
+                }else if($scope.filterData[0].id == modaldetails.id &&  modaldetails.status == "ACTIVE" && modaldetails.status != $scope.filterData[0].status){
+                    productsServiceMethods.activeProduct(modaldetails.id).then(function(response) {
+                                if(response.status == 200){
+                                    $scope.filterData[0].status = modaldetails.status;
+                            
+                                        $.notify({
+                                                title: '<strong>Success!</strong>',
+                                                message: response.data.message
+                                            },{
+                                                type: 'success'
+                                            });
+                                }else{
+                                    $.notify({
                                                 title: '<strong>Unsuccessful!</strong>',
-                                                message: "Cannot set Product active"
+                                                message: response.data.message
                                             },{
                                                 type: 'danger'
                                             });
+                               }
+                          });
 
                    
-                }  
+                }else{
+                     $.notify({
+                                                title: '<strong>Unsuccessful!</strong>',
+                                                message: "Action cannot be performed"
+                                            },{
+                                                type: 'warning'
+                                            });
+
+                }
                         
              };
 

@@ -29,9 +29,20 @@ app.factory('productsService', ['$http', function($http) {
             }) 
         };
 
-        productsServiceMethods.blockproduct = function(productID) {
+        productsServiceMethods.blockProduct = function(productID) {
              
             var finalUrl = baseURL + "admin/"+productID+"/block/product"
+            return $http({
+                method: 'POST',
+                url: finalUrl
+                // data: dataObj,
+                // headers:  
+            }) 
+        };
+
+        productsServiceMethods.activeProduct = function(productID) {
+             
+            var finalUrl = baseURL + "admin/"+productID+"/active/product"
             return $http({
                 method: 'POST',
                 url: finalUrl

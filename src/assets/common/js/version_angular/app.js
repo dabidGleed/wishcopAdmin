@@ -50,6 +50,12 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
                 controller: "referralsListCtrl"
 
             })
+            .state('main.smsemaillist', {
+                url: "smsemail",
+                templateUrl: "send-sms-email/users-list.html",
+                controller: "smsEmailCtrl"
+
+            })
             .state('login', {
                 url: "/login",
                 templateUrl: "login/login.html",

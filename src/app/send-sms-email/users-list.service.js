@@ -4,7 +4,7 @@
    
 app.factory('smsEmailService', ['$http', function($http) {
     var smsEmailServiceMethods = {};
-     var baseURL = "http://ec2-52-43-72-177.us-west-2.compute.amazonaws.com/";
+     var baseURL = "http://localhost/";
 
          //service to get all users list
         smsEmailServiceMethods.getUsersList = function() {
@@ -30,17 +30,19 @@ app.factory('smsEmailService', ['$http', function($http) {
             }) 
         };
 
-         //service to delete user
-      smsEmailServiceMethods.deleteUserStatus = function(userId) {
-             
-            var finalUrl = baseURL + "admin/"+userId+"/delete"
+         //service to send bulk Email
+       smsEmailServiceMethods.sendEmail = function(dataObj,message,subject) {
+             var data = {message:message,dataObj:dataObj,subject:subject};
+            var finalUrl = baseURL + "admin/email/bulk";
             return $http({
-                method: 'DELETE',
-                url: finalUrl
-                // data: dataObj,
+                method: 'POST',
+                url: finalUrl,
+                data: data,
                 // headers:  
             }) 
         };
+
+         
 
          
         return smsEmailServiceMethods;

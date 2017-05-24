@@ -18,8 +18,8 @@ app.controller('smsEmailCtrl',["$location", "$scope", "$rootScope","smsEmailServ
                });
 
             $scope.checkUncheckFilter = false;
-            $scope.search={name:"",role:"",status:""};
-
+            $scope.search={name:"",role:"" };
+            
             $scope.checkUncheckToggle = function(){
                  
                 if ($scope.checkUncheckFilter) {
@@ -35,11 +35,15 @@ app.controller('smsEmailCtrl',["$location", "$scope", "$rootScope","smsEmailServ
             $scope.closeButton = function(){
                   $('#sendBulkSms').modal('toggle');
             }
+            $scope.closeButtonEmail = function(){
+                  $('#sendBulkEmail').modal('toggle');
+            }
+
 
              //initiate validation and selected data     
             $scope.sendBulkSMS = function(){
                $scope.finalObj = []
-                
+                console.log();
                 angular.forEach($scope.usersActiveFilter, function (item) {
                     if(item.checked == true){
                         $scope.finalObj.push({id:item.id,mobileNumber :item.mobileNumber,email:item.mobileNumber,firstName:item.firstName,lastName:item.lastName});
@@ -55,6 +59,7 @@ app.controller('smsEmailCtrl',["$location", "$scope", "$rootScope","smsEmailServ
                            });
                 }else{
                     $('#sendBulkSms').modal('toggle');
+                   
                 }
              }
              
@@ -62,6 +67,7 @@ app.controller('smsEmailCtrl',["$location", "$scope", "$rootScope","smsEmailServ
              $scope.triggerSMS= function(message){
                   $('#sendBulkSms').modal('toggle');
                  smsEmailServiceMethods.sendSMS($scope.finalObj,message).then(function(response) {
+                     $scope.messageData ="";
                                 if(response.status == 200){
                                    
                                     $.notify({
@@ -81,11 +87,63 @@ app.controller('smsEmailCtrl',["$location", "$scope", "$rootScope","smsEmailServ
                           });
 
              }
-            
+
+
+              //initiate validation and selected data     
+            $scope.sendBulkEmail = function(){
+               $scope.finalObj = []
+                
+                angular.forEach($scope.usersActiveFilter, function (item) {
+                    if(item.checked == true){
+                        $scope.finalObj.push({id:item.id,mobileNumber :item.mobileNumber,email:item.email,firstName:item.firstName,lastName:item.lastName});
+                    }
+                    
+                });
+                
+                if($scope.finalObj.length == 0){
+                    $.notify({  title: '<strong>Warning!</strong>',
+                                message: "Select atlease once recipient"
+                             },{
+                              type: 'warning'
+                           });
+                }else{
+                    $('#sendBulkEmail').modal('toggle');
+                }
+             }
+             
+             //send bulk Email functionality
+             $scope.triggerEmail= function(subject){
+                  $('#sendBulkEmail').modal('toggle');
+                     //   console.log($scope.messageHtml);
+                    //   console.log(subject);
+                    //   console.log($scope.finalObj)
+                 smsEmailServiceMethods.sendEmail($scope.finalObj,$scope.messageHtml,subject).then(function(response) {
+                        $scope.messageHtml = "";
+                        $scope.subject ="";
+                                if(response.status == 200){
+                                   
+                                    $.notify({
+                                                title: '<strong>Success!</strong>',
+                                                message: response.data.message
+                                            },{
+                                                type: 'success'
+                                            });
+                                }else{
+                                    $.notify({
+                                                title: '<strong>Unsuccessful!</strong>',
+                                                message: response.data.message
+                                            },{
+                                                type: 'danger'
+                                            });
+                                }
+                          });
+
+             }
+        
 
             // users list filters
             $scope.resetFilters = function(){
-                 $scope.search={name:"",role:"",status:""};
+                 $scope.search={name:"",role:"" };
             }
             //modal popup details of the user
             $scope.userDetails= function(userData){

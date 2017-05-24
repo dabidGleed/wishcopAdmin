@@ -3,15 +3,15 @@
     <!-- Ecommerce Products List -->
     <section class="panel panel-with-borders">
         <div class="panel-heading">
-            <h2> Users List
+            <h2> Send Sms / Email
                 <div class="pull-right">
                 
                   <a href="javascrit: void(0);" class="btn btn-primary"  ng-click="sendBulkSMS()">Send Sms</a>
-                  <a href="javascrit: void(0);" class="btn btn-primary" data-toggle="modal" data-target="#sendBulkEmail">Send Email</a>
+                  <a href="javascrit: void(0);" class="btn btn-primary"  ng-click="sendBulkEmail()">Send Email</a>
                   </div>
             </h2>
-            {{checkUncheckFilter}}
-                       
+        
+                      
         </div>
         <div class="panel-body">
             <h4>
@@ -76,7 +76,7 @@
                             </thead>
                          
                             <tbody> 
-                                <tr dir-paginate="users in usersActiveFilter   | filter : {firstName:search.name,role:search.role } | itemsPerPage:25" >
+                                <tr dir-paginate="users in usersActiveFilter   | filter : {firstName:search.name,role:search.role } | itemsPerPage:25"   >
                                     <!--<td><a href="javascript: void(0);" class="link-underlined">{{$index+1}}</a></td>-->
                                    <th >
                                     <input type="checkbox"  ng-model="users.checked"  >
@@ -126,7 +126,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         
-                        <span class="label label-default font-size-14 margin-inline" ng-repeat="sms in finalObj">{{sms.firstName}} {{sms.lastName}}</span>
+                        To: <span class="label label-default font-size-14 margin-inline" ng-repeat="sms in finalObj">{{sms.firstName}} {{sms.lastName}}</span>
                     </div>
                     <div class="form-group">
                         <textarea type="text" class="form-control" placeholder="Subject" name="message" ng-model="messageData"/></textarea>
@@ -154,18 +154,21 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="To" />
+                       <span class="label label-default font-size-14 margin-inline" ng-repeat="sms in finalObj">{{sms.firstName}} {{sms.lastName}}</span>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Subject" />
+                        <input type="text" class="form-control" placeholder="Subject" ng-model="subject" />
                     </div>
                     <div class="compose-message">
-                        <div class="summernote"></div>
+                        <!--<div class="summernote"></div>-->
+                        <summernote ng-model="messageHtml"></summernote>
                     </div>
                 </div>
                 <div class="modal-footer text-left">
-                    <button type="button" class="btn width-150 btn-primary"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> Send</button>
-                    <button type="button" class="btn btn-link">Attachment</button>
+                    <button type="button" class="btn width-150 btn-primary" ng-click="triggerEmail(subject)"> Send</button>
+                    <!--<button type="button" class="btn btn-link">Attachment</button>-->.
+
+                    <button type="button" class="btn width-150 btn-default" ng-click="closeButtonEmail()"> close</button>
                 </div>
             </div>
         </div>

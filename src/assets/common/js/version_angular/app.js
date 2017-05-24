@@ -1,7 +1,7 @@
 'use strict';
 
 var app = angular.module('cleanUI', [
-    "ui.router" ,"angularUtils.directives.dirPagination"
+    "ui.router" ,"angularUtils.directives.dirPagination","summernote"
 ])
 
 app.run(function ($rootScope, $state) {
@@ -48,6 +48,12 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
                 url: "referrals-list",
                 templateUrl: "referrals/referrals.html",
                 controller: "referralsListCtrl"
+
+            })
+            .state('main.smsemaillist', {
+                url: "smsemail",
+                templateUrl: "send-sms-email/users-list.html",
+                controller: "smsEmailCtrl"
 
             })
             .state('login', {

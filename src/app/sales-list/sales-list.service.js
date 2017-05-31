@@ -29,13 +29,13 @@ app.factory('salesService', ['$http', function($http) {
             }) 
         };
 
-        salesServiceMethods.blockSale = function(saleID) {
+        salesServiceMethods.blockSale = function(saleID, message) {
              
             var finalUrl = baseURL + "admin/"+saleID+"/block/sale"
             return $http({
                 method: 'POST',
-                url: finalUrl
-                // data: dataObj,
+                url: finalUrl,
+                data: message
                 // headers:  
             }) 
         };

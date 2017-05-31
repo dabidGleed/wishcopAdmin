@@ -349,5 +349,5 @@ gulp.task('clean', function () {
 
 /////////////////////////////////////////////////////////////////////////////
 // DEFAULT TASK
-gulp.task('default', ['build', 'serve', 'watch']);
+gulp.task('default', ['serve', 'watch']);
 

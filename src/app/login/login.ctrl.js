@@ -7,7 +7,7 @@ app.controller('loginPageCtrl',["loginService","$location","$state", "$scope", "
     $rootScope.hideLeftMenu = true;
     $rootScope.hideTopMenu = true;
     $rootScope.showFooter = false;
-
+    $scope.user = {};
 
     $scope.goToDashboard = function(user){
     loginServiceMethods.login(user).then(function(response) {

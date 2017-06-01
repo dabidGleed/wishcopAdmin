@@ -46,9 +46,10 @@ app.controller('productsListCtrl',["$location", "$scope", "$rootScope","products
          //change Product status
         $scope.changeProductStatus = function(modaldetails){
                     $('#productDetails').modal('hide');
+                    var data ={reasonToBlock:modaldetails.reason};
                 $scope.filterData = $filter('filter')($scope.productsList,{ id:modaldetails.id});
                 if($scope.filterData[0].id == modaldetails.id &&  modaldetails.status == "DELETED" && modaldetails.status != $scope.filterData[0].status){
-                    productsServiceMethods.blockProduct(modaldetails.id).then(function(response) {
+                    productsServiceMethods.blockProduct(modaldetails.id,data).then(function(response) {
                                 if(response.status == 200){
                                     $scope.filterData[0].status = modaldetails.status;
                             
@@ -101,5 +102,14 @@ app.controller('productsListCtrl',["$location", "$scope", "$rootScope","products
                 }
                         
              };
+
+            $scope.changesStatus= function(modaldetails){
+                  $scope.filterData = $filter('filter')($scope.productsList,{ id:modaldetails.id});
+                    if( $scope.filterData[0].status == modaldetails.status){
+                        $scope.showData = false;
+                    }else{
+                        $scope.showData = true;
+                    }
+           }
 
 }]);

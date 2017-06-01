@@ -29,13 +29,13 @@ app.factory('productsService', ['$http', function($http) {
             }) 
         };
 
-        productsServiceMethods.blockProduct = function(productID) {
+        productsServiceMethods.blockProduct = function(productID,dataObj) {
              
             var finalUrl = baseURL + "admin/"+productID+"/block/product"
             return $http({
                 method: 'POST',
-                url: finalUrl
-                // data: dataObj,
+                url: finalUrl,
+                data: dataObj
                 // headers:  
             }) 
         };

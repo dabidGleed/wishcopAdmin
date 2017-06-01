@@ -2,7 +2,7 @@
  * SALES LIST PAGE CONTROLLER
  */
 
-app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesService", "$filter", function ($location, $scope, $rootScope, salesServiceMethods, $filter) {
+app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesService", "$filter","$state", function ($location, $scope, $rootScope, salesServiceMethods, $filter,$state) {
 
     salesServiceMethods.getSalesList().then(function (response) {
         $scope.salesList = response.data;
@@ -52,6 +52,18 @@ app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesServ
         }
 
     };
+    $scope.confirmUnBlock= function(reasontoUnBlock){
+        var message = {reasonToUnblock:reasontoUnBlock};
+        $('#reasonForUnBlock').modal('toggle');
+        var result = confirm("Confirm UnBlock?");
+        if (result) {
+            //Logic to delete the item
+            console.log($scope.saleDataUnBlock);
+            console.log(message)
+            $scope.unBlockSale($scope.saleDataUnBlock,message);
+        }
+
+    };
 
     calculatePercentageDiscount = function (price, perecentage) {
         return (price - ((perecentage / 100) * price).toFixed(2));
@@ -69,7 +81,14 @@ app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesServ
         $scope.saleData = sales;
         $('#reasonForDelete').modal('toggle');
     };
+     $scope.unBlockSaleConfirm = function (sales) {
+        $scope.saleDataUnBlock = sales;
+        $('#reasonForUnBlock').modal('toggle');
+    };
 
+    $scope.closeUnBlockButton = function(){
+            $('#reasonForUnBlock').modal('toggle');
+        };
 
     //block sale
     $scope.blockSale = function (modaldetails,message) {
@@ -80,6 +99,8 @@ app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesServ
                 if (response.status == 200) {
                     $scope.filterData[0].status = modaldetails.status;
                     $scope.saleData = {};
+                    $scope.reasonToBlock= "";
+                  $state.reload();
                     $.notify({
                         title: '<strong>Success!</strong>',
                         message: response.data.message
@@ -88,6 +109,38 @@ app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesServ
                     });
                 }
             }, function (res) {
+                $state.reload();
+                $.notify({
+                    title: '<strong>Unsuccessful!</strong>',
+                    message: res.data.message
+                }, {
+                    type: 'danger'
+                });
+            });
+
+        }
+
+    }
+    //unblock sale
+    $scope.unBlockSale = function (modaldetails,message) {
+        // $('#confirmBlock').modal('hide');
+        $scope.filterData = $filter('filter')($scope.salesList, {id: modaldetails.id});
+        if ($scope.filterData[0].id == modaldetails.id) {
+            salesServiceMethods.unBlockSale(modaldetails.id,message).then(function (response) {
+                if (response.status == 200) {
+                    $scope.filterData[0].status = modaldetails.status;
+                    $scope.saleData = {};
+                    $scope.reasonToUnBlock= "";
+                      $state.reload();
+                    $.notify({
+                        title: '<strong>Success!</strong>',
+                        message: response.data.message
+                    }, {
+                        type: 'success'
+                    });
+                }
+            }, function (res) {
+                  $state.reload();
                 $.notify({
                     title: '<strong>Unsuccessful!</strong>',
                     message: res.data.message

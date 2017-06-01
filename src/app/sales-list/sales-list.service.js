@@ -39,6 +39,16 @@ app.factory('salesService', ['$http', function($http) {
                 // headers:  
             }) 
         };
+        salesServiceMethods.unBlockSale = function(saleID, message) {
+             
+            var finalUrl = baseURL + "admin/"+saleID+"/unblock/sale"
+            return $http({
+                method: 'POST',
+                url: finalUrl,
+                data: message
+                // headers:  
+            }) 
+        };
 
          
         return salesServiceMethods;

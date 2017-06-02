@@ -314,10 +314,21 @@
                             <td class="text-nowrap">
                                 Status
                             </td>
-                            <td><select class="form-control" name="userStatus" ng-model="modalDetials.status">
+                            <td><select class="form-control" name="userStatus" ng-model="modalDetials.status" ng-change="changesStatus(modalDetials)">
 
                                 <option value="ACTIVE">Active</option>
                                 <option value="DELETED">Delete</option>
+
+
+                            </select></td>
+                        </tr>
+                         <tr ng-if="showData">
+                            <td class="text-nowrap">
+                                <span ng-show="modalDetials.status == 'DELETED'"> Reason to Delete</span>
+                                 <span ng-show="modalDetials.status == 'ACTIVE'"> Reason to Active</span>
+                              
+                            </td>
+                            <td><textarea class="form-control" name="reasonToBlock" ng-model="modalDetials.reason"></textarea>
 
 
                             </select></td>

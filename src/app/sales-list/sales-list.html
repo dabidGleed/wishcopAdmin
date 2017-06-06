@@ -52,7 +52,11 @@
                         </div>
                         <div class="col-md-9">
                             <select class="form-control" name="searchstatus" ng-model="search.status">
+                                
                                 <option value="" selected>All</option>
+                                <option value="ONGOING">Ongoing</option>
+                                <option value="UPCOMING">Upcoming</option>
+                                <option value="COMPLETED">Completed</option>
                                 <option value="SALE_APPROVED">Approved</option>
                                 <option value="SALE_FROZEN">Frozen</option>
                                 <option value="SALE_REJECTED">Rejected</option>
@@ -123,17 +127,20 @@
                                 <div star-rating stars="5" outer-star-selection="stars" outer-percent="rating"
                                      star-radius="10" rating-stars="{{sales.ratings}}" sel-color="gold"
                                      back-color="white"></div>
-
-                               <span ng-if="sales.status == 'SALE_BLOCKED'">
-                                <button type="button" id="notify-warning" class="btn btn-warning"
+                                 
+                            <span ng-if="sales.status == 'UPCOMING' || sales.status == 'ONGOING' || sales.status == 'SALE_BLOCKED' || sales.status == 'SALE_FROZEN'   ">
+                                <span ng-if="sales.status == 'SALE_BLOCKED'">
+                                <button type="button" id="notify-warning" class="btn btn-sm   margin-inline btn-warning"
                                         ng-click="unBlockSaleConfirm(sales)">UnBlock
                                 </button>
                                </span>
                                <span ng-if="sales.status != 'SALE_BLOCKED'">
-                                <button type="button" id="notify-warning" class="btn btn-warning"
+                                <button type="button" id="notify-warning" class="btn btn-sm   margin-inline btn-warning"
                                         ng-click="blockSaleConfirm(sales)">Block
                                 </button>
                                </span>
+                            </span>
+                               
                             </div>
                         </div>
                     </div>

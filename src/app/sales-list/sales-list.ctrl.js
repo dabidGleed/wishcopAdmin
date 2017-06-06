@@ -58,8 +58,8 @@ app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesServ
         var result = confirm("Confirm UnBlock?");
         if (result) {
             //Logic to delete the item
-            console.log($scope.saleDataUnBlock);
-            console.log(message)
+            // console.log($scope.saleDataUnBlock);
+            // console.log(message)
             $scope.unBlockSale($scope.saleDataUnBlock,message);
         }
 
@@ -77,7 +77,7 @@ app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesServ
         }
     };
 
-    $scope.blockSaleConfirm = function (sales) {
+     $scope.blockSaleConfirm = function (sales) {
         $scope.saleData = sales;
         $('#reasonForDelete').modal('toggle');
     };
@@ -86,13 +86,13 @@ app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesServ
         $('#reasonForUnBlock').modal('toggle');
     };
 
-    $scope.closeUnBlockButton = function(){
+     $scope.closeUnBlockButton = function(){
             $('#reasonForUnBlock').modal('toggle');
         };
 
     //block sale
     $scope.blockSale = function (modaldetails,message) {
-        $('#confirmBlock').modal('hide');
+        // $('#confirmBlock').modal('hide');
         $scope.filterData = $filter('filter')($scope.salesList, {id: modaldetails.id});
         if ($scope.filterData[0].id == modaldetails.id) {
             salesServiceMethods.blockSale(modaldetails.id,message).then(function (response) {

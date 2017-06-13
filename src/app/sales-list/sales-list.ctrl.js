@@ -2,7 +2,7 @@
  * SALES LIST PAGE CONTROLLER
  */
 
-app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesService", "$filter","$state", function ($location, $scope, $rootScope, salesServiceMethods, $filter,$state) {
+app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesService", "$filter","$state","$sce", function ($location, $scope, $rootScope, salesServiceMethods, $filter,$state,$sce) {
 
     salesServiceMethods.getSalesList().then(function (response) {
         $scope.salesList = response.data;
@@ -17,6 +17,11 @@ app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesServ
         $scope.vendorList = response.data;
 
     });
+
+    $scope.convertHtml= function(description){
+        // console.log(description);
+        return $sce.trustAsHtml(description);
+    }
 
     $scope.saleData = {};
     $scope.search = {name: "", vendor: "", status: ""};

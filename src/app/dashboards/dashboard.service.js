@@ -2,9 +2,9 @@
  * DASHBOARD PAGE SERVICE
  */
 
-app.factory('dashboardService', ['$http', function($http) {
+app.factory('dashboardService', ['$http','globalVars', function($http,globalVars) {
     var dashboardServiceMethods = {};
-     var baseURL = "http://ec2-52-43-72-177.us-west-2.compute.amazonaws.com/";
+    var baseURL = globalVars.baseURL;
 
       
 

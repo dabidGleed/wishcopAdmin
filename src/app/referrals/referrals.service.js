@@ -2,9 +2,9 @@
  * REFERRALS LIST PAGE SERVICE
  */
    
-app.factory('referralsService', ['$http', function($http) {
+app.factory('referralsService', ['$http','globalVars', function($http,globalVars) {
     var referralsServiceMethods = {};
-     var baseURL = "http://ec2-52-43-72-177.us-west-2.compute.amazonaws.com/";
+     var baseURL = globalVars.baseURL;
 
          //service to get all users referrals list
         referralsServiceMethods.getUsersList = function() {

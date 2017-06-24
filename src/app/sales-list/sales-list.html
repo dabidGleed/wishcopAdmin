@@ -24,8 +24,7 @@
                             <label class="form-control-label" for="l0">Search </label>
                         </div>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" ng-model="search.name" placeholder="Search keyword"
-                                   id="l0">
+                            <input type="text" class="form-control" ng-model="search.name" placeholder="Search keyword" id="l0">
                         </div>
                     </div>
                 </div>
@@ -35,9 +34,8 @@
                             <label class="form-control-label" for="l0">Vendors </label>
                         </div>
                         <div class="col-md-9">
-                            <select ng-model="search.vendor"
-                                    ng-options="vendors.id as vendors.firstName for vendors in vendorList track by vendors.id"
-                                    class="form-control" name="searchvendor">
+                            <select ng-model="search.vendor" ng-options="vendors.id as vendors.firstName for vendors in vendorList track by vendors.id"
+                                class="form-control" name="searchvendor">
 
                                 <option value="" selected>All</option>
                             </select>
@@ -67,32 +65,24 @@
 
                 </div>
 
-                <div class="col-xs-2"><a href="javascript: void(0);" class="pull-right btn btn-primary"
-                                         ng-click="resetFilters()">Reset</a></div>
+                <div class="col-xs-2"><a href="javascript: void(0);" class="pull-right btn btn-primary" ng-click="resetFilters()">Reset</a></div>
             </div>
         </div>
         <div class="panel-body">
             <div class="cui-ecommerce--catalog">
                 <div class="row">
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12"
-                         ng-repeat="sales in salesList  | filter :{ title : search.name,owner:search.vendor,status:search.status}">
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12" ng-repeat="sales in salesList  | filter :{ title : search.name,owner:search.vendor,status:search.status}">
                         <div class="cui-ecommerce--catalog--item">
-                            <span class="cui-ecommerce--catalog--item--status--title" ng-class="sales.status"
-                                  ng-if="sales.status == 'SALE_APPROVED'">APPROVED</span>
-                            <span class="cui-ecommerce--catalog--item--status--title" ng-class="sales.status"
-                                  ng-if="sales.status == 'SALE_REJECTED'">REJECTED</span>
-                            <span class="cui-ecommerce--catalog--item--status--title" ng-class="sales.status"
-                                  ng-if="sales.status == 'SALE_FROZEN'">FROZEN</span>
-                            <span class="cui-ecommerce--catalog--item--status--title" ng-class="sales.status"
-                                  ng-if="sales.status == 'SALE_BLOCKED'">BLOCKED</span>
+                            <span class="cui-ecommerce--catalog--item--status--title" ng-class="sales.status" ng-if="sales.status == 'SALE_APPROVED'">APPROVED</span>
+                            <span class="cui-ecommerce--catalog--item--status--title" ng-class="sales.status" ng-if="sales.status == 'SALE_REJECTED'">REJECTED</span>
+                            <span class="cui-ecommerce--catalog--item--status--title" ng-class="sales.status" ng-if="sales.status == 'SALE_FROZEN'">FROZEN</span>
+                            <span class="cui-ecommerce--catalog--item--status--title" ng-class="sales.status" ng-if="sales.status == 'SALE_BLOCKED'">BLOCKED</span>
                             <div class="cui-ecommerce--catalog--item--img">
                                 <!-- <div class="cui-ecommerce--catalog--item--status"  ng-class="sales.status" ng-if="sales.status"> -->
 
                                 <!-- </div> -->
                                 <div class="cui-ecommerce--catalog--item--like cui-ecommerce--catalog--item--like__selected">
-                                    <i class="icmn-file-eye cui-ecommerce--catalog--item--like--liked"
-                                       data-toggle="modal" data-target="#saleDetails"
-                                       ng-click="saleDetails(sales);"> </i>
+                                    <i class="icmn-file-eye cui-ecommerce--catalog--item--like--liked" data-toggle="modal" data-target="#saleDetails" ng-click="saleDetails(sales);"> </i>
                                 </div>
                                 <!--<div class="cui-ecommerce--catalog--item--like cui-ecommerce--catalog--item--like__selected">
                                     <i class="icmn-bin cui-ecommerce--catalog--item--like--liked" data-toggle="modal" data-target="#saleDetails" ng-click="saleDetails(sales);"> </i>
@@ -107,13 +97,11 @@
                                 <div class="cui-ecommerce--catalog--item--price">
                                     <!--$678.00-->
                                     {{sales.percentageFinalSalePrice | currency:currency}}
-                                    <div ng-show="discountExists(sales.discount_percentage)"
-                                         class="cui-ecommerce--catalog--item--price--old">
+                                    <div ng-show="discountExists(sales.discount_percentage)" class="cui-ecommerce--catalog--item--price--old">
                                         <span>{{sales.total_price | currency:currency}}</span><small>({{sales.discount_percentage}}% Discount )</small>
                                     </div>
 
-                                    <div class="emptySpace"
-                                         ng-class="sales.discount_percentage>=1 ? 'emptySpaceTrue' : '' ">
+                                    <div class="emptySpace" ng-class="sales.discount_percentage>=1 ? 'emptySpaceTrue' : '' ">
                                         <span></span>
                                     </div>
                                 </div>
@@ -124,23 +112,22 @@
                                     <span data-toggle="tooltip" data-placement="right" title="Size M">M</span>
                                     <span data-toggle="tooltip" data-placement="right" title="Size XL">XL</span>
                                 </div> -->
-                                <div star-rating stars="5" outer-star-selection="stars" outer-percent="rating"
-                                     star-radius="10" rating-stars="{{sales.ratings}}" sel-color="gold"
-                                     back-color="white"></div>
-                                 
-                            <span ng-if="sales.status == 'UPCOMING' || sales.status == 'ONGOING' || sales.status == 'SALE_BLOCKED' || sales.status == 'SALE_FROZEN'   ">
+                                <div star-rating stars="5" outer-star-selection="stars" outer-percent="rating" star-radius="10" rating-stars="{{sales.ratings}}"
+                                    sel-color="gold" back-color="white"></div>
+
+                                <span ng-if="sales.status == 'UPCOMING' || sales.status == 'ONGOING' || sales.status == 'SALE_BLOCKED' || sales.status == 'SALE_FROZEN'   ">
                                 <span ng-if="sales.status == 'SALE_BLOCKED'">
                                 <button type="button" id="notify-warning" class="btn btn-sm   margin-inline btn-warning"
                                         ng-click="unBlockSaleConfirm(sales)">UnBlock
                                 </button>
                                </span>
-                               <span ng-if="sales.status != 'SALE_BLOCKED'">
+                                <span ng-if="sales.status != 'SALE_BLOCKED'">
                                 <button type="button" id="notify-warning" class="btn btn-sm   margin-inline btn-warning"
                                         ng-click="blockSaleConfirm(sales)">Block
                                 </button>
                                </span>
-                            </span>
-                               
+                                </span>
+
                             </div>
                         </div>
                     </div>
@@ -155,8 +142,7 @@
 
 
 <!-- modal popup to Sale details-->
-<div class="modal fade modal-size-large" id="saleDetails" tabindex="-1" role="dialog" aria-labelledby=""
-     aria-hidden="true">
+<div class="modal fade modal-size-large" id="saleDetails" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -175,178 +161,186 @@
 
                         <tbody>
 
+                            <tr>
+                                <td class="text-nowrap">
+                                    Owner
+                                </td>
+                                <td>{{modalDetials.user.firstName}} {{modalDetials.user.lastName}}</td>
+                            </tr>
 
-                        <tr>
-                            <td class="text-nowrap">
-                                Sale Title
-                            </td>
-                            <td>{{modalDetials.title}}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-nowrap">
-                                Sale Image
-                            </td>
-                            <td><a href="javascript: void(0);" class="messaging-img"><img
+                            <tr>
+                                <td class="text-nowrap">
+                                    Sale Title
+                                </td>
+                                <td>{{modalDetials.title}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Sale Image
+                                </td>
+                                <td><a href="javascript: void(0);" class="messaging-img"><img
                                     ng-src="{{modalDetials.sale_image.imageURL}}"/></a></td>
-                        </tr>
-                        <tr>
-                            <td class="text-nowrap">
-                                Start Date
-                            </td>
-                            <td>{{modalDetials.start_date | date : 'yyyy-MM-dd'}}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-nowrap">
-                                End Date
-                            </td>
-                            <td>{{modalDetials.end_date | date : 'yyyy-MM-dd'}}</td>
-                        </tr>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Start Date
+                                </td>
+                                <td>{{modalDetials.start_date | date : 'yyyy-MM-dd'}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    End Date
+                                </td>
+                                <td>{{modalDetials.end_date | date : 'yyyy-MM-dd'}}</td>
+                            </tr>
 
-                        <tr>
-                            <td class="text-nowrap">
-                                Sale Quantity
-                            </td>
-                            <td>{{modalDetials.quantity}}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-nowrap">
-                                Price
-                            </td>
-                            <td>{{modalDetials.total_price | currency:currency }} <span
-                                    ng-show="discountExists(modalDetials.discount_percentage)"> {{modalDetials.total_price | currency:currency}}  ( {{modalDetials.discount_percentage}}% Discount )</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-nowrap">
-                                Total Sold
-                            </td>
-                            <td>{{modalDetials.sold_quantity + modalDetials.sold_MGP_quantity }}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-nowrap">
-                                Created Date
-                            </td>
-                            <td>{{modalDetials.createdAt | date : 'yyyy-MM-dd'}}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-nowrap">
-                                Discount percentage
-                            </td>
-                            <td>{{modalDetials.discount_percentage}}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-nowrap">
-                                Sale Items
-                            </td>
-                            <td>
-                                <!--<span ng-repeat="items in modalDetials.sale_items"><pre>{{items | json}}</pre> <span
+                            <tr>
+                                <td class="text-nowrap">
+                                    Sale Quantity
+                                </td>
+                                <td>{{modalDetials.quantity}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Price
+                                </td>
+                                <td>{{modalDetials.total_price | currency:currency }} <span ng-show="discountExists(modalDetials.discount_percentage)"> {{modalDetials.total_price | currency:currency}}  ( {{modalDetials.discount_percentage}}% Discount )</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Total Sold
+                                </td>
+                                <td>{{modalDetials.sold_quantity + modalDetials.sold_MGP_quantity }}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Created Date
+                                </td>
+                                <td>{{modalDetials.createdAt | date : 'yyyy-MM-dd'}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Discount percentage
+                                </td>
+                                <td>{{modalDetials.discount_percentage}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Sale Items
+                                </td>
+                                <td>
+                                    <!--<span ng-repeat="items in modalDetials.sale_items"><pre>{{items | json}}</pre> <span
                                     ng-repeat="variants in items.variants"><pre>{{variants | json}}</pre></span> </span>-->
-                                    
+
                                     <table class="table table-inverse" ng-repeat="items in modalDetials.sale_items">
-                                     
-                                    <tbody>
-                                    <tr>
-                                        <td class="text-nowrap">Product Title </td>
-                                        <td> {{items.title}}</td>
-                                     </tr>
-                                    <tr>
-                                        <td class="text-nowrap">Product Image</td>
-                                        <td>  <img  ng-src="{{items.images[0].imageURL}}" class="messaging-img"/></td>
-                                     </tr>
-                                     <tr>
-                                        <td class="text-nowrap">Taxes</td>
-                                        <td>   <table class="table table-inverse">
-                                            <thead>
-                                                <tr>
-                                                    <th>Tax</th>
-                                                    <th>Discount %</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr ng-repeat="tax in items.taxes ">
-                                                <td>{{tax.sale}} </td>
-                                                <td> {{tax.discount}}</td>
+
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-nowrap">Product Title </td>
+                                                <td> {{items.title}}</td>
                                             </tr>
-                                            </tbody>
-                                            
-                                            </table></td>
-                                     </tr>
-                                     <tr>
-                                        <td class="text-nowrap">Product Price </td>
-                                        <td> {{items.price+items.tax_price | currency:currency }} &nbsp (Price:{{items.price | currency:currency }} ,Tax:{{items.tax_price | currency:currency }})</td>
-                                     </tr>
-                                     <tr>
-                                        <td class="text-nowrap">Variants</td>
-                                        <td>   
-                                            <table class="table table-inverse">
-                                                <thead>
-                                                <tr>
-                                                    <th>Product</th>
-                                                    <th ng-repeat="variator in items.variator">{{variator.name}}</th>
-                                                    
-                                                    <th>Quantity</th>
-                                                    <th>Available</th>
+                                            <tr>
+                                                <td class="text-nowrap">Product Image</td>
+                                                <td> <img ng-src="{{items.images[0].imageURL}}" class="messaging-img" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-nowrap">Taxes</td>
+                                                <td>
+                                                    <table class="table table-inverse">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Tax</th>
+                                                                <th>Discount %</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="tax in items.taxes ">
+                                                                <td>{{tax.sale}} </td>
+                                                                <td> {{tax.discount}}</td>
+                                                            </tr>
+                                                        </tbody>
 
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr ng-repeat="variantsData in items.variants">
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-nowrap">Product Price </td>
+                                                <td> {{items.price+items.tax_price | currency:currency }} &nbsp (Price:{{items.price
+                                                    | currency:currency }} ,Tax:{{items.tax_price | currency:currency }})</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-nowrap">Variants</td>
+                                                <td>
+                                                    <table class="table table-inverse">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Product</th>
+                                                                <th ng-repeat="variator in items.variator">{{variator.name}}</th>
 
-                                                    <td><span ng-repeat="imageDetail in variantsData.images"> <img
+                                                                <th>Quantity</th>
+                                                                <th>Available</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="variantsData in items.variants">
+
+                                                                <td><span ng-repeat="imageDetail in variantsData.images"> <img
                                                             ng-src="{{imageDetail.imageURL}}" class="messaging-img"/>  </span></td>
-                                                    <td ng-repeat="variators in items.variator">
-                                                        {{variantsData[variators.name]}}
-                                                    </td>
-                                                    <td>{{variantsData.quantity}}</td>
-                                                    <td>{{variantsData.isActive}}</td>
+                                                                <td ng-repeat="variators in items.variator">
+                                                                    {{variantsData[variators.name]}}
+                                                                </td>
+                                                                <td>{{variantsData.quantity}}</td>
+                                                                <td>{{variantsData.isActive}}</td>
 
-                                                </tr>
-                                                </tbody>
-                                            </table>
-
-
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
 
 
-                                        </td>
-                                        
-                                     </tr>
-                                     <tr>
-                                        <td class="text-nowrap">
-                                            Description
-                                        </td>
-                                        <td ng-bind-html ="convertHtml(items.description)"> </td>
-                                    </tr>
-                                      <tr>
-                                        <td class="text-nowrap">Ratings </td>
-                                        <td> {{items.review.avg_rating}} / 5</td>
-                                     </tr>
-                                    </tbody>
-                                </table>
+
+
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td class="text-nowrap">
+                                                    Description
+                                                </td>
+                                                <td ng-bind-html="convertHtml(items.description)"> </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-nowrap">Ratings </td>
+                                                <td> {{items.review.avg_rating}} / 5</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </td>
-                        </tr>
+                            </tr>
 
-                        <tr>
-                            <td class="text-nowrap">
-                                Sale Discounts
-                            </td>
-                            <td>
-                            
-                            <table class="table table-inverse">
-                                    <thead>
-                                        <tr>
-                                            <th>Sale Quantity</th>
-                                            <th>Sale Discount %</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="discounts in modalDetials.sale_discounts | orderBy : 'sale_qty' ">
-                                            <td>{{discounts.sale_qty}}</td>
-                                            <td>  {{discounts.sale_discount_percentage}} </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Sale Discounts
                                 </td>
-                        </tr>
+                                <td>
+
+                                    <table class="table table-inverse">
+                                        <thead>
+                                            <tr>
+                                                <th>Sale Quantity</th>
+                                                <th>Sale Discount %</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="discounts in modalDetials.sale_discounts | orderBy : 'sale_qty' ">
+                                                <td>{{discounts.sale_qty}}</td>
+                                                <td> {{discounts.sale_discount_percentage}} </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
 
 
                         </tbody>
@@ -374,7 +368,7 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <textarea type="text" class="form-control" placeholder="Subject" name="message" ng-model="reasonToBlock"/></textarea>
+                    <textarea type="text" class="form-control" placeholder="Subject" name="message" ng-model="reasonToBlock" /></textarea>
                 </div>
             </div>
             <div class="modal-footer text-left">
@@ -398,7 +392,7 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <textarea type="text" class="form-control" placeholder="Subject" name="message" ng-model="reasonToUnBlock"/></textarea>
+                    <textarea type="text" class="form-control" placeholder="Subject" name="message" ng-model="reasonToUnBlock" /></textarea>
                 </div>
             </div>
             <div class="modal-footer text-left">
@@ -412,7 +406,6 @@
 <!-- End Compose Modal -->
 <!-- Page Scripts -->
 <script>
-
     $(function () {
 
         $('.cui-ecommerce--catalog--item--like').on('click', function () {
@@ -431,6 +424,5 @@
             type: 'warning'
         });
     });
-
 </script>
 <!-- End Page Scripts -->

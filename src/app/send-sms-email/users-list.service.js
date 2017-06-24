@@ -2,9 +2,9 @@
  * USERS LIST PAGE SERVICE
  */
    
-app.factory('smsEmailService', ['$http', function($http) {
+app.factory('smsEmailService', ['$http','globalVars', function($http,globalVars) {
     var smsEmailServiceMethods = {};
-     var baseURL = "http://ec2-52-43-72-177.us-west-2.compute.amazonaws.com/";
+    var baseURL = globalVars.baseURL;
 
          //service to get all users list
         smsEmailServiceMethods.getUsersList = function() {

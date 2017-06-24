@@ -2,9 +2,10 @@
  * LOGIN PAGE SERVICE
  */
 
-app.factory('loginService', ['$http', function($http) {
+app.factory('loginService', ['$http','globalVars', function($http,globalVars) {
     var loginServiceMethods = {};
-      var baseURL = "http://ec2-52-43-72-177.us-west-2.compute.amazonaws.com/";
+  
+      var baseURL = globalVars.baseURL;
          loginServiceMethods.login =function(data){
             return $http.post(baseURL + 'user/login', data).then(function(res) {
                      return res;

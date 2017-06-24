@@ -2,9 +2,9 @@
  * SALES LIST PAGE SERVICE
  */
 
-app.factory('salesService', ['$http', function($http) {
+app.factory('salesService', ['$http','globalVars', function($http,globalVars) {
     var salesServiceMethods = {};
-     var baseURL = "http://ec2-52-43-72-177.us-west-2.compute.amazonaws.com/";
+      var baseURL = globalVars.baseURL;
 
          //service to get all sales list
         salesServiceMethods.getSalesList = function() {

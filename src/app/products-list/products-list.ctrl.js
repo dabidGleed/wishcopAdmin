@@ -8,11 +8,8 @@ app.controller('productsListCtrl',["$location", "$scope", "$rootScope","products
                 $scope.productsList = response.data;
                 angular.forEach($scope.productsList,function(value,key){
                     value.htmlDesc=$sce.trustAsHtml(value.description);
-                    
-                    })
-              
-         
-            });
+             })
+      });
     
   
      productsServiceMethods.getVendorsList().then(function(response) {

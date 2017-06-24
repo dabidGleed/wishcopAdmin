@@ -86,7 +86,7 @@
      <!--<script src="assets/vendors/angular-ui/angular-ui-router.min.js"></script>-->
     <!--<script src="assets/vendors/angular-route/angular-route.min.js"></script>-->
     <script src="assets/vendors/angular-ui-router/angular-ui-router.min.js"></script>
-
+    <script src="//cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.6/ngStorage.min.js"></script>
     <script src="assets/vendors/summernote/dist/angular-summernote.js"></script>
     <script src="assets/common/js/version_angular/app.js"></script>
     <script src="assets/app.min.js"></script>
@@ -181,7 +181,7 @@
                 <ul class="left-menu-list list-unstyled">
                      <li>
                         <a class="left-menu-link" href="#!/smsemail">
-                            Send Sms
+                            Send Sms / Email
                         </a>
                     </li>
                       
@@ -388,12 +388,13 @@
             <div><!-- --></div>
         </div>
     </div>
-    <div class="menu">
+    <div class="menu"> 
         <div class="menu-user-block">
             <div class="dropdown dropdown-avatar">
                 <a href="javascript: void(0);" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     <span class="avatar" href="javascript:void(0);">
-                        <img src="../assets/common/img/temp/avatars/1.jpg" alt="Alternative text to the image">
+                        <img ng-src="{{userImg}}" alt="Alternative text to the image">
+                        
                     </span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="" role="menu">

@@ -68,6 +68,12 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             controller: "smsEmailCtrl"
 
         })
+        .state('main.paymentgateway', {
+            url: "payment-gateway",
+            templateUrl: "payment-gateway/payment-gateway.html",
+            controller: "paymentGatewayCtrl"
+
+        })
         .state('login', {
             url: "/login",
             templateUrl: "login/login.html",

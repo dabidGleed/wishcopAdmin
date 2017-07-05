@@ -1,0 +1,93 @@
+<div class="page-content-inner">
+
+    <!-- Ecommerce Products List -->
+    <section class="panel panel-with-borders">
+        <div class="panel-heading">
+            <h2>
+                Payment Gateways List {{payment}}
+            </h2>
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="table-responsive thead-default margin-bottom-50">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+
+                                    <th width="10%">Select </th>
+                                    <th width="70%">Name</th>
+                                    <th width="20%">Status {{payment}}</th>
+
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr ng-repeat="payment in paymentGatewaysList   ">
+
+
+                                    <td>
+                                        <div class="form-group">
+                                            <div class="radio">
+                                                <label>
+                                    <input type="radio"   ng-model="paymentData.status"  ng-value="payment.isActive"  ng-click="setActive(payment.id)" name="payment"     >
+                                  
+                                </label>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                    <td>{{payment.name}} </td>
+                                    <td> <span class="label {{payment.status == 'ACTIVE' ? 'label-success' : ''}} {{payment.status == 'INACTIVE' ? 'label-danger':''}}   ">{{payment.status}}</span>                                        </td>
+
+                                </tr>
+                                <tr ng-show="!(paymentGatewaysList)">
+                                    <td colspan="3">
+                                        <center>No data found</center>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3"><button type="button" class="btn btn-secondary margin-inline" ng-click="updatePaymentGateway()">Update</button>
+                                    </td>
+                                </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Ecommerce Products List -->
+
+</div>
+<!-- Page Scripts -->
+<script>
+    // $(function () {
+
+    //     // Datatables
+    //     $('#example1').DataTable({
+    //         "lengthMenu": [[50, 100, 200, -1], [50, 100, 200, "All"]],
+    //         responsive: true,
+    //         "autoWidth": false
+    //     });
+
+    // })
+</script>
+<script>
+    $(function () {
+
+        $('.select2').select2();
+        $('.select2-tags').select2({
+            tags: true,
+            tokenSeparators: [',', ' ']
+        });
+
+        $('.selectpicker').selectpicker();
+
+    })
+</script>
+<!-- End Page Scripts -->

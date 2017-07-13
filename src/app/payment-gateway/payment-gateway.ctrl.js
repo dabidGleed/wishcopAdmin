@@ -4,6 +4,9 @@
 
 app.controller('paymentGatewayCtrl', ["$location", "$scope", "$rootScope", "paymentGatewayService", "$filter", function ($location, $scope, $rootScope, paymentGatewayServiceMethods, $filter) {
 
+
+    $scope.itemsInPage = 1;
+
     // get payment gateways list
     $scope.initialLoad = function () {
         paymentGatewayServiceMethods.getPaymentGatwayslist().then(function (response) {
@@ -65,5 +68,49 @@ app.controller('paymentGatewayCtrl', ["$location", "$scope", "$rootScope", "paym
         });
     };
 
+    $scope.updatePaymentFailed = function (failedCount, id) {
+        //   console.log(failedCount+"---------------------"+ id );
+        //   console.log(angular.isNumber(failedCount));
+        if (angular.isNumber(failedCount)) {
+            paymentGatewayServiceMethods.updatePaymentFailedAttempts(failedCount, id).then(function (response) {
+                console.log(response.status);
+                if (response.status == 200) {
 
+                    $.notify({
+                        title: '<strong>Success!</strong>',
+                        message: response.data.message
+                    }, {
+                        type: 'success'
+                    });
+                    $scope.initialLoad();
+                } else {
+                    $.notify({
+                        title: '<strong>Unsuccessful!</strong>',
+                        message: response.data.message
+                    }, {
+                        type: 'danger'
+                    });
+                    $scope.initialLoad();
+                }
+            });
+
+        } else {
+            $.notify({
+                title: '<strong>Unsuccessful!</strong>',
+                message: ''
+            }, {
+                type: 'danger'
+            });
+            $scope.initialLoad();
+
+        }
+
+
+    };
+
+    //modal popup details of the Failed transactions
+    $scope.failedTransactions = function (data) {
+        $scope.modalDetials = [];
+        angular.copy(data, $scope.modalDetials);
+    }
 }]);

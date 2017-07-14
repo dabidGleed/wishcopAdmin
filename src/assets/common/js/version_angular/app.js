@@ -74,6 +74,12 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             controller: "paymentGatewayCtrl"
 
         })
+         .state('main.auditlogs', {
+            url: "audit-logs",
+            templateUrl: "audit-logs/audit-logs.html",
+            controller: "auditLogsCtrl"
+
+        })
         .state('login', {
             url: "/login",
             templateUrl: "login/login.html",

@@ -18,6 +18,18 @@
           })
       };
 
+      //service to update maximum number of failed attempts
+          paymentGatewayServiceMethods.updatePaymentFailedAttempts= function (failedCount, id) {
+
+          var finalUrl = baseURL + "admin/payment/"+id+"/"+failedCount ; 
+          return $http({
+              method: 'POST',
+              url: finalUrl
+              // data: dataObj,
+              // headers:  
+          })
+      };
+
       //service to update payment gateway
       paymentGatewayServiceMethods.updatePaymentGatwayslist = function (id) {
 

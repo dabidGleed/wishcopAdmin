@@ -26,7 +26,7 @@ app.factory("authService", ['$http', 'globalVars', '$q', '$window', '$localStora
                 deferred.reject(error);
             });
         return deferred.promise;
-    };
+    }; 
 
      
     function Logout() {

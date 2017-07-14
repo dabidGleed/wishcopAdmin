@@ -2,23 +2,23 @@
  * SALES LIST PAGE CONTROLLER
  */
 
-app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesService", "$filter", "$state", "$sce", function ($location, $scope, $rootScope, salesServiceMethods, $filter, $state, $sce) {
+app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesService", "$filter", "$state", "$sce", function($location, $scope, $rootScope, salesServiceMethods, $filter, $state, $sce) {
 
-    salesServiceMethods.getSalesList().then(function (response) {
+    salesServiceMethods.getSalesList().then(function(response) {
         $scope.salesList = response.data;
-        angular.forEach($scope.salesList, function (value, key) {
+        angular.forEach($scope.salesList, function(value, key) {
             value.percentageFinalSalePrice = calculatePercentageDiscount(value.total_price, value.discount_percentage);
 
         })
 
     });
 
-    salesServiceMethods.getVendorsList().then(function (response) {
+    salesServiceMethods.getVendorsList().then(function(response) {
         $scope.vendorList = response.data;
 
     });
 
-    $scope.convertHtml = function (description) {
+    $scope.convertHtml = function(description) {
         // console.log(description);
         return $sce.trustAsHtml(description);
     }
@@ -29,7 +29,7 @@ app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesServ
         vendor: "",
         status: ""
     };
-    $scope.$watch("search.vendor", function () {
+    $scope.$watch("search.vendor", function() {
 
         if ($scope.search.vendor == null) {
             $scope.search.vendor;
@@ -37,7 +37,7 @@ app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesServ
     });
 
     // users list filters
-    $scope.resetFilters = function () {
+    $scope.resetFilters = function() {
         $scope.search = {
             name: "",
             vendor: "",
@@ -46,16 +46,16 @@ app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesServ
     };
 
     //modal popup details of the Sale
-    $scope.saleDetails = function (saleData) {
+    $scope.saleDetails = function(saleData) {
         $scope.modalDetials = {};
         angular.copy(saleData, $scope.modalDetials);
     };
 
-    $scope.closeButton = function () {
+    $scope.closeButton = function() {
         $('#reasonForDelete').modal('toggle');
     };
 
-    $scope.confirmDelete = function (reasonToBlock) {
+    $scope.confirmDelete = function(reasonToBlock) {
         var message = {
             reasonToBlock: reasonToBlock
         };
@@ -67,7 +67,7 @@ app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesServ
         }
 
     };
-    $scope.confirmUnBlock = function (reasontoUnBlock) {
+    $scope.confirmUnBlock = function(reasontoUnBlock) {
         var message = {
             reasonToUnblock: reasontoUnBlock
         };
@@ -82,11 +82,11 @@ app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesServ
 
     };
 
-    calculatePercentageDiscount = function (price, perecentage) {
+    calculatePercentageDiscount = function(price, perecentage) {
         return (price - ((perecentage / 100) * price).toFixed(2));
     };
 
-    $scope.discountExists = function (priceDiscount) {
+    $scope.discountExists = function(priceDiscount) {
         if (priceDiscount > 0) {
             return true;
         } else {
@@ -94,60 +94,60 @@ app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesServ
         }
     };
 
-    $scope.blockSaleConfirm = function (sales) {
+    $scope.blockSaleConfirm = function(sales) {
         $scope.saleData = sales;
         $('#reasonForDelete').modal('toggle');
     };
-    $scope.unBlockSaleConfirm = function (sales) {
+    $scope.unBlockSaleConfirm = function(sales) {
         $scope.saleDataUnBlock = sales;
         $('#reasonForUnBlock').modal('toggle');
     };
 
-    $scope.closeUnBlockButton = function () {
+    $scope.closeUnBlockButton = function() {
         $('#reasonForUnBlock').modal('toggle');
     };
 
     //block sale
-    $scope.blockSale = function (modaldetails, message) {
-        // $('#confirmBlock').modal('hide');
-        $scope.filterData = $filter('filter')($scope.salesList, {
-            id: modaldetails.id
-        });
-        if ($scope.filterData[0].id == modaldetails.id) {
-            salesServiceMethods.blockSale(modaldetails.id, message).then(function (response) {
-                if (response.status == 200) {
-                    $scope.filterData[0].status = modaldetails.status;
-                    $scope.saleData = {};
-                    $scope.reasonToBlock = "";
+    $scope.blockSale = function(modaldetails, message) {
+            // $('#confirmBlock').modal('hide');
+            $scope.filterData = $filter('filter')($scope.salesList, {
+                id: modaldetails.id
+            });
+            if ($scope.filterData[0].id == modaldetails.id) {
+                salesServiceMethods.blockSale(modaldetails.id, message).then(function(response) {
+                    if (response.status == 200) {
+                        $scope.filterData[0].status = modaldetails.status;
+                        $scope.saleData = {};
+                        $scope.reasonToBlock = "";
+                        $state.reload();
+                        $.notify({
+                            title: '<strong>Success!</strong>',
+                            message: response.data.message
+                        }, {
+                            type: 'success'
+                        });
+                    }
+                }, function(res) {
                     $state.reload();
                     $.notify({
-                        title: '<strong>Success!</strong>',
-                        message: response.data.message
+                        title: '<strong>Unsuccessful!</strong>',
+                        message: res.data.message
                     }, {
-                        type: 'success'
+                        type: 'danger'
                     });
-                }
-            }, function (res) {
-                $state.reload();
-                $.notify({
-                    title: '<strong>Unsuccessful!</strong>',
-                    message: res.data.message
-                }, {
-                    type: 'danger'
                 });
-            });
+
+            }
 
         }
-
-    }
-    //unblock sale
-    $scope.unBlockSale = function (modaldetails, message) {
+        //unblock sale
+    $scope.unBlockSale = function(modaldetails, message) {
         // $('#confirmBlock').modal('hide');
         $scope.filterData = $filter('filter')($scope.salesList, {
             id: modaldetails.id
         });
         if ($scope.filterData[0].id == modaldetails.id) {
-            salesServiceMethods.unBlockSale(modaldetails.id, message).then(function (response) {
+            salesServiceMethods.unBlockSale(modaldetails.id, message).then(function(response) {
                 if (response.status == 200) {
                     $scope.filterData[0].status = modaldetails.status;
                     $scope.saleData = {};
@@ -160,7 +160,7 @@ app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesServ
                         type: 'success'
                     });
                 }
-            }, function (res) {
+            }, function(res) {
                 $state.reload();
                 $.notify({
                     title: '<strong>Unsuccessful!</strong>',
@@ -173,6 +173,7 @@ app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesServ
         }
 
     }
+
 
 
 }]);

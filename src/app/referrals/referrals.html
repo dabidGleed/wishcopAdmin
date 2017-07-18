@@ -93,7 +93,7 @@
                                     <th>Action</th>
                                 </tr>
                             </tfoot>-->
-                            <tbody> 
+                            <tbody>  
                                 <tr dir-paginate="users in userList   | filter : {firstName:search.name,role:search.role} | itemsPerPage:15" >
                                     <!--<td><a href="javascript: void(0);" class="link-underlined">{{$index+1}}</a></td>-->
                                     <td><a href="javascript: void(0);" class="cui-ecommerce--dashboard--list--img"><img ng-src="{{users.gravatarUrl}}" /></a></td>

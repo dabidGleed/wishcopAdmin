@@ -80,6 +80,12 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             controller: "auditLogsCtrl"
 
         })
+        .state('main.accountTransfer', {
+            url: "account-transfer",
+            templateUrl: "account-transfer/account-transfer.html",
+            controller: "accountTransferCtrl"
+
+        })
         .state('login', {
             url: "/login",
             templateUrl: "login/login.html",

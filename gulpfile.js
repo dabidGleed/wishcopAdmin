@@ -99,7 +99,8 @@ var path = {
         'src/assets/vendors/bower/nprogress/nprogress.js',
         'src/assets/vendors/bower/jquery-steps/build/jquery.steps.min.js',
         'src/assets/vendors/bower/bootstrap-select/dist/js/bootstrap-select.min.js',
-        'src/assets/vendors/bower/dropify/dist/js/dropify.min.js'        
+        'src/assets/vendors/bower/dropify/dist/js/dropify.min.js',
+        'src/assets/vendors/manual/vfsfonts/vfs_fonts.js'        
         ],
         angular_src:[
         'src/assets/vendors/bower/angular/angular.min.js',

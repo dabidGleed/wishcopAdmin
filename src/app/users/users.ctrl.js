@@ -4,7 +4,9 @@
 
 app.controller('usersListCtrl',["$location", "$scope", "$rootScope","usersService","$filter",   function($location, $scope, $rootScope,usersServiceMethods,$filter   ) {
 
-
+          
+          $scope.currentPage = 1;
+          $scope.itemsPerPage = 15;
          // get users list
         usersServiceMethods.getUsersList().then(function(response) {
                     $scope.userList = response.data;

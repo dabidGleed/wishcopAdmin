@@ -86,6 +86,12 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             controller: "accountTransferCtrl"
 
         })
+        .state('main.referralSettings', {
+            url: "referral-settings",
+            templateUrl: "referral-settings/referral-settings.html",
+            controller: "referralsSettingsCtrl"
+
+        })
         .state('login', {
             url: "/login",
             templateUrl: "login/login.html",

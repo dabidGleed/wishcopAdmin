@@ -3,14 +3,14 @@
  */
 
 app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesService", "$filter", "$state", "$sce", function ($location, $scope, $rootScope, salesServiceMethods, $filter, $state, $sce) {
-
+ NProgress.start();
     salesServiceMethods.getSalesList().then(function (response) {
         $scope.salesList = response.data;
         angular.forEach($scope.salesList, function (value, key) {
             value.percentageFinalSalePrice = calculatePercentageDiscount(value.total_price, value.discount_percentage);
 
         })
-
+        NProgress.done();
     });
 
     salesServiceMethods.getVendorsList().then(function (response) {

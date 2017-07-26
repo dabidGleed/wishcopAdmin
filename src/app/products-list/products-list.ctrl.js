@@ -3,12 +3,13 @@
  */
 
 app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "productsService", "$sce", "$filter", function ($location, $scope, $rootScope, productsServiceMethods, $sce, $filter) {
-
+NProgress.start();
     productsServiceMethods.getProductsList().then(function (response) {
         $scope.productsList = response.data;
         angular.forEach($scope.productsList, function (value, key) {
             value.htmlDesc = $sce.trustAsHtml(value.description);
         })
+         NProgress.done();
     });
 
 
@@ -128,75 +129,210 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
     }
 
     $scope.export = function (id) {
-        $scope.vendorDetails = $filter('filter')($scope.vendorList, {
-            id: id
-        });
-        if($scope.vendorDetails[0].profile.companyName == undefined){
-            $scope.vendorDetails[0].profile.companyName = '';
-        }
-        if($scope.vendorDetails[0].profile.aboutCompany == undefined){
-            $scope.vendorDetails[0].profile.aboutCompany = '';
-        }
-           var data = [{text:'Company : '+$scope.vendorDetails[0].profile.companyName,style: 'title' },
-                       {text:'About Company : '+$scope.vendorDetails[0].profile.aboutCompany,style: 'title' },
-                        {
-                        table: {
-                            // headers are automatically repeated if the table spans over multiple pages
-                            // you can declare how many rows should be treated as headers
-                            headerRows: 1,
-                            widths: [ 60, 'auto', 80 ],
+    NProgress.start();
+        //print all vendors data
 
-                            body: [   [ {text:'S.NO' ,style: 'tableheader'}, {text:'Product Name',style: 'tableheader'}, {text:'Price' ,style: 'tableheader'} ]
-                                 ]
-                               }
-                        }
-                    ];
-         
-        $scope.pdfFilterData = $filter('filter')($scope.productsList, {
-            owner: id
-        });
-        
-        angular.forEach($scope.pdfFilterData, function (value, key) {
-          value.sno = key+1;
-           data[2].table.body.push( [ {
-                    text: (value.sno).toString(),style: 'title'
-                },{
-                    text: value.title,style: 'title'
-                },{
-                    text: " ₹​" + value.price,style: 'title'
-                } ])    
-                
-        });
-      
-        var docDefinition = {
-             header: [{text:'Vendor Name :'+$scope.vendorDetails[0].firstName+$scope.vendorDetails[0].lastName,style: 'header' }],
-             content:  data,
-             pageSize: 'A4',
-            // by default we use portrait, you can change it to landscape if you wish
-            pageOrientation: 'potrait',
-            // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
-            pageMargins: [ 40, 60, 40, 60 ],
-            styles: {
-                header: {
-                    fontSize: 20,
-                    bold: true, 
-                    margin: [50,10,10,20]		
-		        },
-                title: {
-                    italic: false,
-                    alignment: 'left',
-                    fontSize: 12,
-                },
-                tableheader:{
-                    fontSize: 14,
-                    alignment: 'center',
-                    bold: true,
+        if ($scope.search.vendor == "") {
+            var data = [];
+
+            angular.forEach($scope.vendorList, function (value, key) {
+                if (value.profile.companyName == undefined) {
+                    value.profile.companyName = '';
                 }
+                if (value.profile.aboutCompany == undefined) {
+                    value.profile.aboutCompany = '';
+                }
+                var tableData = {
+                    style: 'tableExample',
+                    table: {
+                        // headers are automatically repeated if the table spans over multiple pages
+                        // you can declare how many rows should be treated as headers
+                        headerRows: 1,
+                        widths: [60, 'auto', 80],
+
+                        body: [
+                            [{
+                                text: 'S.NO',
+                                style: 'tableheader'
+                            }, {
+                                text: 'Product Name',
+                                style: 'tableheader'
+                            }, {
+                                text: 'Price',
+                                style: 'tableheader'
+                            }]
+                        ]
+                    }
+                };
+                data.push({
+                    text: 'Vendor Name : ' + value.firstName + value.lastName,
+                    style: 'subheader'
+                });
+                data.push({
+                    text: 'Company : ' + value.profile.companyName,
+                    style: 'title'
+                });
+                data.push({
+                    text: 'About Company : ' + value.profile.aboutCompany,
+                    style: 'title'
+                });
+
+                $scope.pdfFilterData = $filter('filter')($scope.productsList, {
+                    owner: value.id
+                });
+                angular.forEach($scope.pdfFilterData, function (value1, key1) {
+                    value1.sno = key1 + 1;
+                    tableData.table.body.push([{
+                        text: (value1.sno).toString(),
+                        style: 'title'
+                    }, {
+                        text: value1.title,
+                        style: 'title'
+                    }, {
+                        text: " ₹​" + value1.price,
+                        style: 'title'
+                    }])
+
+                });
+                data.push(tableData);
+
+            });
+
+            var docDefinition = {
+
+                content: data,
+                pageSize: 'A4',
+                // by default we use portrait, you can change it to landscape if you wish
+                pageOrientation: 'potrait',
+                // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
+                pageMargins: [40, 60, 40, 60],
+                styles: {
+                    header: {
+                        fontSize: 20,
+                        bold: true,
+                        margin: [50, 10, 10, 20]
+                    },
+                    title: {
+                        italic: false,
+                        alignment: 'left',
+                        fontSize: 12,
+                    },
+                    tableheader: {
+                        fontSize: 14,
+                        alignment: 'center',
+                        bold: true,
+                    },
+                    subheader: {
+                        fontSize: 16,
+                        bold: true,
+                        margin: [0, 10, 0, 5]
+                    },
+                    tableExample: {
+                        margin: [0, 5, 0, 15]
+                    }
+                }
+            };
+
+            pdfMake.createPdf(docDefinition).download(new Date().getTime() + ".pdf");
+
+        } else {
+
+            $scope.vendorDetails = $filter('filter')($scope.vendorList, {
+                id: id
+            });
+            if ($scope.vendorDetails[0].profile.companyName == undefined) {
+                $scope.vendorDetails[0].profile.companyName = '';
             }
-        };
+            if ($scope.vendorDetails[0].profile.aboutCompany == undefined) {
+                $scope.vendorDetails[0].profile.aboutCompany = '';
+            }
+            var data = [{
+                    text: 'Company : ' + $scope.vendorDetails[0].profile.companyName,
+                    style: 'title'
+                },
+                {
+                    text: 'About Company : ' + $scope.vendorDetails[0].profile.aboutCompany,
+                    style: 'title'
+                },
+                { style: 'tableExample',
+                    table: {
+                        // headers are automatically repeated if the table spans over multiple pages
+                        // you can declare how many rows should be treated as headers
+                        headerRows: 1,
+                        widths: [60, 'auto', 80],
 
-         pdfMake.createPdf(docDefinition).download(new Date().getTime()+".pdf");
- 
-    }
+                        body: [
+                            [{
+                                text: 'S.NO',
+                                style: 'tableheader'
+                            }, {
+                                text: 'Product Name',
+                                style: 'tableheader'
+                            }, {
+                                text: 'Price',
+                                style: 'tableheader'
+                            }]
+                        ]
+                    }
+                }
+            ];
 
+            $scope.pdfFilterData = $filter('filter')($scope.productsList, {
+                owner: id
+            });
+
+            angular.forEach($scope.pdfFilterData, function (value, key) {
+                value.sno = key + 1;
+                data[2].table.body.push([{
+                    text: (value.sno).toString(),
+                    style: 'title'
+                }, {
+                    text: value.title,
+                    style: 'title'
+                }, {
+                    text: " ₹​" + value.price,
+                    style: 'title'
+                }])
+
+            });
+
+            var docDefinition = {
+                header: [{
+                    text: 'Vendor Name :' + $scope.vendorDetails[0].firstName + $scope.vendorDetails[0].lastName,
+                    style: 'header'
+                }],
+                content: data,
+                pageSize: 'A4',
+                // by default we use portrait, you can change it to landscape if you wish
+                pageOrientation: 'potrait',
+                // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
+                pageMargins: [40, 60, 40, 60],
+                styles: {
+                    header: {
+                        fontSize: 20,
+                        bold: true,
+                        margin: [50, 10, 10, 20]
+                    },
+                    title: {
+                        italic: false,
+                        alignment: 'left',
+                        fontSize: 12,
+                    },
+                    tableheader: {
+                        fontSize: 14,
+                        alignment: 'center',
+                        bold: true,
+                    },
+                    tableExample: {
+                        margin: [0, 5, 0, 15]
+                    }
+                }
+            };
+
+            pdfMake.createPdf(docDefinition).download(new Date().getTime() + ".pdf");
+
+        }
+        NProgress.done();
+     }
+    
 }]);

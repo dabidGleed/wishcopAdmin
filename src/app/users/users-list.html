@@ -67,7 +67,7 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                   <!--<th>ID</th>-->
+                                   <th>S.NO</th>
                                     <th>Thumbnail</th>
                                     <th>Name</th>
                                     <th>Role</th>
@@ -93,8 +93,9 @@
                                 </tr>
                             </tfoot>-->
                             <tbody> 
-                                <tr dir-paginate="users in userList   | filter : {firstName:search.name,role:search.role,status:search.status} | itemsPerPage:15" >
+                                <tr dir-paginate="users in userList   | filter : {firstName:search.name,role:search.role,status:search.status} | itemsPerPage:itemsPerPage" current-page="currentPage" >
                                     <!--<td><a href="javascript: void(0);" class="link-underlined">{{$index+1}}</a></td>-->
+                                    <td>{{itemsPerPage *(currentPage-1)+$index+1}}</td>
                                     <td><a href="javascript: void(0);" class="cui-ecommerce--dashboard--list--img"><img ng-src="{{users.gravatarUrl}}" /></a></td>
                                     <td>{{users.firstName}} {{users.lastName}}</td>
                                     <td><span ng-repeat="role in users.role" class="label label-pill label-default font-size-14 margin-inline">{{role}}</span> </td>
@@ -110,12 +111,12 @@
                                     </td>
                 </tr>
                 <tr ng-show="!(userList   | filter : {firstName:search.name,role:search.role,status:search.status}).length">
-                    <td colspan="9"> <center>No data found</center></td>
+                    <td colspan="10"> <center>No data found</center></td>
                     
                 </tr>
                                  
                <tr>
-                    <td colspan="9"> <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls></td>
+                    <td colspan="10"> <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls></td>
                     
                 </tr>
                             </tbody>

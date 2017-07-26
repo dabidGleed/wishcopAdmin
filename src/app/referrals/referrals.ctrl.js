@@ -4,7 +4,8 @@
 
 app.controller('referralsListCtrl',["$location", "$scope", "$rootScope","referralsService","$filter",   function($location, $scope, $rootScope,referralsServiceMethods,$filter   ) {
 
-
+          $scope.currentPage = 1;
+          $scope.itemsPerPage = 15
          // get users referrals list
         referralsServiceMethods.getUsersList().then(function(response) {
                     $scope.userList = response.data;

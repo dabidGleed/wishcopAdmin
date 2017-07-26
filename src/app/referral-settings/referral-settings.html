@@ -1,0 +1,123 @@
+<div class="page-content-inner">
+
+    <!-- Ecommerce Products List -->
+    <section class="panel panel-with-borders">
+        <div class="panel-heading">
+            <h2>
+                Referrals Settings
+            </h2>
+        </div>
+
+        <div class="panel-body">
+
+            <form name="updateReferralSettings" ng-submit="update()" novalidate>
+                <div class="col-xs-12">
+                    <div class="col-xs-6 ">
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label class="form-control-label" for="l0">Cashback Percentage </label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="number" class="form-control" name="referralPercentage" ng-model="getReferrals[0].cashBackPercentage" min="1"
+                                    max="100" ng-pattern="/^[0-9]{1,3}$/">
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <label class="form-control-label" for="l0">Expiry </label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="number" class="form-control" name="referralExpiery" ng-model="getReferrals[0].expires_in" min="1" max="10" ng-pattern="/^[0-9]{1,1}$/">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-xs-2"><button type="button" ng-click="update()" class="pull-right btn btn-primary">Update</button></div>
+
+                </div>
+            </form>
+        </div>
+        <div class="panel-body">
+
+            <div class="table-responsive thead-default margin-bottom-50">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <!--<th>ID</th>-->
+                            <th>S.NO</th>
+                            <th>Cashback Percentage(%)</th>
+                            <th>Expires(years)</th>
+                            <th>Created </th>
+                            <th>Updated</th>
+
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr dir-paginate="users in getReferrals[0].updateHistory    | itemsPerPage:itemsPerPage | orderBy:users.createdAt:asc" current-page="currentPage">
+                            <!--<td><a href="javascript: void(0);" class="link-underlined">{{$index+1}}</a></td>-->
+                            <td> {{itemsPerPage *(currentPage-1)+$index+1}}</td>
+                            <td>{{users.cashBackPercentage}} </td>
+                            <td> {{users.expires_in}}</td>
+                            <td> {{users.createdAt | date : 'yyyy-MM-dd' }} </td>
+                            <td>{{users.updatedAt | date : 'yyyy-MM-dd' }}</td>
+
+                        </tr>
+                        <tr ng-show="!(getReferrals[0].updateHistory).length">
+                            <td colspan="5">
+                                <center>No data found</center>
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td colspan="5">
+                                <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <!-- End Ecommerce Products List -->
+
+</div>
+ 
+<!-- Page Scripts -->
+<script>
+    // $(function () {
+
+    //     // Datatables
+    //     $('#example1').DataTable({
+    //         "lengthMenu": [[50, 100, 200, -1], [50, 100, 200, "All"]],
+    //         responsive: true,
+    //         "autoWidth": false
+    //     });
+
+    // })
+</script>
+<script>
+    $(function () {
+
+        $('.select2').select2();
+        $('.select2-tags').select2({
+            tags: true,
+            tokenSeparators: [',', ' ']
+        });
+
+        $('.selectpicker').selectpicker();
+
+    })
+</script>
+<!-- End Page Scripts -->

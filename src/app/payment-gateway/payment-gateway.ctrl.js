@@ -15,6 +15,7 @@ app.controller('paymentGatewayCtrl', ["$location", "$scope", "$rootScope", "paym
             };
             $scope.paymentGatewaysList = response.data;
             angular.forEach($scope.paymentGatewaysList, function (item) {
+                $scope.paymentMode = item.gatewayMode;
                 if (item.status == "ACTIVE") {
                     item.isActive = true;
 
@@ -24,6 +25,32 @@ app.controller('paymentGatewayCtrl', ["$location", "$scope", "$rootScope", "paym
             });
         });
     };
+    $scope.updatePaymentMode =function(data){
+      
+         paymentGatewayServiceMethods.updatePaymentModeSelection(data).then(function (response) {
+             console.log(response);
+             if (response.status == 200) {
+
+                $.notify({
+                    title: '<strong>Success!</strong>',
+                    message: response.data.message
+                }, {
+                    type: 'success'
+                });
+                
+            } else {
+                $.notify({
+                    title: '<strong>Unsuccessful!</strong>',
+                    message: response.data.message
+                }, {
+                    type: 'danger'
+                });
+            
+            }
+            $scope.initialLoad();
+        });
+
+    }
 
     $scope.initialLoad();
 

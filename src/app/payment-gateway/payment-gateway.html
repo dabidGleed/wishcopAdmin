@@ -6,6 +6,18 @@
             <h2>
                 Payment Gateways List
             </h2>
+            <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-success-outline {{paymentMode === 'AUTO' ? ' active' : ' '}}" ng-click="updatePaymentMode('AUTO')">
+                                <input type="radio" name="paymentModeValue" ng-value="AUTO"  ng-model="paymentMode"  >
+                                Auto
+                            </label>
+                            <label class="btn btn-success-outline  {{paymentMode === 'MANUAL' ? ' active' : ' '}}  " ng-click="updatePaymentMode('MANUAL')">
+                                <input type="radio" name="paymentModeValue" ng-value="MANUAL"    ng-model="paymentMode"  >
+                                Manual
+                            <span class="ink animate" style="height: 100px; width: 100px; top: -25px; left: -28.1094px;"></span></label>
+                            
+           </div>
+           <p>{{paymentMode}} mode is selected</p>
         </div>
 
         <div class="panel-body">

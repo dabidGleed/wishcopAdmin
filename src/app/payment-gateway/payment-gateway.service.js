@@ -42,5 +42,17 @@
           })
       };
 
+      //service to update payment payment mode
+         paymentGatewayServiceMethods.updatePaymentModeSelection = function (data) {
+
+          var finalUrl = baseURL + "admin/gateway/toggle/" + data ;
+          return $http({
+              method: 'POST',
+              url: finalUrl
+              // data: dataObj,
+              // headers:  
+          })
+      };
+
       return paymentGatewayServiceMethods;
   }])

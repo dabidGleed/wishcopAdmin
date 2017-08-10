@@ -50,6 +50,8 @@
                                         <option value="" selected >All</option>
                                         <option value="PENDING">PENDING</option>
                                         <option value="TRANSFERRED">TRANSFERRED</option>
+                                        <option value="REJECTED">REJECTED</option>
+                                        
                                       
                                     </select>
                         </div>
@@ -86,7 +88,7 @@
                             <td>{{users.user.mobileNumber}}</td>
                             <td>{{users.user.email}}</td>
                             <td>{{users.amount | currency:currency}}</td>
-                            <td><span class="label {{users.status == 'TRANSFERRED' ? 'label-success' : ''}} {{users.status == 'PENDING' ? 'label-danger':''}}">{{users.status}}</span></td>
+                            <td><span class="label {{users.status == 'TRANSFERRED' ? 'label-success' : ''}} {{users.status == 'PENDING' ? 'label-warning':''}} {{users.status == 'REJECTED' ? 'label-danger':''}}">{{users.status}}</span></td>
                             <td>{{users.createdAt | date : 'yyyy-MM-dd'}}</td>
                             <td>
                               
@@ -194,6 +196,7 @@
                                        
                                          <option value="PENDING">PENDING</option>
                                         <option value="TRANSFERRED">TRANSFERRED</option>
+                                        <option value="REJECTED">REJECTED</option>
                                        
                                         
                                     </select></td>

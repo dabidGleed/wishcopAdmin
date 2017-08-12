@@ -3,17 +3,10 @@
     <!-- Ecommerce Products Catalog -->
     <section class="panel panel-with-borders">
         <div class="panel-heading">
-            <h2>
-                Sales List
-
-            </h2>
-
-
+            <h2>Sales List</h2>
         </div>
         <div class="panel-body">
-            <h4>
-                Filters
-
+            <h4>Filters
             </h4>
             <!--<pre>{{salesList |json}}</pre>-->
 
@@ -34,8 +27,7 @@
                             <label class="form-control-label" for="l0">Vendors </label>
                         </div>
                         <div class="col-md-9">
-                            <select ng-model="search.vendor" ng-options="vendors.id as vendors.firstName for vendors in vendorList track by vendors.id"
-                                class="form-control" name="searchvendor">
+                            <select ng-model="search.vendor" ng-options="vendors.id as vendors.firstName for vendors in vendorList track by vendors.id" class="form-control" name="searchvendor">
 
                                 <option value="" selected>All</option>
                             </select>
@@ -89,7 +81,7 @@
                                 </div>-->
 
                                 <a href="javascript: void(0);">
-                                    <img ng-src="{{sales.sale_image.imageURL}}" alt="{{sales.sale_image.filename}}"/>
+                                    <img ng-src="{{sales.sale_image.imageURL}}" alt="{{sales.sale_image.filename}}" />
                                 </a>
                             </div>
                             <div class="cui-ecommerce--catalog--item--title">
@@ -112,8 +104,7 @@
                                     <span data-toggle="tooltip" data-placement="right" title="Size M">M</span>
                                     <span data-toggle="tooltip" data-placement="right" title="Size XL">XL</span>
                                 </div> -->
-                                <div star-rating stars="5" outer-star-selection="stars" outer-percent="rating" star-radius="10" rating-stars="{{sales.ratings}}"
-                                    sel-color="gold" back-color="white"></div>
+                                <div star-rating stars="5" outer-star-selection="stars" outer-percent="rating" star-radius="10" rating-stars="{{sales.ratings}}" sel-color="gold" back-color="white"></div>
 
                                 <span ng-if="sales.status == 'UPCOMING' || sales.status == 'ONGOING' || sales.status == 'SALE_BLOCKED' || sales.status == 'SALE_FROZEN'   ">
                                 <span ng-if="sales.status == 'SALE_BLOCKED'">
@@ -178,8 +169,9 @@
                                 <td class="text-nowrap">
                                     Sale Image
                                 </td>
-                                <td><a href="javascript: void(0);" class="messaging-img"><img
-                                    ng-src="{{modalDetials.sale_image.imageURL}}"/></a></td>
+                                <td>
+                                    <a href="javascript: void(0);" class="messaging-img"><img ng-src="{{modalDetials.sale_image.imageURL}}" /></a>
+                                </td>
                             </tr>
                             <tr>
                                 <td class="text-nowrap">
@@ -266,8 +258,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="text-nowrap">Product Price </td>
-                                                <td> {{items.price+items.tax_price | currency:currency }} &nbsp (Price:{{items.price
-                                                    | currency:currency }} ,Tax:{{items.tax_price | currency:currency }})</td>
+                                                <td> {{items.price+items.tax_price | currency:currency }} &nbsp (Price:{{items.price | currency:currency }} ,Tax:{{items.tax_price | currency:currency }})</td>
                                             </tr>
                                             <tr>
                                                 <td class="text-nowrap">Variants</td>
@@ -406,9 +397,9 @@
 <!-- End Compose Modal -->
 <!-- Page Scripts -->
 <script>
-    $(function () {
+    $(function() {
 
-        $('.cui-ecommerce--catalog--item--like').on('click', function () {
+        $('.cui-ecommerce--catalog--item--like').on('click', function() {
             $(this).toggleClass('cui-ecommerce--catalog--item--like__selected')
         });
 
@@ -416,7 +407,7 @@
 
     });
 
-    $('#notify-warning').on('click', function () {
+    $('#notify-warning').on('click', function() {
         $.notify({
             title: '<strong>Heads up!</strong>',
             message: 'You can use any of bootstraps other alert styles as well by default.'

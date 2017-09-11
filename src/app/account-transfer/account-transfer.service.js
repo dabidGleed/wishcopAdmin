@@ -29,6 +29,17 @@
               // headers:  
           })
       };
+
+      //service to update status
+      accountTransferServiceMethods.updateStatusRejected = function (id,status) {
+          var finalUrl = baseURL + "accountdetails/"+id+"/update/rejected"
+          return $http({
+              method: 'PUT',
+              url: finalUrl,
+               data: {"reasonToReject":status}
+              // headers:  
+          })
+      };
  
 
 

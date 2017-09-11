@@ -201,6 +201,14 @@
                                         
                                     </select></td>
                             </tr>
+                            <tr ng-show="modalDetials.status == 'REJECTED'">
+                                <td class="text-nowrap">
+                                    Reason To Reject
+                                </td>
+                                <td> <textarea class="form-control" name="reasonToReject" ng-model="modalDetials.Reason">
+                                        
+                                    </textarea></td>
+                            </tr>
 
                         </tbody>
                     </table>

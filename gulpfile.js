@@ -194,12 +194,12 @@ gulp.task('cont:build', function () {
         .pipe(gulp.dest('build/assets'))
         .pipe(reload({stream: true}))
 });
-// gulp.task('compress', function (cb) { 
-//         gulp.src('src/**/*.js')
-//         .pipe(uglify())        
-//         .pipe(gulp.dest('build/assets/common/js/app.min.js'))   
+gulp.task('compress', function (cb) { 
+        gulp.src('src/**/*.js')
+        .pipe(uglify())        
+        .pipe(gulp.dest('build/assets/common/js/app.min.js'))   
 
-// });
+});
 
 /////////////////////////////////////////////////////////////////////////////
 // VENDORS BUILD

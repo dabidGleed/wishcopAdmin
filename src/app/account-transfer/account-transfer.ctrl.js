@@ -38,7 +38,8 @@ app.controller('accountTransferCtrl', ["$location", "$scope", "$rootScope", "acc
             id: modaldetails.id
         });
         if ($scope.filterData[0].status != modaldetails.status) {
-            accountTransferServiceMethods.updateStatus(modaldetails.id).then(function (response) {
+            if(modaldetails.status == "REJECTED"){
+                accountTransferServiceMethods.updateStatusRejected(modaldetails.id,modaldetails.Reason).then(function (response) {
                 if (response.status == 200) {
                     $scope.filterData[0].status = modaldetails.status;
 
@@ -57,6 +58,39 @@ app.controller('accountTransferCtrl', ["$location", "$scope", "$rootScope", "acc
                     });
                 }
             });
+
+            }else if(modaldetails.status == "TRANSFERRED"){
+                accountTransferServiceMethods.updateStatus(modaldetails.id).then(function (response) {
+                if (response.status == 200) {
+                    $scope.filterData[0].status = modaldetails.status;
+
+                    $.notify({
+                        title: '<strong>Success!</strong>',
+                        message: response.data.message
+                    }, {
+                        type: 'success'
+                    });
+                } else {
+                    $.notify({
+                        title: '<strong>Unsuccessful!</strong>',
+                        message: response.data.message
+                    }, {
+                        type: 'danger'
+                    });
+                }
+            });
+
+            }else{
+                $.notify({
+                        title: '<strong>Unsuccessful!</strong>',
+                        message: response.data.message
+                    }, {
+                        type: 'danger'
+                    });
+
+            }
+
+            
 
  
         }

@@ -30,6 +30,19 @@ app.factory('usersService', ['$http','globalVars', function($http,globalVars) {
             }) 
         };
 
+        //service to get user profile Detials
+        usersServiceMethods.userprofileDetials = function(userId) {
+             
+            var finalUrl = baseURL + "vendor/"+userId+"/profile";
+            return $http({
+                method: 'GET',
+                url: finalUrl
+                // data: dataObj,
+                // headers:  
+            }) 
+        };
+
+
          //service to delete user
         usersServiceMethods.deleteUserStatus = function(userId) {
              

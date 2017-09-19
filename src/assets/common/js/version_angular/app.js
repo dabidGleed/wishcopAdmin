@@ -92,6 +92,12 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             controller: "referralsSettingsCtrl"
 
         })
+        .state('main.appSettings', {
+            url: "app-settings",
+            templateUrl: "app-settings/app-settings.html",
+            controller: "appSettingsCtrl"
+
+        })
         .state('login', {
             url: "/login",
             templateUrl: "login/login.html",

@@ -1,0 +1,134 @@
+<div class="page-content-inner">
+
+    <!-- Ecommerce Products List -->
+    <section class="panel panel-with-borders">
+        <div class="panel-heading">
+            <h2>
+                App Settings
+            </h2>
+
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="margin-bottom-50">
+                     
+                        <form name="appSettingsForm" ng-submit="appSettingsForm.$valid && updateContactNumber(appSettings.companyNumber)" novalidate>
+                            <div class="form-group  " ng-class="{'has-danger' : appSettingsForm.$invalid && !appSettingsForm.companyNumber.$pristine}">
+
+                                <label class="form-label  " for="l0">Contact Number   </label>
+
+                                <input type="text" name="companyNumber" ng-model="appSettings.companyNumber" class="form-control " ng-class="{'has-danger' : !appSettingsForm.contactNumber.$pristine}"
+                                    placeholder="Default Input" ng-minlength="10" ng-maxlength="10" ng-pattern="/^[0-9/&quot&quot\\\]\[+()-]+$/"
+                                    required>
+                                <span ng-if="appSettingsForm.companyNumber.$touched || appSettingsForm.$submitted">
+                                    <span ng-if="appSettingsForm.companyNumber.$error.required || appSettingsForm.companyNumber.$error.pattern || appSettingsForm.companyNumber.$error.minlength || appSettingsForm.companyNumber.$error.maxlength ">
+                                     
+                                        <div  class=" form-control-error "   data-error-list>
+                                            <ul>
+                                                <li ng-show="appSettingsForm.companyNumber.$error.required">Enter Valid Number</li>
+                                                <li ng-show="appSettingsForm.companyNumber.$error.pattern || appSettingsForm.companyNumber.$error.minlength || appSettingsForm.companyNumber.$error.maxlength">Enter Valid Contact Number</li>
+                                               
+                                                
+                                            </ul>
+                                       </div>
+                                          </span>
+                                </span>
+                                
+
+                            </div>
+                             
+                            <div class="form-actions">
+                                <button type="submit"   class="btn btn-primary width-150">Update</button>
+                                <!--<button type="button" class="btn btn-default" onclick="$('#form-validation').removeError();">Clear</button>-->
+                            </div>
+                        </form>
+                        <!-- End Horizontal Form -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Ecommerce Products List -->
+
+</div>
+
+<!-- modal popup to list failed transactions-->
+<div class="modal fade modal-size-large" id="transactionsList" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                <h4 class="modal-title" id="myModalLabel">Failed Transactions List</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-inverse">
+                        <thead>
+                            <tr>
+                                <!--<th>S.No</th>-->
+                                <th>Name</th>
+                                <th>Failed Count Limit</th>
+                                <th>Failed Count</th>
+                                <th>Date</th>
+
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="trannsactions in modalDetials   ">
+                                <!--<td>{{itemsInPage *(currentPage-1)+$index+1}}</td>-->
+                                <td>{{trannsactions.name }}</td>
+                                <td>{{trannsactions.failedCountLimit}}</td>
+                                <td>{{trannsactions.failedCount}}</td>
+                                <td>{{trannsactions.updatedAt | date : 'yyyy-MM-dd'}}</td>
+
+                            </tr>
+                            <!--<tr>
+                    <td colspan="4"> <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls></td>
+                    
+                </tr>-->
+                        </tbody>
+                    </table>
+                </div>
+                <!--<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                            <p>{{modalDetials}}</p>-->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                <!--<button type="button" class="btn btn-primary" ng-click="saveStatus(modalDetials)" >Save changes</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Scripts -->
+<script>
+    // $(function () {
+
+    //     // Datatables
+    //     $('#example1').DataTable({
+    //         "lengthMenu": [[50, 100, 200, -1], [50, 100, 200, "All"]],
+    //         responsive: true,
+    //         "autoWidth": false
+    //     });
+
+    // })
+</script>
+<script>
+    $(function () {
+
+        $('.select2').select2();
+        $('.select2-tags').select2({
+            tags: true,
+            tokenSeparators: [',', ' ']
+        });
+
+        $('.selectpicker').selectpicker();
+
+    })
+</script>
+<!-- End Page Scripts -->

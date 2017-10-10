@@ -22,18 +22,18 @@ app.controller('appSettingsCtrl', ["$location", "$scope", "$rootScope", "appSett
             if (response.status == 200) {
 
                 $.notify({
-                    title: '<strong>Success!</strong>' 
+                    title: '<strong>Success!</strong>',
+                    message:'updated' 
                 }, {
-                    type: 'success',
-                    message:'updated'
+                    type: 'success'
                 });
 
             } else {
                 $.notify({
-                    title: '<strong>Unsuccessful!</strong>' 
+                    title: '<strong>Unsuccessful!</strong>',
+                     message:'failed ' 
                 }, {
-                    type: 'danger',
-                     message:'failed '
+                    type: 'danger'
                 });
 
             }

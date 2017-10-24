@@ -74,6 +74,24 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             controller: "paymentGatewayCtrl"
 
         })
+         .state('main.paymenttransactions', {
+            url: "payment-transactions",
+            templateUrl: "payment-transactions/payment-transactions.html",
+            controller: "paymentTransactionsCtrl"
+
+        })
+        .state('main.category', {
+            url: "category",
+            templateUrl: "category/category.html",
+            controller: "categoryCtrl"
+
+        })
+        .state('main.subcategory', {
+            url: "sub-category",
+            templateUrl: "sub-category/sub-category.html",
+            controller: "subCategoryCtrl"
+
+        })
          .state('main.auditlogs', {
             url: "audit-logs",
             templateUrl: "audit-logs/audit-logs.html",
@@ -96,6 +114,12 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             url: "app-settings",
             templateUrl: "app-settings/app-settings.html",
             controller: "appSettingsCtrl"
+
+        })
+        .state('main.orders', {
+            url: "orders",
+            templateUrl: "orders/orders.html",
+            controller: "ordersCtrl"
 
         })
         .state('login', {

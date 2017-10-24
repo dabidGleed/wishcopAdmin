@@ -1,0 +1,282 @@
+<div class="page-content-inner">
+
+    <!-- Ecommerce Products List -->
+    <section class="panel panel-with-borders">
+        <div class="panel-heading">
+            <h2>
+                Payment Transactions List
+            </h2>
+        </div>
+        <div class="panel-body">
+            <h4>
+                Filters
+
+            </h4>
+            <div class="col-xs-12">
+
+                <!--<div class="col-xs-3  ">
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <label class="form-control-label" for="l0">Search </label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" ng-model="search.name" placeholder="Search keyword" id="l0">
+                        </div>
+                    </div>
+                </div>-->
+
+                <div class="col-xs-3">
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <label class="form-control-label" for="l0">Status </label>
+                        </div>
+                        <div class="col-md-9">
+                            <select class="form-control" name="searchstatus" ng-model="search.status">
+                                        <option value="" selected >All</option>
+                                        <option value="PAYMENT_CONFIRMED">Payment Confirmed</option>
+                                        <option value="PAYMENT_FAILED">Payment Failed</option>
+                                        <option value="PAYMENT_PENDING">Payment Pending</option>
+                                        
+                                      
+                                    </select>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-xs-2"><a href="javascript: void(0);" class="pull-right btn btn-primary" ng-click="applyFilters(search)">Apply</a></div>
+                <div class="col-xs-2"><a href="javascript: void(0);" class="pull-right btn btn-primary" ng-click="resetFilters()">Reset</a></div>
+                <div class="col-xs-4 ">
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <label class="form-control-label" for="l0">Total: </label>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-control-label" for="l0">{{totalCount}} </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+
+            <div class=" table-responsive table   margin-bottom-50">
+                <table class="table  ">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Payment Gateway</th>
+                            <th>Payment Id</th>
+                            <!--<th>Transaction Id</th>-->
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Created Date</th>
+                            <th>Bank Details</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr dir-paginate="users in userList  | itemsPerPage:itemsPerPage | orderBy:users.createdAt:asc" current-page="currentPage"
+                            total-items="totalCount" class="{{ users.read? 'active':''}}">
+                            <td>{{itemsPerPage *(currentPage-1)+$index+1}}</td>
+                            <td>{{users.paymentGateway}} </td>
+                            <td>{{users.paymentId}}</td>
+                            <!--<td>{{users.read}}</td>-->
+                            <td>{{users.amount | currency:currency}}</td>
+                            <td><span class="label {{users.status == 'PAYMENT_CONFIRMED' ? 'label-success' : ''}} {{users.status == 'PAYMENT_PENDING' ? 'label-warning':''}} {{users.status == 'PAYMENT_FAILED' ? 'label-danger':''}}">{{users.status.replace("_", " ")}}</span></td>
+                            <td>{{users.createdAt | date : 'yyyy-MM-dd'}}</td>
+                            <td>
+
+                                <button type="button" class="btn btn-rounded btn-secondary-outline margin-inline" data-toggle="modal" data-target="#userData"
+                                    ng-click="userDetails(users);">
+                                           <i class="icmn-pencil5"> </i> View
+                                       </button>
+                            </td>
+                        </tr>
+                        <tr ng-show="!(userList ).length">
+                            <td colspan="7">
+                                <center>No data found</center>
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td colspan="7">
+                                <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <!-- End Ecommerce Products List -->
+
+</div>
+<!-- modal popup to edit users list-->
+<div class="modal fade modal-size-large" id="userData" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                 </button>
+                <h4 class="modal-title" id="myModalLabel">Transaction Detials</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <colgroup>
+                            <col class="col-xs-4">
+                            <col class="col-xs-8">
+                        </colgroup>
+
+                        <tbody>
+
+                            <!--<tr>
+                                <td class="text-nowrap">
+                                    paymentGateway
+                                </td>
+                                <td><pre>{{modalDetials |json }}</pre>  </td>
+                            </tr>-->
+                            <tr>
+                                <td class="text-nowrap">
+                                    Payment Gateway
+                                </td>
+                                <td> {{modalDetials.paymentGateway}} </td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Amount
+                                </td>
+                                <td> {{modalDetials.amount | currency:currency}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Status
+                                </td>
+                                <td <span class="label {{modalDetials.status == 'PAYMENT_CONFIRMED' ? 'label-success' : ''}} {{modalDetials.status == 'PAYMENT_PENDING' ? 'label-warning':''}} {{modalDetials.status == 'PAYMENT_FAILED' ? 'label-danger':''}}">{{modalDetials.status.replace("_", " ");}}<span></td>
+                            </tr>
+
+                            <tr>
+                                <td class="text-nowrap">
+                                    Update History
+                                </td>
+                                <td>  
+                                    <table class="table table-inverse" ng-repeat="history in modalDetials.updateHistory  ">
+                                        <tbody>
+                                            <tr ng-repeat="(key, value) in history ">
+                                                <td>{{key}} </td>
+                                                <td>{{value}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Shipping Address
+                                </td>
+                                <td>
+                                    <table class="table table-inverse">
+                                        <tbody>
+                                            <tr ng-repeat="(key, value) in modalDetials.shipping_address ">
+                                                <td>{{key}} </td>
+                                                <td>{{value}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Created On
+                                </td>
+                                <td>{{modalDetials.createdAt | date : 'yyyy-MM-dd'}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Payment Id
+                                </td>
+                                <td>{{modalDetials.paymentId}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Payment Details
+                                </td>
+                                <td>
+                                    <table class="table table-inverse">
+                                        <tbody>
+                                            <tr ng-repeat="(key, value) in modalDetials.payment_details ">
+                                                <td>{{key}} </td>
+                                                <td>{{value}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="text-nowrap">
+                                    Order Details
+                                </td>
+                                <td>
+                                    <table class="table table-inverse">
+
+                                        <tbody>
+                                            <tr>
+                                                <td>Order Total </td>
+                                                <td>{{modalDetials.order.order_total}}</td>
+                                            </tr>
+                                            <tr ng-repeat="sales in modalDetials.order.sales ">
+                                                <td>Title </td>
+                                                <td>{{sales.title}}</td>
+                                            </tr>
+                                             
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+                <!--<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                            <p>{{modalDetials}}</p>-->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Scripts -->
+<script>
+    // $(function () {
+
+    //     // Datatables
+    //     $('#example1').DataTable({
+    //         "lengthMenu": [[50, 100, 200, -1], [50, 100, 200, "All"]],
+    //         responsive: true,
+    //         "autoWidth": false
+    //     });
+
+    // })
+</script>
+<script>
+    $(function () {
+
+        $('.select2').select2();
+        $('.select2-tags').select2({
+            tags: true,
+            tokenSeparators: [',', ' ']
+        });
+
+        $('.selectpicker').selectpicker();
+
+    })
+</script>
+<!-- End Page Scripts -->

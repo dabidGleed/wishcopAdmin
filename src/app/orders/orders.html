@@ -68,10 +68,10 @@
                         <tr dir-paginate="users in userList  | itemsPerPage:itemsPerPage | orderBy:users.createdAt:asc" current-page="currentPage"
                             total-items="totalCount">
                             <!--<td >{{itemsPerPage *(currentPage-1)+$index+1}}</td>-->
-                            <!-- <td colspan="6">
+                            <td colspan="6">
                                 <table class="table  ">
                                     <tbody>
-                                        <tr> -->
+                                        <tr>
                                             <td>{{itemsPerPage *(currentPage-1)+$index+1}}</td>
                                             <td>{{users.id}} </td>
                                             <td>{{users.order_total | currency:currency}}</td>
@@ -97,10 +97,10 @@
                                                         </button></td>
                                         </tr>
 
-                                    <!-- </tbody>
+                                    </tbody>
                                 </table>
                             </td>
-                        </tr> -->
+                        </tr>
                         <tr ng-show="!(userList ).length">
                             <td colspan="6">
                                 <center>No data found</center>

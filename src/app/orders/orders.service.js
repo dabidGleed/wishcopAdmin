@@ -9,7 +9,13 @@
 
       //service to get all payment transactions list
       ordersServiceMethods.getTransactionsList = function (page, searchData) {
-           var finalUrl = baseURL + "admin/list/all/orders?limit=15&sort=createdAt&skip=" + page  ;
+          var query = "";
+          if (searchData.name == "") {
+              query = "";
+          } else {
+              query = "&searchString="+searchData.name;
+          } 
+           var finalUrl = baseURL + "admin/list/all/orders?limit=15&sort=createdAt&skip=" + page +query  ;
           return $http({
               method: 'GET',
               url: finalUrl

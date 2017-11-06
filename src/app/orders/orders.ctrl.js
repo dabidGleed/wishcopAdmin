@@ -8,12 +8,12 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
     $scope.itemsPerPage = 15;
     $scope.totalCount = 0;
     $scope.DeliveredDa = [];
-    // $scope.search = {
-    //     status: ""
-    // };
-    // $scope.localSearch = {
-    //     status: ""
-    // };
+    $scope.search = {
+        name: ""
+    };
+    $scope.localSearch = {
+        name: ""
+    };
 
     // get account transfers list
     $scope.getTransactionsList = function (data,searchData) {
@@ -35,10 +35,10 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
     // users list filters
     $scope.resetFilters = function () {
         $scope.search = {
-            status: ""
+            name: ""
         };
         $scope.localSearch = {
-        status: ""
+        name: ""
     };
     $scope.getTransactionsList(0,$scope.localSearch);
     }

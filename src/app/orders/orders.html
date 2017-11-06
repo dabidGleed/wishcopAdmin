@@ -17,7 +17,7 @@
                         </div>
                         <div class="col-md-9">
                             <input type="text" class="form-control" name="searchName" ng-model="search.name">
-                                        
+
                         </div>
                     </div>
 
@@ -40,7 +40,17 @@
 
             <div class=" table-responsive table   margin-bottom-50">
                 <table class="table  ">
-                    
+                    <!-- <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>OrderID</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Created Date</th>
+                            <th>Bank Details</th>
+
+                        </tr>
+                    </thead> -->
 
                     <tbody>
                         <tr dir-paginate="users in userList  | itemsPerPage:itemsPerPage | orderBy:users.createdAt:asc" current-page="currentPage"
@@ -48,20 +58,20 @@
                             <!--<td >{{itemsPerPage *(currentPage-1)+$index+1}}</td>-->
                             <td colspan="6">
                                 <table class="table  ">
-                                     <thead ng-if="$index == 0">
-                                        <tr>
-                                            <th>S.No</th>
-                                            <th>OrderID</th>
-                                            <th>Amount</th>
-                                            <th>Status</th>
-                                            <th>Created Date</th>
-                                            <th> Details</th>
+                                  <thead ng-if="$index == 0">
+                                      <tr>
+                                          <th width="80px">S.No</th>
+                                          <th>OrderID</th>
+                                          <th>Amount</th>
+                                          <th>Status</th>
+                                          <th>Created Date</th>
+                                          <th>Bank Details</th>
 
-                                        </tr>
-                                    </thead>
+                                      </tr>
+                                  </thead>
                                     <tbody>
                                         <tr>
-                                            <td>{{itemsPerPage *(currentPage-1)+$index+1}}</td>
+                                            <td width="80">{{itemsPerPage *(currentPage-1)+$index+1}}</td>
                                             <td>{{users.id}} </td>
                                             <td>{{users.order_total | currency:currency}}</td>
                                             <td><span class="label {{users.status == 'PAYMENT_CONFIRMED' ? 'label-success' : ''}} {{users.status == 'PAYMENT_PENDING' ? 'label-warning':''}} {{users.status == 'PAYMENT_FAILED' ? 'label-danger':''}}">{{users.status.replace("_", " ")}}</span></td>
@@ -148,7 +158,8 @@
                                                       # {{y.trackListNew.ORDER_SHIPPED[0].tracking_details.trackingId}}<br>
                                                             {{y.trackListNew.ORDER_SHIPPED[0].status_updated_at |
                                                             date:'dd/MM/yyyy'}}</span></span></a></li>
-                                                    <li role="tab"   ng-click=" (y.trackListNew.ORDER_SHIPPED[0].status == 'ORDER_SHIPPED') && (y.trackListNew.ORDER_DELIVERED[0].status != 'ORDER_DELIVERED') && confirmDeliveryStatus(y.id,saleData.sales.order_item_id, saleData.id, saleData.sales.id)" class="last" ng-class="y.trackListNew.ORDER_DELIVERED[0].status == 'ORDER_DELIVERED' ? ' ' : 'disabled'" ng-hide="DeliveredDa[$index]"><a><span class="current-info audible">current step: </span><span class="number">3.</span> <i class="icmn-circles cui-wizard--steps--icon"></i> <span class="cui-wizard--steps--title"> </span>
+                                                    <li role="tab"   ng-click=" (y.trackListNew.ORDER_SHIPPED[0].status == 'ORDER_SHIPPED') && (y.trackListNew.ORDER_DELIVERED[0].status != 'ORDER_DELIVERED') && confirmDeliveryStatus(y.id,saleData.sales.order_item_id, saleData.id, saleData.sales.id)" class="last" ng-class="y.trackListNew.ORDER_DELIVERED[0].status == 'ORDER_DELIVERED' ? ' ' : 'disabled'" ng-hide="DeliveredDa[$index]">
+                                                      <a ng-class="((y.trackListNew.ORDER_SHIPPED[0].status == 'ORDER_SHIPPED') && (y.trackListNew.ORDER_DELIVERED[0].status != 'ORDER_DELIVERED')) ? 'disableHover' : '' "><span class="current-info audible">current step: </span><span class="number">3.</span> <i class="icmn-circles cui-wizard--steps--icon"></i> <span class="cui-wizard--steps--title"></span>
                                                       <span ng-hide="y.trackListNew.ORDER_DELIVERED[0].status">
                                                                 Delivery
                                                                 <br>

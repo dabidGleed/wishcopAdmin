@@ -8,10 +8,10 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
     $scope.itemsPerPage = 15;
     $scope.totalCount = 0;
     $scope.DeliveredDa = [];
-    $scope.search = { 
+    $scope.search = {
         name: ""
     };
-    $scope.localSearch = { 
+    $scope.localSearch = {
         name: ""
     };
 
@@ -26,18 +26,18 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
 
     }
     $scope.getTransactionsList(0,$scope.localSearch);
-    
-      
+
+
     $scope.pageChanged = function (newPage) {
         var pageDataList = (newPage-1)*($scope.itemsPerPage);
         $scope.getTransactionsList(pageDataList,$scope.localSearch);
     };
     // users list filters
     $scope.resetFilters = function () {
-        $scope.search = { 
+        $scope.search = {
             name: ""
         };
-        $scope.localSearch = { 
+        $scope.localSearch = {
         name: ""
     };
     $scope.getTransactionsList(0,$scope.localSearch);
@@ -73,17 +73,17 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
                                   if(item3.status == "ORDER_CANCELED"){
                                       item2.trackListNew.ORDER_CANCELED.push(item3);
                                   }
-                            
+
                     })
                 })
-                    
-                
+
+
            });
-        })  
+        })
         // $scope.modalDetials = {};
         // angular.copy(userData, $scope.modalDetials);
     }
-   
+
    $scope.confirmDeliveryStatus= function(varientId, orderItemId, orderId, saleId){
           $scope.deliveryData = {};
           $scope.deliveryData.varientId =varientId;
@@ -103,7 +103,7 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
             },
             function (isConfirm) {
                 if (isConfirm) {
-                   
+
                     ordersServiceMethods.updateOrderDelivery(varientId, orderItemId, orderId, saleId).then(function (response) {
                         if (response.status == 200) {
                              $scope.userDetails(orderId,orderItemId);
@@ -126,10 +126,10 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
                     });
 
                 } else {
-                  
+
                 }
             });
-             
+
         }
 
 

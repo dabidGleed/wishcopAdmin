@@ -8,32 +8,46 @@
             </h2>
         </div>
         <div class="panel-body">
-            <h4>  Filters  </h4>
+            <h4>  Filters  
+                <div class="form-group row pull-right col-md-6">
+                    <div class="col-md-2">
+                        <span>Total: </span>
+                    </div>
+                    <div class="col-md-3">
+                        <label>{{totalCount}} </label>
+                    </div>
+                </div>
+            </h4>
             <div class="col-xs-12">
                <div class="col-xs-5">
                     <div class="form-group row">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label class="form-control-label" for="l0">Order ID </label>
                         </div>
-                        <div class="col-md-9">
+                        <div class="col-md-8">
                             <input type="text" class="form-control" name="searchName" ng-model="search.name">
 
                         </div>
                     </div>
 
                 </div>
-                <div class="col-xs-2"><a href="javascript: void(0);" class="pull-right btn btn-primary" ng-click="applyFilters(search)">Apply</a></div>
-                <div class="col-xs-2"><a href="javascript: void(0);" class="pull-right btn btn-primary" ng-click="resetFilters()">Reset</a></div>
-                <div class="col-xs-3 ">
+                <div class="col-xs-1"><a href="javascript: void(0);" class="btn btn-primary" ng-click="applyFilters(search)">Apply</a></div>
+                
+                <div class="col-xs-5">
                     <div class="form-group row">
                         <div class="col-md-3">
-                            <label class="form-control-label" for="l0">Total: </label>
+                            <label class="form-control-label" for="l0">Vendors </label>
                         </div>
-                        <div class="col-md-3">
-                            <label class="form-control-label" for="l0">{{totalCount}} </label>
+                        <div class="col-md-9">
+                            <select ng-model="search.vendor" ng-options="vendors.id as vendors.firstName for vendors in vendorList track by vendors.id" class="form-control" name="searchvendor">
+
+                                <option value="" selected>All</option>
+                            </select>
                         </div>
                     </div>
                 </div>
+                <div class="col-xs-1"><a href="javascript: void(0);" class="btn btn-primary" ng-click="resetFilters()">Reset</a></div>
+               
             </div>
         </div>
         <div class="panel-body">

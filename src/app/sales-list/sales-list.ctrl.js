@@ -26,7 +26,8 @@ app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesServ
     $scope.search = {
         name: "",
         vendor: "",
-        status: ""
+        status: "",
+        sale_type: ""
     };
     $scope.$watch("search.vendor", function() {
 

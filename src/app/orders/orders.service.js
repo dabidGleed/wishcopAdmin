@@ -10,11 +10,13 @@
       //service to get all payment transactions list
       ordersServiceMethods.getTransactionsList = function (page, searchData) {
           var query = "";
-          if (searchData.name == "") {
-              query = "";
-          } else {
-              query = "&searchString="+searchData.name;
-          } 
+          if (searchData.name != "") {
+            query = "&searchString="+searchData.name;
+          }
+
+          if (searchData.vendor != "") {
+            query = "&vendorId="+searchData.vendor;
+          }
            var finalUrl = baseURL + "admin/list/all/orders?limit=15&sort=createdAt&skip=" + page +query  ;
           return $http({
               method: 'GET',
@@ -23,7 +25,16 @@
               // headers:  
           })
       };
+      ordersServiceMethods.getVendorsList = function () {
 
+          var finalUrl = baseURL + "admin/vendor/list"
+          return $http({
+              method: 'GET',
+              url: finalUrl
+              // data: dataObj,
+              // headers:  
+          })
+      };
       //service to get order Details
       ordersServiceMethods.getOrderDetails = function (orderId,saleId) {
            var finalUrl = baseURL + 'orders/' + orderId + '/' + saleId + '/trackorder'  ;

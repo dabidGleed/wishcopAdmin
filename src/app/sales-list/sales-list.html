@@ -53,7 +53,7 @@
                         </div>
                         <div class="col-md-9">
                             <select class="form-control" name="searchstatus" ng-model="search.status">
-                                
+
                                 <option value="" selected>All</option>
                                 <option value="ONGOING">Ongoing</option>
                                 <option value="UPCOMING">Upcoming</option>
@@ -76,7 +76,7 @@
             <div class="cui-ecommerce--catalog">
                 <div class="row">
                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12" ng-repeat="sales in salesList  | filter :{ title : search.name,owner:search.vendor,status:search.status,sale_type:search.sale_type}">
-                        <div class="cui-ecommerce--catalog--item">
+                        <div class="cui-ecommerce--catalog--item prd-block">
                             <span class="cui-ecommerce--catalog--item--status--title" ng-class="sales.status" ng-if="sales.status == 'SALE_APPROVED'">APPROVED</span>
                             <span class="cui-ecommerce--catalog--item--status--title" ng-class="sales.status" ng-if="sales.status == 'SALE_REJECTED'">REJECTED</span>
                             <span class="cui-ecommerce--catalog--item--status--title" ng-class="sales.status" ng-if="sales.status == 'SALE_FROZEN'">FROZEN</span>
@@ -117,8 +117,8 @@
                                     <span data-toggle="tooltip" data-placement="right" title="Size XL">XL</span>
                                 </div> -->
                                 <div star-rating stars="5" outer-star-selection="stars" outer-percent="rating" star-radius="10" rating-stars="{{sales.ratings}}" sel-color="gold" back-color="white"></div>
-
-                                <span ng-if="sales.status == 'UPCOMING' || sales.status == 'ONGOING' || sales.status == 'SALE_BLOCKED' || sales.status == 'SALE_FROZEN'   ">
+                                <span class="prd-hide" ng-if="sales.status != 'UPCOMING' && sales.status != 'ONGOING' && sales.status != 'SALE_BLOCKED' && sales.status != 'SALE_FROZEN'   "></span>
+                                <span class="prd-block" ng-if="sales.status == 'UPCOMING' || sales.status == 'ONGOING' || sales.status == 'SALE_BLOCKED' || sales.status == 'SALE_FROZEN'   ">
                                 <span ng-if="sales.status == 'SALE_BLOCKED'">
                                 <button type="button" id="notify-warning" class="btn btn-sm   margin-inline btn-warning"
                                         ng-click="unBlockSaleConfirm(sales)"><span ng-if="sales.sale_type==='NORMAL'">UnBlock</span>

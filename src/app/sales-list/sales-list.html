@@ -6,7 +6,18 @@
             <h2>Sales List</h2>
         </div>
         <div class="panel-body">
-            <h4>Filters
+            <h4>Filters  <div class="form-group row pull-right col-md-6">
+                <div class="col-md-3">
+                    <small>Sale Type </small>
+                </div>
+                <div class="col-md-3">
+                    <select ng-model="search.sale_type" class="form-control" name="saleType">
+                        <option value="" selected>All</option>
+                        <option value="NORMAL" selected>NORMAL</option>
+                        <option value="BULK" selected>BULK</option>
+                    </select>
+                </div>
+            </div>
             </h4>
             <!--<pre>{{salesList |json}}</pre>-->
 
@@ -51,6 +62,7 @@
                                 <option value="SALE_FROZEN">Frozen</option>
                                 <option value="SALE_REJECTED">Rejected</option>
                                 <option value="SALE_BLOCKED">Blocked</option>
+                                <option value="SALE_BLOCKED">Deactivated</option>
                             </select>
                         </div>
                     </div>
@@ -63,7 +75,7 @@
         <div class="panel-body">
             <div class="cui-ecommerce--catalog">
                 <div class="row">
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12" ng-repeat="sales in salesList  | filter :{ title : search.name,owner:search.vendor,status:search.status}">
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12" ng-repeat="sales in salesList  | filter :{ title : search.name,owner:search.vendor,status:search.status,sale_type:search.sale_type}">
                         <div class="cui-ecommerce--catalog--item">
                             <span class="cui-ecommerce--catalog--item--status--title" ng-class="sales.status" ng-if="sales.status == 'SALE_APPROVED'">APPROVED</span>
                             <span class="cui-ecommerce--catalog--item--status--title" ng-class="sales.status" ng-if="sales.status == 'SALE_REJECTED'">REJECTED</span>
@@ -109,12 +121,14 @@
                                 <span ng-if="sales.status == 'UPCOMING' || sales.status == 'ONGOING' || sales.status == 'SALE_BLOCKED' || sales.status == 'SALE_FROZEN'   ">
                                 <span ng-if="sales.status == 'SALE_BLOCKED'">
                                 <button type="button" id="notify-warning" class="btn btn-sm   margin-inline btn-warning"
-                                        ng-click="unBlockSaleConfirm(sales)">UnBlock
+                                        ng-click="unBlockSaleConfirm(sales)"><span ng-if="sales.sale_type==='NORMAL'">UnBlock</span>
+                                        <span ng-if="sales.sale_type==='BULK'">Activate</span>
                                 </button>
                                </span>
                                 <span ng-if="sales.status != 'SALE_BLOCKED'">
                                 <button type="button" id="notify-warning" class="btn btn-sm   margin-inline btn-warning"
-                                        ng-click="blockSaleConfirm(sales)">Block
+                                        ng-click="blockSaleConfirm(sales)"><span ng-if="sales.sale_type==='NORMAL'">Block</span>
+                                        <span ng-if="sales.sale_type==='BULK'">Deactivate</span>
                                 </button>
                                </span>
                                 </span>
@@ -355,7 +369,8 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">Please explain reason for Block</h4>
+                <h4 class="modal-title">Please explain reason for <span ng-if="saleData.sale_type==='NORMAL'">Block</span>
+                    <span ng-if="saleData.sale_type==='BULK'">Deactivate</span></h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
@@ -365,7 +380,6 @@
             <div class="modal-footer text-left">
                 <button type="button" class="btn width-150 btn-primary" ng-click="confirmDelete(reasonToBlock)"> Confirm</button>
                 <button type="button" class="btn width-150 btn-default" ng-click="closeButton()"> close</button>
-
             </div>
         </div>
     </div>
@@ -379,7 +393,8 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">Please explain reason for Un Block</h4>
+                <h4 class="modal-title">Please explain reason for <span ng-if="saleDataUnBlock.sale_type==='NORMAL'">UnBlock</span>
+                    <span ng-if="saleDataUnBlock.sale_type==='BULK'">Activate</span></h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">

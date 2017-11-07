@@ -41,3 +41,9 @@
 .cui-ecommerce--catalog--item--status--title.SALE_APPROVED,.cui-ecommerce--catalog--item--status--title.ACTIVE{background: #008000;}
 .cui-ecommerce--catalog--item--status--title.SALE_FROZEN{background: #01a8fe;}
 .cui-ecommerce--catalog--item--status--title.SALE_BLOCKED{background: #514d6a;}
+.prd-block{display: inline-block;margin-top: 10px;
+    span{display: inline-block;}
+}
+.prd-hide{display: block;height: 51px;}
+.cui-ecommerce--catalog--item .cui-ecommerce--catalog--item--status--title.sale-status{position: absolute;top: 14px;left: -23px;}
+.cui-ecommerce--catalog--item.prd-block{height: 455px;width: 100%;}

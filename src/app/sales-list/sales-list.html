@@ -6,11 +6,12 @@
             <h2>Sales List</h2>
         </div>
         <div class="panel-body">
-            <h4>Filters  <div class="form-group row pull-right col-md-6">
-                <div class="col-md-3">
+            <h4 class="col-md-6 col-sm-6 col-xs-6">Filters</h4>
+            <div class="form-group order-total row pull-right col-md-6">
+                <div class="col-md-4 col-sm-4 col-xs-6">
                     <small>Sale Type </small>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4 col-sm-4 col-xs-6">
                     <select ng-model="search.sale_type" class="form-control" name="saleType">
                         <option value="" selected>All</option>
                         <option value="NORMAL" selected>NORMAL</option>
@@ -18,58 +19,57 @@
                     </select>
                 </div>
             </div>
-            </h4>
             <!--<pre>{{salesList |json}}</pre>-->
+            <div class="row">
+              <div class="col-xs-12">
+                  <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                      <div class="form-group row">
+                          <div class="col-md-3 col-sm-3 col-xs-3">
+                              <label class="form-control-label" for="l0">Search </label>
+                          </div>
+                          <div class="col-md-6 col-sm-6 col-xs-9">
+                              <input type="text" class="form-control" ng-model="search.name" placeholder="Search keyword" id="l0">
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                      <div class="form-group row">
+                          <div class="col-md-3 col-sm-3 col-xs-3">
+                              <label class="form-control-label" for="l0">Vendors </label>
+                          </div>
+                          <div class="col-md-6 col-sm-6 col-xs-9">
+                              <select ng-model="search.vendor" ng-options="vendors.id as vendors.firstName for vendors in vendorList track by vendors.id" class="form-control" name="searchvendor">
+                                  <option value="" selected>All</option>
+                              </select>
+                          </div>
+                      </div>
 
-            <div class="col-xs-12">
-                <div class="col-xs-3  ">
-                    <div class="form-group row">
-                        <div class="col-md-3">
-                            <label class="form-control-label" for="l0">Search </label>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" ng-model="search.name" placeholder="Search keyword" id="l0">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-4">
-                    <div class="form-group row">
-                        <div class="col-md-3">
-                            <label class="form-control-label" for="l0">Vendors </label>
-                        </div>
-                        <div class="col-md-9">
-                            <select ng-model="search.vendor" ng-options="vendors.id as vendors.firstName for vendors in vendorList track by vendors.id" class="form-control" name="searchvendor">
+                  </div>
+                  <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                      <div class="form-group row">
+                          <div class="col-md-3 col-sm-3 col-xs-3">
+                              <label class="form-control-label" for="l0">Status </label>
+                          </div>
+                          <div class="col-md-6 col-sm-6 col-xs-9">
+                              <select class="form-control" name="searchstatus" ng-model="search.status">
 
-                                <option value="" selected>All</option>
-                            </select>
-                        </div>
-                    </div>
+                                  <option value="" selected>All</option>
+                                  <option value="ONGOING">Ongoing</option>
+                                  <option value="UPCOMING">Upcoming</option>
+                                  <option value="COMPLETED">Completed</option>
+                                  <option value="SALE_APPROVED">Approved</option>
+                                  <option value="SALE_FROZEN">Frozen</option>
+                                  <option value="SALE_REJECTED">Rejected</option>
+                                  <option value="SALE_BLOCKED">Blocked</option>
+                                  <option value="SALE_BLOCKED">Deactivated</option>
+                              </select>
+                          </div>
+                      </div>
 
-                </div>
-                <div class="col-xs-3">
-                    <div class="form-group row">
-                        <div class="col-md-3">
-                            <label class="form-control-label" for="l0">Status </label>
-                        </div>
-                        <div class="col-md-9">
-                            <select class="form-control" name="searchstatus" ng-model="search.status">
+                  </div>
 
-                                <option value="" selected>All</option>
-                                <option value="ONGOING">Ongoing</option>
-                                <option value="UPCOMING">Upcoming</option>
-                                <option value="COMPLETED">Completed</option>
-                                <option value="SALE_APPROVED">Approved</option>
-                                <option value="SALE_FROZEN">Frozen</option>
-                                <option value="SALE_REJECTED">Rejected</option>
-                                <option value="SALE_BLOCKED">Blocked</option>
-                                <option value="SALE_BLOCKED">Deactivated</option>
-                            </select>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="col-xs-2"><a href="javascript: void(0);" class="pull-right btn btn-primary" ng-click="resetFilters()">Reset</a></div>
+                  <div class="col-xs-4"><a href="javascript: void(0);" class="pull-right btn btn-primary" ng-click="resetFilters()">Reset</a></div>
+              </div>
             </div>
         </div>
         <div class="panel-body">

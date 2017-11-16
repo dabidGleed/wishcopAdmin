@@ -7,17 +7,20 @@
         </div>
         <div class="panel-body">
             <h4 class="col-md-6 col-sm-6 col-xs-6">Filters</h4>
-            <div class="form-group order-total row pull-right col-md-6">
-                <div class="col-md-4 col-sm-4 col-xs-6">
+            <div class="form-group order-total col-md-6 col-xs-12">
+              <div class="form-grou row">
+                <div class="col-md-3 col-sm-3 col-xs-3">
                     <small>Sale Type </small>
                 </div>
-                <div class="col-md-4 col-sm-4 col-xs-6">
+                <div class="col-md-6 col-sm-6 col-xs-9">
                     <select ng-model="search.sale_type" class="form-control" name="saleType">
                         <option value="" selected>All</option>
                         <option value="NORMAL" selected>NORMAL</option>
                         <option value="BULK" selected>BULK</option>
                     </select>
                 </div>
+              </div>
+
             </div>
             <!--<pre>{{salesList |json}}</pre>-->
             <div class="row">
@@ -68,7 +71,7 @@
 
                   </div>
 
-                  <div class="col-xs-4"><a href="javascript: void(0);" class="pull-right btn btn-primary" ng-click="resetFilters()">Reset</a></div>
+                  <div class="col-xs-4 pull-right"><a href="javascript: void(0);" class="pull-right btn btn-primary" ng-click="resetFilters()">Reset</a></div>
               </div>
             </div>
         </div>

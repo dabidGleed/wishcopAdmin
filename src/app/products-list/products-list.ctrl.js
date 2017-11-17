@@ -3,26 +3,38 @@
  */
 
 app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "productsService", "$sce", "$filter", function ($location, $scope, $rootScope, productsServiceMethods, $sce, $filter) {
+  $scope.currentPage = 1;
+  $scope.itemsPerPage = 16;
+  $scope.totalCount = 0;
+  $scope.search = {
+      name: "",
+      vendor: "",
+      status: ""
+  };
+  $scope.localSearch = {
+      name: "",
+      vendor:"",
+      status: ""
+  };
+  $scope.getProductsList = function (data, searchData) {
 NProgress.start();
-    productsServiceMethods.getProductsList().then(function (response) {
-        $scope.productsList = response.data;
+    productsServiceMethods.getProductsList(data, searchData).then(function (response) {
+        console.log(response.data);
+        $scope.productsList = response.data.products;
+        $scope.totalCount = response.data.count;
         angular.forEach($scope.productsList, function (value, key) {
             value.htmlDesc = $sce.trustAsHtml(value.description);
         })
          NProgress.done();
     });
-
-
+  }
+  $scope.getProductsList(0, $scope.localSearch);
     productsServiceMethods.getVendorsList().then(function (response) {
         $scope.vendorList = response.data;
 
     });
 
-    $scope.search = {
-        name: "",
-        vendor: "",
-        status: ""
-    };
+
 
     // users list filters
     $scope.resetFilters = function () {
@@ -32,12 +44,34 @@ NProgress.start();
             status: ""
         };
     }
+    $scope.pageChanged = function (newPage) {
+        var pageDataList = (newPage - 1) * ($scope.itemsPerPage);
+        $scope.getProductsList(pageDataList, $scope.localSearch);
+    };
+    $scope.$watch("search.staus", function () {
+
+        if ($scope.search.status == null) {
+            $scope.search.status = "";
+        }
+        console.log(search);
+        angular.copy($scope.search, $scope.localSearch);
+        $scope.getProductsList(0, $scope.localSearch);
+
+    });
 
     $scope.$watch("search.vendor", function () {
 
         if ($scope.search.vendor == null) {
             $scope.search.vendor = "";
         }
+        angular.copy($scope.search, $scope.localSearch);
+        $scope.getProductsList(0, $scope.localSearch);
+
+    });
+    $scope.$watch("search.name", function () {
+      $scope.search.vendor = "";
+      angular.copy($scope.search, $scope.localSearch);
+      $scope.getProductsList(0, $scope.localSearch);
     });
 
     //modal popup details of the Product
@@ -334,5 +368,5 @@ NProgress.start();
         }
         NProgress.done();
      }
-    
+
 }]);

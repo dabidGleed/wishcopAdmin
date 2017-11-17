@@ -80,11 +80,12 @@
                   </div>
             </div>
         </div>
-        <div class="panel-body" >
-            <div class="cui-ecommerce--catalog" >
+        <div class="panel-body">
+            <div class="cui-ecommerce--catalog">
                 <div class="row">
                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12"
-                         ng-repeat="products in productsList  | filter :{ title : search.name,owner:search.vendor,status:search.status}">
+                         dir-paginate="products in productsList  | itemsPerPage:itemsPerPage" current-page="currentPage"
+                             total-items="totalCount">
                         <div class="cui-ecommerce--catalog--item">
                             <span class="cui-ecommerce--catalog--item--status--title" ng-class="products.status"
                                   ng-if="products.status == 'DELETED'">Deleted</span>
@@ -117,11 +118,14 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
+        <div align="center">
+        <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+    </div>
     </section>
+
     <!-- End Ecommerce Products Catalog -->
 
 </div>

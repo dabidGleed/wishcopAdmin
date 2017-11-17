@@ -22,7 +22,7 @@
               method: 'GET',
               url: finalUrl
               // data: dataObj,
-              // headers:  
+              // headers:
           })
       };
       ordersServiceMethods.getVendorsList = function () {
@@ -32,7 +32,7 @@
               method: 'GET',
               url: finalUrl
               // data: dataObj,
-              // headers:  
+              // headers:
           })
       };
       //service to get order Details
@@ -42,7 +42,7 @@
               method: 'GET',
               url: finalUrl
               // data: dataObj,
-              // headers:  
+              // headers:
           })
       };
 
@@ -55,7 +55,7 @@
               data: {
                   "ids": [id]
               }
-              // headers:  
+              // headers:
           })
       };
 
@@ -63,7 +63,7 @@
       ordersServiceMethods.updateOrderDelivery = function (varientId, orderItemId, orderId, saleId) {
           var finalUrl = baseURL + "admin/"+orderId+"/updateto/delivered";
           var variendData = [];
-              variendData[0]=varientId;  
+              variendData[0]=varientId;
           return $http({
               method: 'POST',
               url: finalUrl,
@@ -71,9 +71,9 @@
                orderItemId: orderItemId,
                saleId: saleId,
                status: "ORDER_DELIVERED",
-               variants: variendData 
+               variants: variendData
                   }
-              // headers:  
+              // headers:
           })
       };
 

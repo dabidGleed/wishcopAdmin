@@ -50,6 +50,16 @@ app.factory('productsService', ['$http','globalVars', function($http,globalVars)
             }) 
         };
 
+        productsServiceMethods.bulkUpload = function(dataObj) {
+            
+           var finalUrl = baseURL + "products/upload/bulk"
+           return $http({
+               method: 'POST',
+               url: finalUrl,
+               data: dataObj
+               // headers:  
+           }) 
+       };
 
          
         return productsServiceMethods;

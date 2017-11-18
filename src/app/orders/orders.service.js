@@ -17,7 +17,7 @@
           if (searchData.vendor != "") {
             query = "&vendorId="+searchData.vendor;
           }
-           var finalUrl = baseURL + "admin/list/all/orders?limit=15&sort=createdAt&skip=" + page +query  ;
+           var finalUrl = baseURL + "admin/list/all/orders?limit=15&sort=createdAt DESC&skip=" + page +query  ;
           return $http({
               method: 'GET',
               url: finalUrl

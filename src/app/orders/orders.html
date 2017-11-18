@@ -71,7 +71,7 @@
                     </thead> -->
 
                     <tbody>
-                        <tr dir-paginate="users in userList  | itemsPerPage:itemsPerPage | orderBy:users.createdAt:asc" current-page="currentPage"
+                        <tr dir-paginate="users in userList  | itemsPerPage:itemsPerPage | orderBy:users.createdAt" current-page="currentPage"
                             total-items="totalCount">
                             <!--<td >{{itemsPerPage *(currentPage-1)+$index+1}}</td>-->
                             <td colspan="6">

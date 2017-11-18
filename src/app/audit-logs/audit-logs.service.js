@@ -7,16 +7,15 @@
       var baseURL = globalVars.baseURL;
 
       //service to get all Audit Logs list
-      auditLogsServiceMethods.getAuditLogslist = function () {
+      auditLogsServiceMethods.getAuditLogslist = function (page) {
 
-          var finalUrl = baseURL + "admin/audit/logs"
+          var finalUrl = baseURL + "admin/audit/logs?limit=15&skip=" + page  ;
           return $http({
               method: 'GET',
               url: finalUrl
               // data: dataObj,
-              // headers:  
+              // headers:
           })
       };
-
       return auditLogsServiceMethods;
   }])

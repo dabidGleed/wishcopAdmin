@@ -39,18 +39,18 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
 
 
     // users list filters
-    $scope.resetFilters = function () {
+    $scope.resetFilters = function() {
         $scope.search = {
             name: "",
             vendor: "",
             status: ""
         };
     }
-    $scope.pageChanged = function (newPage) {
+    $scope.pageChanged = function(newPage) {
         var pageDataList = (newPage - 1) * ($scope.itemsPerPage);
         $scope.getProductsList(pageDataList, $scope.localSearch);
     };
-    $scope.$watch("search.staus", function () {
+    $scope.$watch("search.status", function() {
 
         if ($scope.search.status == null) {
             $scope.search.status = "";
@@ -60,14 +60,12 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
 
     });
 
-    $scope.$watch("search.vendor", function () {
-
+    $scope.$watch("search.vendor", function() {
         if ($scope.search.vendor == null) {
             $scope.search.vendor = "";
         }
         angular.copy($scope.search, $scope.localSearch);
         $scope.getProductsList(0, $scope.localSearch);
-
     });
     $scope.$watch("search.name", function () {
         $scope.search.vendor = "";
@@ -76,7 +74,7 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
     });
 
     //modal popup details of the Product
-    $scope.productDetails = function (productData) {
+    $scope.productDetails = function(productData) {
 
         $scope.modalDetials = {};
         angular.copy(productData, $scope.modalDetials);
@@ -89,7 +87,7 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
 
 
     //change Product status
-    $scope.changeProductStatus = function (modaldetails) {
+    $scope.changeProductStatus = function(modaldetails) {
         $('#productDetails').modal('hide');
         var data = {
             reasonToBlock: modaldetails.reason
@@ -98,7 +96,7 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
             id: modaldetails.id
         });
         if ($scope.filterData[0].id == modaldetails.id && modaldetails.status == "DELETED" && modaldetails.status != $scope.filterData[0].status) {
-            productsServiceMethods.blockProduct(modaldetails.id, data).then(function (response) {
+            productsServiceMethods.blockProduct(modaldetails.id, data).then(function(response) {
                 if (response.status == 200) {
                     $scope.filterData[0].status = modaldetails.status;
 
@@ -119,7 +117,7 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
             });
 
         } else if ($scope.filterData[0].id == modaldetails.id && modaldetails.status == "ACTIVE" && modaldetails.status != $scope.filterData[0].status) {
-            productsServiceMethods.activeProduct(modaldetails.id).then(function (response) {
+            productsServiceMethods.activeProduct(modaldetails.id).then(function(response) {
                 if (response.status == 200) {
                     $scope.filterData[0].status = modaldetails.status;
 
@@ -152,7 +150,7 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
 
     };
 
-    $scope.changesStatus = function (modaldetails) {
+    $scope.changesStatus = function(modaldetails) {
         $scope.filterData = $filter('filter')($scope.productsList, {
             id: modaldetails.id
         });
@@ -170,7 +168,7 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
         if ($scope.search.vendor == "") {
             var data = [];
 
-            angular.forEach($scope.vendorList, function (value, key) {
+            angular.forEach($scope.vendorList, function(value, key) {
                 if (value.profile.companyName == undefined) {
                     value.profile.companyName = '';
                 }
@@ -215,7 +213,7 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
                 $scope.pdfFilterData = $filter('filter')($scope.productsList, {
                     owner: value.id
                 });
-                angular.forEach($scope.pdfFilterData, function (value1, key1) {
+                angular.forEach($scope.pdfFilterData, function(value1, key1) {
                     value1.sno = key1 + 1;
                     tableData.table.body.push([{
                         text: (value1.sno).toString(),
@@ -317,7 +315,7 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
                 owner: id
             });
 
-            angular.forEach($scope.pdfFilterData, function (value, key) {
+            angular.forEach($scope.pdfFilterData, function(value, key) {
                 value.sno = key + 1;
                 data[2].table.body.push([{
                     text: (value.sno).toString(),

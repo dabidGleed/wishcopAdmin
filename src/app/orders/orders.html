@@ -17,33 +17,33 @@
                 </div>
             </div>
             <div class="row">
-              <div class="col-xs-12">
-                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                      <div class="form-group row">
-                          <div class="col-md-3 col-sm-3 col-xs-3">
-                              <label class="form-control-label" for="l0">Order ID </label>
-                          </div>
-                          <div class="col-md-6 col-sm-6 col-xs-6">
-                              <input type="text" class="form-control" name="searchName" ng-model="search.name">
-                          </div>
+                <div class="col-xs-12">
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group row">
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <label class="form-control-label" for="l0">Order ID </label>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                <input type="text" class="form-control" name="searchName" ng-model="search.name">
+                            </div>
                             <div class="col-md-3 col-sm-3 col-xs-3"><a href="javascript: void(0);" class="btn btn-primary" ng-click="applyFilters(search)">Apply</a></div>
-                      </div>
-                  </div>
-                  <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                      <div class="form-group row">
-                          <div class="col-md-3 col-sm-3 col-xs-3">
-                              <label class="form-control-label" for="l0">Vendors </label>
-                          </div>
-                          <div class="col-md-6 col-sm-6 col-xs-6">
-                              <select ng-model="search.vendor" ng-options="vendors.id as vendors.firstName for vendors in vendorList track by vendors.id" class="form-control" name="searchvendor">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group row">
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <label class="form-control-label" for="l0">Vendors </label>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                <select ng-model="search.vendor" ng-options="vendors.id as vendors.firstName for vendors in vendorList track by vendors.id" class="form-control" name="searchvendor">
 
                                   <option value="" selected>All</option>
                               </select>
-                          </div>
+                            </div>
                             <div class="col-md-3 col-sm-3 col-xs-3"><a href="javascript: void(0);" class="btn btn-primary" ng-click="resetFilters()">Reset</a></div>
-                      </div>
-                  </div>
-              </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="panel-body">
@@ -61,22 +61,21 @@
                         </tr>
                     </thead> -->
                     <tbody>
-                        <tr dir-paginate="users in userList  | itemsPerPage:itemsPerPage | orderBy:users.createdAt" current-page="currentPage"
-                            total-items="totalCount">
+                        <tr dir-paginate="users in userList  | itemsPerPage:itemsPerPage | orderBy:users.createdAt:asc" current-page="currentPage" total-items="totalCount">
                             <!--<td >{{itemsPerPage *(currentPage-1)+$index+1}}</td>-->
                             <td colspan="6">
                                 <table class="table  ">
-                                  <thead ng-if="$index == 0">
-                                      <tr>
-                                          <th width="80px">S.No</th>
-                                          <th>OrderID</th>
-                                          <th>Amount</th>
-                                          <th>Status</th>
-                                          <th>Created Date</th>
-                                          <th>Bank Details</th>
+                                    <thead ng-if="$index == 0">
+                                        <tr>
+                                            <th width="80px">S.No</th>
+                                            <th>OrderID</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
+                                            <th>Created Date</th>
+                                            <th>Bank Details</th>
 
-                                      </tr>
-                                  </thead>
+                                        </tr>
+                                    </thead>
                                     <tbody>
                                         <tr>
                                             <td width="80">{{itemsPerPage *(currentPage-1)+$index+1}}</td>
@@ -93,13 +92,14 @@
                                         </tr>
                                         <tr ng-repeat="sales in users.sales ">
                                             <td> </td>
-                                            <td><a href="javascript: void(0);" class="cui-ecommerce--dashboard--list--img"><img ng-src="{{sales.sale_image.imageURL}}" /></a></td>
+                                            <td>
+                                                <a href="javascript: void(0);" class="cui-ecommerce--dashboard--list--img"><img ng-src="{{sales.sale_image.imageURL}}" /></a>
+                                            </td>
                                             <td colspan="3">{{sales.title}}
                                                 <br>Quantity : {{sales.order_quantity}}
                                                 <br>Status : {{sales.status.replace("_"," ")}}
                                             </td>
-                                            <td><button type="button" class="btn btn-primary margin-inline" data-toggle="modal"
-                                                    data-target="#userData" ng-click="userDetails(users.id,sales.order_item_id);">
+                                            <td><button type="button" class="btn btn-primary margin-inline" data-toggle="modal" data-target="#userData" ng-click="userDetails(users.id,sales.order_item_id);">
                                                             <i class="icmn-pencil5"> </i> Track
                                                         </button></td>
                                         </tr>
@@ -116,7 +116,7 @@
                         </tr>
 
                         <tr>
-                            <td colspan="6">
+                            <td colspan="6" align="center">
                                 <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
                             </td>
                         </tr>
@@ -146,26 +146,30 @@
                         <div ng-repeat="y in x.variant track by $index">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="col-md-5"><a href="javascript: void(0);" class="cui-ecommerce--dashboard--list--img"><img ng-src="{{y.images[0].imageURL}}" /></a>
+                                    <div class="col-md-5">
+                                        <a href="javascript: void(0);" class="cui-ecommerce--dashboard--list--img"><img ng-src="{{y.images[0].imageURL}}" /></a>
                                         <span ng-repeat="varitor in x.variator">{{varitor.name}}: {{y[varitor.name]}},</span></div>
                                     <div class="col-md-7">
                                         <div id="example-icons" class="cui-wizard wizard clearfix" role="application">
                                             <div class="steps clearfix">
                                                 <ul role="tablist">
-                                                    <li role="tab" class="first done"><a> <span class="number">1.</span><i class="icmn-circles cui-wizard--steps--icon"></i><span class="cui-wizard--steps--title">Order Received <br>{{y.trackListNew.ORDER_RECEIVED[0].status_updated_at |
-                                                            date:'dd/MM/yyyy' }}</span></a></li>
-                                                    <li role="tab" class=" done" ng-class="y.trackListNew.ORDER_APPROVED[0].status == 'ORDER_APPROVED'  ? ' ' : 'disabled'"><a> <span class="number">2.</span> <i class="icmn-circles cui-wizard--steps--icon"></i> <span class="cui-wizard--steps--title">Order <br>
+                                                    <li role="tab" class="first done">
+                                                        <a> <span class="number">1.</span><i class="icmn-circles cui-wizard--steps--icon"></i><span class="cui-wizard--steps--title">Order Received <br>{{y.trackListNew.ORDER_RECEIVED[0].status_updated_at |
+                                                            date:'dd/MM/yyyy' }}</span></a>
+                                                    </li>
+                                                    <li role="tab" class=" done" ng-class="y.trackListNew.ORDER_APPROVED[0].status == 'ORDER_APPROVED'  ? ' ' : 'disabled'">
+                                                        <a> <span class="number">2.</span> <i class="icmn-circles cui-wizard--steps--icon"></i> <span class="cui-wizard--steps--title">Order <br>
                                                 <span class="trackStatus"
-                                                                     ng-if="y.trackListNew.ORDER_APPROVED[0].status == 'ORDER_APPROVED'">Order Confirmed </span><span
-                                                                    class="trackStatus"
-                                                                    ng-if="y.trackListNew.ORDER_CANCELED[0].status == 'ORDER_CANCELED'">Order Cancelled</span>
-                                                                    </span> {{y.trackList[1].status_updated_at | date:'dd/MM/yyyy'}}</a></li>
+                                                                     ng-if="y.trackListNew.ORDER_APPROVED[0].status == 'ORDER_APPROVED'">Order Confirmed </span><span class="trackStatus" ng-if="y.trackListNew.ORDER_CANCELED[0].status == 'ORDER_CANCELED'">Order Cancelled</span>
+                                                            </span> {{y.trackList[1].status_updated_at | date:'dd/MM/yyyy'}}</a>
+                                                    </li>
                                                     <li role="tab" class=" done" ng-class="y.trackListNew.ORDER_SHIPPED[0].status_updated_at ? '' : 'disabled'"><a><span class="current-info audible">current step: </span><span class="number">3.</span> <i class="icmn-circles cui-wizard--steps--icon"></i> <span class="cui-wizard--steps--title">Tracking <br><span ng-show="y.trackListNew.ORDER_SHIPPED[0].status_updated_at">
                                                       # {{y.trackListNew.ORDER_SHIPPED[0].tracking_details.trackingId}}<br>
                                                             {{y.trackListNew.ORDER_SHIPPED[0].status_updated_at |
                                                             date:'dd/MM/yyyy'}}</span></span></a></li>
-                                                    <li role="tab"   ng-click=" (y.trackListNew.ORDER_SHIPPED[0].status == 'ORDER_SHIPPED') && (y.trackListNew.ORDER_DELIVERED[0].status != 'ORDER_DELIVERED') && confirmDeliveryStatus(y.id,saleData.sales.order_item_id, saleData.id, saleData.sales.id)" class="last" ng-class="y.trackListNew.ORDER_DELIVERED[0].status == 'ORDER_DELIVERED' ? ' ' : 'disabled'" ng-hide="DeliveredDa[$index]">
-                                                      <a ng-class="((y.trackListNew.ORDER_SHIPPED[0].status == 'ORDER_SHIPPED') && (y.trackListNew.ORDER_DELIVERED[0].status != 'ORDER_DELIVERED')) ? 'disableHover' : '' "><span class="current-info audible">current step: </span><span class="number">3.</span> <i class="icmn-circles cui-wizard--steps--icon"></i> <span class="cui-wizard--steps--title"></span>
+                                                    <li role="tab" ng-click=" (y.trackListNew.ORDER_SHIPPED[0].status == 'ORDER_SHIPPED') && (y.trackListNew.ORDER_DELIVERED[0].status != 'ORDER_DELIVERED') && confirmDeliveryStatus(y.id,saleData.sales.order_item_id, saleData.id, saleData.sales.id)" class="last"
+                                                        ng-class="y.trackListNew.ORDER_DELIVERED[0].status == 'ORDER_DELIVERED' ? ' ' : 'disabled'" ng-hide="DeliveredDa[$index]">
+                                                        <a ng-class="((y.trackListNew.ORDER_SHIPPED[0].status == 'ORDER_SHIPPED') && (y.trackListNew.ORDER_DELIVERED[0].status != 'ORDER_DELIVERED')) ? 'disableHover' : '' "><span class="current-info audible">current step: </span><span class="number">3.</span> <i class="icmn-circles cui-wizard--steps--icon"></i> <span class="cui-wizard--steps--title"></span>
                                                       <span ng-hide="y.trackListNew.ORDER_DELIVERED[0].status">
                                                                 Delivery
                                                                 <br>
@@ -218,7 +222,7 @@
     // })
 </script>
 <script>
-    $(function () {
+    $(function() {
 
         $('.select2').select2();
         $('.select2-tags').select2({

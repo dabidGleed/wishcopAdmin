@@ -2,10 +2,13 @@
  * PRODUCTS LIST PAGE CONTROLLER
  */
 
-app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "productsService", "$sce", "$filter", function($location, $scope, $rootScope, productsServiceMethods, $sce, $filter) {
+app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "productsService", "$sce", "$filter", function ($location, $scope, $rootScope, productsServiceMethods, $sce, $filter) {
     $scope.currentPage = 1;
     $scope.itemsPerPage = 16;
     $scope.totalCount = 0;
+    $scope.bulk = {
+        vendor:""
+    };
     $scope.search = {
         name: "",
         vendor: "",
@@ -16,20 +19,19 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
         vendor: "",
         status: ""
     };
-    $scope.getProductsList = function(data, searchData) {
+    $scope.getProductsList = function (data, searchData) {
         NProgress.start();
-        productsServiceMethods.getProductsList(data, searchData).then(function(response) {
-            console.log(response.data);
+        productsServiceMethods.getProductsList(data, searchData).then(function (response) {
             $scope.productsList = response.data.products;
             $scope.totalCount = response.data.count;
-            angular.forEach($scope.productsList, function(value, key) {
+            angular.forEach($scope.productsList, function (value, key) {
                 value.htmlDesc = $sce.trustAsHtml(value.description);
             })
             NProgress.done();
         });
     }
     $scope.getProductsList(0, $scope.localSearch);
-    productsServiceMethods.getVendorsList().then(function(response) {
+    productsServiceMethods.getVendorsList().then(function (response) {
         $scope.vendorList = response.data;
 
     });
@@ -53,7 +55,6 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
         if ($scope.search.status == null) {
             $scope.search.status = "";
         }
-        // console.log(search);
         angular.copy($scope.search, $scope.localSearch);
         $scope.getProductsList(0, $scope.localSearch);
 
@@ -66,7 +67,7 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
         angular.copy($scope.search, $scope.localSearch);
         $scope.getProductsList(0, $scope.localSearch);
     });
-    $scope.$watch("search.name", function() {
+    $scope.$watch("search.name", function () {
         $scope.search.vendor = "";
         angular.copy($scope.search, $scope.localSearch);
         $scope.getProductsList(0, $scope.localSearch);
@@ -103,15 +104,15 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
                         title: '<strong>Success!</strong>',
                         message: response.data.message
                     }, {
-                        type: 'success'
-                    });
+                            type: 'success'
+                        });
                 } else {
                     $.notify({
                         title: '<strong>Unsuccessful!</strong>',
                         message: response.data.message
                     }, {
-                        type: 'danger'
-                    });
+                            type: 'danger'
+                        });
                 }
             });
 
@@ -124,15 +125,15 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
                         title: '<strong>Success!</strong>',
                         message: response.data.message
                     }, {
-                        type: 'success'
-                    });
+                            type: 'success'
+                        });
                 } else {
                     $.notify({
                         title: '<strong>Unsuccessful!</strong>',
                         message: response.data.message
                     }, {
-                        type: 'danger'
-                    });
+                            type: 'danger'
+                        });
                 }
             });
 
@@ -142,8 +143,8 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
                 title: '<strong>Unsuccessful!</strong>',
                 message: "Action cannot be performed"
             }, {
-                type: 'warning'
-            });
+                    type: 'warning'
+                });
 
         }
 
@@ -160,7 +161,7 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
         }
     }
 
-    $scope.export = function(id) {
+    $scope.export = function (id) {
         NProgress.start();
         //print all vendors data
 
@@ -279,35 +280,35 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
                 $scope.vendorDetails[0].profile.aboutCompany = '';
             }
             var data = [{
-                    text: 'Company : ' + $scope.vendorDetails[0].profile.companyName,
-                    style: 'title'
-                },
-                {
-                    text: 'About Company : ' + $scope.vendorDetails[0].profile.aboutCompany,
-                    style: 'title'
-                },
-                {
-                    style: 'tableExample',
-                    table: {
-                        // headers are automatically repeated if the table spans over multiple pages
-                        // you can declare how many rows should be treated as headers
-                        headerRows: 1,
-                        widths: [60, 'auto', 80],
+                text: 'Company : ' + $scope.vendorDetails[0].profile.companyName,
+                style: 'title'
+            },
+            {
+                text: 'About Company : ' + $scope.vendorDetails[0].profile.aboutCompany,
+                style: 'title'
+            },
+            {
+                style: 'tableExample',
+                table: {
+                    // headers are automatically repeated if the table spans over multiple pages
+                    // you can declare how many rows should be treated as headers
+                    headerRows: 1,
+                    widths: [60, 'auto', 80],
 
-                        body: [
-                            [{
-                                text: 'S.NO',
-                                style: 'tableheader'
-                            }, {
-                                text: 'Product Name',
-                                style: 'tableheader'
-                            }, {
-                                text: 'Price',
-                                style: 'tableheader'
-                            }]
-                        ]
-                    }
+                    body: [
+                        [{
+                            text: 'S.NO',
+                            style: 'tableheader'
+                        }, {
+                            text: 'Product Name',
+                            style: 'tableheader'
+                        }, {
+                            text: 'Price',
+                            style: 'tableheader'
+                        }]
+                    ]
                 }
+            }
             ];
 
             $scope.pdfFilterData = $filter('filter')($scope.productsList, {
@@ -367,5 +368,64 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
         }
         NProgress.done();
     }
+    $scope.uploadProducts = function(data){
+        swal({
+            title: "Are you sure?",
+            text: "You want to upload all products in sheet!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Yes",
+            cancelButtonText: "Cancel",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        },
+        function (isConfirm) {
+            if (isConfirm) {
+              
+                productsServiceMethods.bulkUpload($scope.myFile,data).then(function (response) {
+                    if (response.status == 200) {
+                        $scope.bulk ={
+                            vendor :""
+                        }
+                        $scope.myFile = null;
+                        $.notify({
+                            title: '<strong>Success!</strong>',
+                            message: "Successfully Uploaded"
+                        }, {
+                            type: 'success'
+                        });
+                    } else {
+                        $.notify({
+                            title: '<strong>Unsuccessful!</strong>',
+                            message: "Something went wrong"
+                        }, {
+                            type: 'danger'
+                        });
+                    }
+
+                });
+
+            } else {
+              
+            }
+        });
+ 
+    }
 
 }]);
+app.directive('fileModel', ['$parse', function ($parse) {
+    return {
+       restrict: 'A',
+       link: function(scope, element, attrs) {
+          var model = $parse(attrs.fileModel);
+          var modelSetter = model.assign;
+          
+          element.bind('change', function(){
+             scope.$apply(function(){
+                modelSetter(scope, element[0].files[0]);
+             });
+          });
+       }
+    };
+ }]);

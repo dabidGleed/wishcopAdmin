@@ -182,7 +182,7 @@ gulp.task('serve', function () {
 // VERSION_ANGULAR BUILD
 gulp.task('version_angular:build', function () {
     return gulp.src(path.src.version_angular)
-        .pipe(ignore.exclude(['_header.html', '_footer.html', '_top-menu.html', '_left-menu.html', '_subfooter.html']))
+        .pipe(ignore.exclude(['_header.html', '_footer.html', '_top-menu.html', '_subfooter.html']))
         //.pipe(rigger())
         //.on('error', printError)
         .pipe(gulp.dest(path.build.version_angular))

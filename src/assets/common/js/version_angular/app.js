@@ -19,10 +19,10 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                     templateUrl: "main/main.html",
                     controller: "homeCtrl"
                 },
-                'leftMenuBlock@main': {
-                    templateUrl: "left-menu/_left-menu.html",
-                    controller: "leftMenuCtrl"
-                },
+                // 'leftMenuBlock@main': {
+                //     templateUrl: "left-menu/_left-menu.html",
+                //     controller: "leftMenuCtrl"
+                // },
                 'footer@main': {
                     templateUrl: "footer/_footer.html",
                     controller: "footerCtrl"
@@ -53,6 +53,12 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('main.productslist', {
             url: "products-list",
             templateUrl: "products-list/products-list.html",
+            controller: "productsListCtrl"
+
+        })
+        .state('main.productsbulkupload', {
+            url: "products-upload",
+            templateUrl: "products-list/products-bulk-upload.html",
             controller: "productsListCtrl"
 
         })

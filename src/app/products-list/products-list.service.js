@@ -37,6 +37,17 @@ app.factory('productsService', ['$http','globalVars', function($http,globalVars)
                 // headers:
             })
         };
+        productsServiceMethods.bulkUpload = function(file,data){
+            console.log(file);
+            var finalUrl = baseURL + "products/upload/"+data.vendor+"/bulk"
+            var fd = new FormData();
+            fd.append('content', file);
+            return $http.post(finalUrl, fd, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+             })
+            
+        };
 
         productsServiceMethods.blockProduct = function(productID,dataObj) {
 
@@ -59,17 +70,6 @@ app.factory('productsService', ['$http','globalVars', function($http,globalVars)
                 // headers:
             })
         };
-
-        productsServiceMethods.bulkUpload = function(dataObj) {
-            
-           var finalUrl = baseURL + "products/upload/bulk"
-           return $http({
-               method: 'POST',
-               url: finalUrl,
-               data: dataObj
-               // headers:  
-           }) 
-       };
 
 
         return productsServiceMethods;

@@ -1,0 +1,57 @@
+<div class="page-content-inner">
+
+    <!-- Ecommerce Products List -->
+    <section class="panel panel-with-borders" id="editcategroy">
+        <div class="panel-heading">
+            <h2>Products Bulk Upload</h2>
+        </div>
+        <div class="panel-body" ng-hide="editCategoryPage">
+            <h4>Upload Products</h4>
+            <div class="col-xs-12">
+                <form name="categoryForm" ng-submit="categoryForm.$valid && uploadProducts(bulk)" novalidate>
+                    <div class="col-xs-12">
+                        <div class="form-group row">
+                            <div class="col-md-4 col-xs-4">
+                                <label class="form-control-label" for="l0">Choose Vendor </label>
+                            </div>
+                            <div class="col-md-4 col-xs-4 form-group" ng-class="{'has-danger' : categoryForm.searchvendor.$invalid && categoryForm.$submitted}  ">
+                                <select class="form-control" name="searchvendor" ng-model="bulk.vendor"
+                                ng-options="vendors.id as vendors.firstName for vendors in vendorList ">
+                                <option value="" selected>Select</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 col-xs-4 form-group">
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                            <div class="form-group row">
+                                    <div class="col-md-4 col-xs-4">
+                                            <input type = "file" name="bulkproduct" file-model = "myFile"/>
+                                    </div>
+                                    <div class="col-md-4 col-xs-4 form-group">
+                                        <button type="submit" class="btn btn-primary width-150" ng-disabled="bulk.vendor === ''|| !myFile">Upload Products</button>
+                                    </div>
+                                    <div class="col-md-4 col-xs-4 form-group">
+                                    </div>
+                                </div>
+                       
+                        
+                     </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive thead-default margin-bottom-50">
+                    <form method="get" action="https://s3.amazonaws.com/wishcop/wishcop-products.xlsx">
+                        <label>Download sample Excel Sheet</label>
+                           <button type="submit">Download!</button>
+                         </form>
+            </div>
+        </div>
+    </section>
+    <!-- End Ecommerce Products List -->
+
+</div>

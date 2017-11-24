@@ -1,0 +1,261 @@
+<div class="page-content-inner">
+
+    <!-- Ecommerce Products List -->
+    <section class="panel panel-with-borders">
+        <div class="panel-heading">
+            <h2>
+                
+              Users Referrals List
+            </h2>
+        </div>
+        <div class="panel-body">
+            <h4>
+                 Filters
+                 
+            </h4>
+            <div class="col-xs-12">
+                 <div class="col-xs-3  ">
+                     <div class="form-group row">
+                                <div class="col-md-3">
+                                    <label class="form-control-label" for="l0">Search </label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" ng-model="search.name" placeholder="Search keyword" id="l0">
+                                </div>
+                            </div>
+                  </div>
+                 <div class="col-xs-4">
+                     <div class="form-group row">
+                                <div class="col-md-3">
+                                    <label class="form-control-label" for="l0">Role </label>
+                                </div>
+                                <div class="col-md-9">
+                                    <select class="form-control" name="searchRole" ng-model="search.role">
+                                        <option value=""  selected >All</option>
+                                        <option value="VENDOR">Vendor</option>
+                                        <option value="BUYER">Buyer</option>
+                                        
+                                    </select>
+                                </div>
+                            </div>
+                     
+                  </div>
+                  <div class="col-xs-3">
+                     <!--<div class="form-group row">
+                                <div class="col-md-3">
+                                    <label class="form-control-label" for="l0">Status </label>
+                                </div>
+                                <div class="col-md-9">
+                                    <select class="form-control" name="searchstatus" ng-model="search.status">
+                                        <option value="" selected >All</option>
+                                        <option value="ACTIVE">Active</option>
+                                        <option value="DELETED">Deleted</option>
+                                        <option value="NOTVERIFIED">Not Verified</option>
+                                        
+                                    </select>
+                                </div>
+                            </div>-->
+                     
+                  </div>
+          
+                   <div class="col-xs-2"><a href="javascript: void(0);" class="pull-right btn btn-primary" ng-click="resetFilters()">Reset</a></div>
+            </div>
+        </div>
+        <div class="panel-body">
+           
+            <div class="table-responsive thead-default margin-bottom-50">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                   <!--<th>ID</th>-->
+                                   <th>S.NO</th>
+                                    <th>Thumbnail</th>
+                                    <th>Name</th>
+                                    <th>Role</th>
+                                   <th>Referred by</th>
+                                   <th>Referral Money</th>
+                                    
+                                    <!--<th>Mobile Number</th>
+                                    <th>Created Date</th>-->
+                                    <!--<th>Status</th>-->
+                                    <th>Transactions</th>
+                                </tr>
+                            </thead>
+                            <!--<tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Thumbnail</th>
+                                    <th>Name</th>
+                                    <th>Role</th>
+                                    <th>Email</th>
+                                    
+                                    <th>Mobile Number</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </tfoot>-->
+                            <tbody>  
+                                <tr dir-paginate="users in userList   | filter : {firstName:search.name,role:search.role} | itemsPerPage:itemsPerPage" current-page="currentPage" >
+                                    <!--<td><a href="javascript: void(0);" class="link-underlined">{{$index+1}}</a></td>-->
+                                    <td>{{itemsPerPage *(currentPage-1)+$index+1}}</td>
+                                    <td><a href="javascript: void(0);" class="cui-ecommerce--dashboard--list--img"><img ng-src="{{users.gravatarUrl}}" /></a></td>
+                                    <td>{{users.firstName}} {{users.lastName}}</td>
+                                    <td> <span ng-repeat="role in users.role" class="label label-pill label-default font-size-14 margin-inline">{{role}}</span> </td>
+                                     <td> <span ng-if="users.referred_by">
+                                         <p>Referred by : {{users.referred_by.user.firstName}} {{users.referred_by.user.lastName}} </p>
+                                         <p>Code : {{users.referred_by.code  }} </p>
+                                         <p>Expire Date : {{users.referred_by.expire_date | date : 'yyyy-MM-dd' }} </p> </span>
+                                     </td>
+                                     <td>{{users.TotalReferralMoney | currency:currency}}</td>
+                                    <!--<td>{{users.mobileNumber}}</td>
+                                    <td>{{users.createdAt | date : 'yyyy-MM-dd'}}</td>-->
+                                    <!--<td><span  class="label {{users.status == 'ACTIVE' ? 'label-success' : ''}} {{users.status == 'DELETED' ? 'label-danger':''}} {{users.status == 'NOTVERIFIED' ? 'label-default':''}} ">{{users.status}}</span></td>-->
+                                    <td>
+                                        
+                                       <button type="button" class="btn btn-rounded btn-secondary-outline margin-inline" ng-disabled="!users.ReferralTransactions.length > 0"   data-toggle="modal" data-target="#userData" ng-click="userDetails(users) && users.ReferralTransactions.length > 0 ">
+                                           <!--<i class="icmn-pencil5"> </i> View -->
+                                           {{users.ReferralTransactions.length}}
+                                       </button>
+                                    </td>
+                </tr>
+                <tr ng-show="!(userList   | filter : {firstName:search.name,role:search.role }).length">
+                    <td colspan="7"> <center>No data found</center></td>
+                    
+                </tr>
+                                 
+               <tr>
+                    <td colspan="7"> <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls></td>
+                    
+                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+        </div>
+    </section>
+    <!-- End Ecommerce Products List -->
+
+</div>
+<!-- modal popup to edit users list-->
+ <div class="modal fade modal-size-large" id="userData" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">Referral Details</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="table-responsive">
+                            <table class="table table-hover">
+                                <colgroup>
+                                    <col class="col-xs-4">
+                                    <col class="col-xs-8">
+                                </colgroup>
+                                
+                                <tbody>
+                                    
+                                      <tr>
+                                    <td class="text-nowrap">
+                                        Profile image
+                                    </td>
+                                    <td><a href="javascript: void(0);" class="cui-ecommerce--dashboard--list--img"><img ng-src="{{modalDetials.gravatarUrl}}" /></a> </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-nowrap">
+                                        Name
+                                    </td>
+                                    <td>{{modalDetials.firstName}} {{modalDetials.lastName}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-nowrap">
+                                       Role
+                                    </td>
+                                    <td><span ng-repeat="role in modalDetials.role" class="label label-pill label-default font-size-14 margin-inline">{{role}}</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-nowrap">
+                                        Referral Details
+                                    </td>
+                                    <td><p>Referred by : {{modalDetials.referred_by.user.firstName}} {{modalDetials.referred_by.user.lastName}} </p>
+                                         <p>Code : {{modalDetials.referred_by.code  }} </p>
+                                         <p>Expire Date : {{modalDetials.referred_by.expire_date | date : 'yyyy-MM-dd' }} </p></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-nowrap">
+                                      Total Referred Amount 
+                                    </td>
+                                    <td>{{modalDetials.TotalReferralMoney | currency:currency}}</td>
+                                </tr>
+                                <tr>
+                                   <td>Transactions</td>
+                                   <td><table class="table table-inverse">
+                                        <thead>
+                                        <tr>
+                                            <th>S.No</th>
+                                             <th>Amount</th>
+                                             <th>Transaction Type</th>
+                                             <th>Purpose</th>
+                                             <th>Description</th>
+                                             <th>Status</th>
+                                             <th>Created at</th>
+                                            
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="trannsactions in modalDetials.ReferralTransactions">
+                                            <td>{{$index+1}}</td>
+                                        <td>{{trannsactions.transaction_amount | currency:currency}}</td>
+                                        <td>{{trannsactions.transaction_type}}</td>
+                                        <td>{{trannsactions.purpose}}</td>
+                                        <td>{{trannsactions.description}}</td>
+                                        <td>{{trannsactions.status}}</td>
+                                        <td>{{trannsactions.createdAt | date : 'yyyy-MM-dd'}}</td>
+
+                                        </tr>
+                                     </tbody>
+                                </table></td>
+
+                                </tr>
+                               
+                                </tbody>
+                            </table>
+                        </div>
+                                <!--<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                            <p>{{modalDetials}}</p>-->
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                                <!--<button type="button" class="btn btn-primary" ng-click="saveStatus(modalDetials)" >Save changes</button>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!-- Page Scripts -->
+<script>
+    // $(function () {
+
+    //     // Datatables
+    //     $('#example1').DataTable({
+    //         "lengthMenu": [[50, 100, 200, -1], [50, 100, 200, "All"]],
+    //         responsive: true,
+    //         "autoWidth": false
+    //     });
+
+    // })
+</script>
+<script>
+    $(function(){
+
+        $('.select2').select2();
+        $('.select2-tags').select2({
+            tags: true,
+            tokenSeparators: [',', ' ']
+        });
+
+        $('.selectpicker').selectpicker();
+
+    })
+</script>
+<!-- End Page Scripts -->

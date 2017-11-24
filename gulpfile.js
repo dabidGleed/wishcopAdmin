@@ -32,7 +32,7 @@ var path = {
         version_html: 'src/version_html/**/*.*',
         version_angular: 'src/app/**/*.*',
         img: 'src/assets/common/img/**/*.*',
-        fonts: 'src/assets/common/fonts/',
+        fonts: 'src/assets/common/fonts/*.*',
         css: 'src/assets/common/css/*.scss',
         js: 'src/assets/common/js/**/*.*',
         vendors_bower: 'src/assets/vendors/bower/**/*.*',
@@ -99,7 +99,8 @@ var path = {
         'src/assets/vendors/bower/nprogress/nprogress.js',
         'src/assets/vendors/bower/jquery-steps/build/jquery.steps.min.js',
         'src/assets/vendors/bower/bootstrap-select/dist/js/bootstrap-select.min.js',
-        'src/assets/vendors/bower/dropify/dist/js/dropify.min.js'        
+        'src/assets/vendors/bower/dropify/dist/js/dropify.min.js',
+        'src/assets/vendors/manual/vfsfonts/vfs_fonts.js'        
         ],
         angular_src:[
         'src/assets/vendors/bower/angular/angular.min.js',
@@ -120,7 +121,7 @@ var path = {
     watch: {
         templates: 'src/templates/**/*.html',
         version_html: 'src/version_html/**/*.*',
-        version_angular: 'src/version_angular/**/*.*',
+        version_angular: 'src/app/**/*.*',
         img: 'src/assets/common/img/**/*.*',
         fonts: 'src/assets/common/fonts/**/*.*',
         css: 'src/assets/common/css/**/*.scss',
@@ -181,7 +182,7 @@ gulp.task('serve', function () {
 // VERSION_ANGULAR BUILD
 gulp.task('version_angular:build', function () {
     return gulp.src(path.src.version_angular)
-        .pipe(ignore.exclude(['_header.html', '_footer.html', '_top-menu.html', '_left-menu.html', '_subfooter.html']))
+        .pipe(ignore.exclude(['_header.html', '_footer.html', '_top-menu.html', '_subfooter.html']))
         //.pipe(rigger())
         //.on('error', printError)
         .pipe(gulp.dest(path.build.version_angular))
@@ -191,14 +192,14 @@ gulp.task('cont:build', function () {
     return gulp.src('src/app/**/*.js')
         .pipe(concat("app.min.js"))
         .pipe(gulp.dest('build/assets'))
-       // .pipe(reload({stream: true}))
+        .pipe(reload({stream: true}))
 });
-// gulp.task('compress', function (cb) { 
-//         gulp.src('src/**/*.js')
-//         .pipe(uglify())        
-//         .pipe(gulp.dest('build/assets/common/js/app.min.js'))   
+gulp.task('compress', function (cb) { 
+        gulp.src('src/**/*.js')
+        .pipe(uglify())        
+        .pipe(gulp.dest('build/assets/common/js/app.min.js'))   
 
-// });
+});
 
 /////////////////////////////////////////////////////////////////////////////
 // VENDORS BUILD
@@ -324,7 +325,11 @@ gulp.task('watch', function(){
         gulp.start('css:build');
     });
     watch([path.watch.js], function(event, cb) {
-        gulp.start('js:build');
+        gulp.start(['js:build']);
+        
+    });
+    watch([path.watch.version_angular], function(event, cb) {
+        gulp.start(['cont:build']);
     });
     watch([path.watch.vendors], function(event, cb) {
       //  gulp.start('vendors:bower:build');
@@ -345,5 +350,5 @@ gulp.task('clean', function () {
 
 /////////////////////////////////////////////////////////////////////////////
 // DEFAULT TASK
-gulp.task('default', ['build', 'serve', 'watch']);
+gulp.task('default', ['build','serve', 'watch']);
 

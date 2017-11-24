@@ -1,0 +1,134 @@
+<div class="page-content-inner">
+
+    <!-- Ecommerce Products List -->
+    <section class="panel panel-with-borders" id="editcategroy">
+        <div class="panel-heading">
+            <h2>
+                Category List
+            </h2>
+        </div>
+        <div class="panel-body" ng-hide="editCategoryPage">
+            <h4>
+                Add Categroy
+
+            </h4>
+            <div class="col-xs-12">
+                <form name="categoryForm" ng-submit="categoryForm.$valid && addCategory(add)" novalidate>
+                    <div class="col-xs-12">
+                        <div class="form-group row">
+                            <div class="col-md-4 col-xs-12">
+                                <label class="form-control-label" for="l0">Category name </label>
+                            </div>
+                            <div class="col-md-8 col-xs-12 form-group" ng-class="{'has-danger' : categoryForm.categoryName.$invalid && categoryForm.$submitted}  ">
+                                <input type="text" name="categoryName" ng-model="add.name" class="form-control " placeholder="Enter Category" required>
+                                <span ng-if="categoryForm.categoryName.$touched || (categoryForm.categoryName.$invalid && categoryForm.$submitted)">
+                                    <span ng-if="categoryForm.categoryName.$error.required  ">
+                                       <div  class=" form-control-error "   data-error-list>
+                                            <ul>
+                                                <li ng-show="categoryForm.categoryName.$error.required">Enter Category</li>
+                                            </ul>
+                                       </div>
+                                          </span>
+                                </span>
+                            </div>
+                            <!--<pre>{{categoryForm | json}}</pre>-->
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-5 col-xs-12 form-group"> <button type="submit" class="btn btn-primary width-150">Add</button> </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel-body" ng-show="editCategoryPage">
+            <h4>
+                Edit Categroy
+            </h4>
+            <div class="col-xs-12" >
+                <form name="editCategoryForm" ng-submit="editCategoryForm.$valid && updateCategory(edit)" novalidate>
+                    <div class="col-xs-12 ">
+                        <div class="form-group row">
+                            <div class="col-md-4 col-xs-12">
+                                <label class="form-control-label" for="l0">Category name </label>
+                            </div>
+                            <div class="col-md-8 col-xs-12 form-group" ng-class="{'has-danger' : editCategoryForm.name.$invalid && editCategoryForm.$submitted}  ">
+                                <input type="text" name="name" ng-model="edit.name" class="form-control " placeholder="Enter Category" required>
+                                <span ng-if="editCategoryForm.name.$touched || (editCategoryForm.name.$invalid && editCategoryForm.$submitted)">
+                                    <span ng-if="editCategoryForm.name.$error.required  ">
+                                       <div  class=" form-control-error "   data-error-list>
+                                            <ul>
+                                                <li ng-show="editCategoryForm.name.$error.required">Enter Category</li>
+                                            </ul>
+                                       </div>
+                                          </span>
+                                </span>
+                            </div>
+                            <!--<pre>{{categoryForm | json}}</pre>-->
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4 col-sm-5 form-group"> <button type="submit" class="btn btn-primary width-150">Update</button>  </div>
+                     <div class="col-xs-12 col-md-4 col-sm-5 form-group">  <button  type="button" class="btn btn-warning width-150" ng-click="editCategoryCancel()">Cancel</button> </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive thead-default margin-bottom-50">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr dir-paginate="category in categoryList    | itemsPerPage:itemsPerPage    " current-page="currentPage">
+                            <td>{{itemsPerPage *(currentPage-1)+$index+1}}</td>
+                            <td>{{category.name}} </td>
+                             <td><button type="button" class="btn btn-icon btn-success margin-inline" ng-click="editCategory(category)">Edit</button> <button type="button" class="btn btn-icon btn-warning margin-inline" ng-click="deleteCategory(category.id)">Delete</button>     </td>
+                        </tr>
+                        <tr ng-show="!(categoryList).length">
+                            <td colspan="3">
+                                <center>No data found</center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <!-- End Ecommerce Products List -->
+
+</div>
+
+<!-- Page Scripts -->
+<script>
+    // $(function () {
+
+    //     // Datatables
+    //     $('#example1').DataTable({
+    //         "lengthMenu": [[50, 100, 200, -1], [50, 100, 200, "All"]],
+    //         responsive: true,
+    //         "autoWidth": false
+    //     });
+
+    // })
+</script>
+<script>
+    $(function () {
+
+        $('.select2').select2();
+        $('.select2-tags').select2({
+            tags: true,
+            tokenSeparators: [',', ' ']
+        });
+
+        $('.selectpicker').selectpicker();
+
+    })
+</script>
+<!-- End Page Scripts -->

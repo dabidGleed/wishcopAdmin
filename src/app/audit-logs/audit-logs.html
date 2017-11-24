@@ -1,0 +1,142 @@
+<div class="page-content-inner">
+    <!-- Ecommerce Products List -->
+    <section class="panel panel-with-borders">
+        <div class="panel-heading">
+            <h2>
+                Audit Logs
+            </h2>
+        </div>
+        <div class="panel-body">
+            <h4>
+                Filters
+            </h4>
+            <div class="col-xs-12">
+                <!--<div class="col-xs-3  ">
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <label class="form-control-label" for="l0">Search </label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" ng-model="search.name" placeholder="Search keyword" id="l0">
+                        </div>
+                    </div>
+                </div>-->
+                <!--<div class="col-xs-4">
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <label class="form-control-label" for="l0">Role </label>
+                        </div>
+                        <div class="col-md-9">
+                            <select class="form-control" name="searchRole" ng-model="search.role">
+                                        <option value=""  selected >All</option>
+                                        <option value="VENDOR">Vendor</option>
+                                        <option value="BUYER">Buyer</option>
+
+                                    </select>
+                        </div>
+                    </div>
+
+                </div>-->
+                <div class="col-xs-10">
+                    <div class="col-md-3">
+                        <label class="form-control-label" for="l0">Date Range </label>
+                    </div>
+                    <div class="col-md-9 margin-bottom-50">
+                        <input type="text" id="datetimepicker6" class="form-control   width-200 display-inline-block margin-inline" placeholder="From">
+                        <span class="margin-right-10">—</span>
+                        <input type="text" id="datetimepicker7" class="form-control  width-200 display-inline-block margin-inline" placeholder="To">
+                    </div>
+
+                </div>
+
+                <div class="col-xs-2"><a href="javascript: void(0);" class="pull-right btn btn-primary" ng-click="resetFilters()">Reset</a></div>
+            </div>
+        </div>
+        <div class="panel-body">
+
+            <div class="table-responsive thead-default margin-bottom-50">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th width="10%">S.NO</th>
+                            <th width="15%">User</th>
+                            <th width="20%">IPaddress</th>
+                            <th width="30%">URL</th>
+                            <!--<th width="10%">Method</th>-->
+                            <th width="15%">Created at</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr dir-paginate="log in auditLogsList   |  itemsPerPage:itemsPerPage" current-page="currentPage" total-items="totalCount">
+                            <td>{{itemsPerPage *(currentPage-1)+$index+1}} </td>
+                            <td>
+                                <span ng-if="log.user == 'ANONYMOUS'">{{log.user}} </span>
+                                <span ng-if="log.user != 'ANONYMOUS'">{{log.user.firstName}} {{log.user.lastName}}</span></td>
+                            <td>{{log.ipAddress}} </td>
+                            <td> {{log.url}} </td>
+                            <!--<td>   {{log.method}}  </td>-->
+                            <td> {{log.createdAt | date : 'yyyy-MM-dd'}} </td>
+                        </tr>
+                        <tr ng-show="!(auditLogsList).length">
+                            <td colspan="5">
+                                <center>No data found</center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" align="center">
+                                <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <!-- End Ecommerce Products List -->
+
+</div>
+
+
+<!-- Page Scripts -->
+<script>
+    // $(function () {
+
+    //     // Datatables
+    //     $('#example1').DataTable({
+    //         "lengthMenu": [[50, 100, 200, -1], [50, 100, 200, "All"]],
+    //         responsive: true,
+    //         "autoWidth": false
+    //     });
+
+    // })
+</script>
+<script>
+    $(function () {
+
+        $('.select2').select2();
+        $('.select2-tags').select2({
+            tags: true,
+            tokenSeparators: [',', ' ']
+        });
+
+        $('.selectpicker').selectpicker();
+
+        $('#datetimepicker6').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+        $('#datetimepicker7').datetimepicker({
+            useCurrent: false,
+            format: 'YYYY-MM-DD' //Important! See issue #1075
+        });
+        $("#datetimepicker6").on("dp.change", function (e) {
+            $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+        });
+        $("#datetimepicker7").on("dp.change", function (e) {
+            $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+        });
+
+    })
+</script>
+
+<!-- End Page Scripts -->

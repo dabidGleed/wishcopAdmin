@@ -5,6 +5,7 @@
   "description": "Clean UI Admin Template Classic",
   "private": true,
   "devDependencies": {
+    "@angular/cli": "^1.2.3",
     "browser-sync": "latest",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.1.0",

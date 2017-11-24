@@ -1,0 +1,182 @@
+<div class="page-content-inner">
+
+    <!-- Ecommerce Products List -->
+    <section class="panel panel-with-borders">
+        <div class="panel-heading">
+            <h2>
+                Payment Gateways List
+            </h2>
+            <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-success-outline {{paymentMode === 'AUTO' ? ' active' : ' '}}" ng-click="updatePaymentMode('AUTO')">
+                                <input type="radio" name="paymentModeValue" ng-value="AUTO"  ng-model="paymentMode"  >
+                                Auto
+                            </label>
+                            <label class="btn btn-success-outline  {{paymentMode === 'MANUAL' ? ' active' : ' '}}  " ng-click="updatePaymentMode('MANUAL')">
+                                <input type="radio" name="paymentModeValue" ng-value="MANUAL"    ng-model="paymentMode"  >
+                                Manual
+                            <span class="ink animate" style="height: 100px; width: 100px; top: -25px; left: -28.1094px;"></span></label>
+                            
+           </div>
+           <p>{{paymentMode}} mode is selected</p>
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-10">
+                    <div class="table-responsive thead-default margin-bottom-50">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+
+                                    <th width="10%">Select </th>
+                                    <th width="20%">Name</th>
+                                    <th width="25%">Failed Count Limit</th>
+                                    <th width="15%">Failed Count</th>
+                                    <th width="15%">Status </th>
+                                    <th width="15%">Failed Transactions </th>
+
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr ng-repeat="payment in paymentGatewaysList   ">
+
+
+                                    <td>
+                                        <div class="form-group">
+                                            <div class="radio">
+                                                <label>
+                                    <input type="radio"   ng-model="paymentData.status"  ng-value="payment.isActive"  ng-click="setActive(payment.id)" name="payment"     >
+                                  
+                                </label>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                    <td>{{payment.name}} </td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input type="number" class="form-control" ng-pattern="/^[0-9]{1,6}$/" min="1" max="30" name="failedlimit" ng-model="payment.failedCountLimit"
+                                                ng-value="payment.failedCountLimit">
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn btn-primary" ng-click="updatePaymentFailed(payment.failedCountLimit,payment.id)">
+                                                Update
+                                            </button>
+
+                                            </div>
+
+                                        </div>
+                                    </td>
+                                    <td>{{payment.failedCount}} </td>
+                                    <td> <span class="label {{payment.status == 'ACTIVE' ? 'label-success' : ''}} {{payment.status == 'INACTIVE' ? 'label-danger':''}}   ">{{payment.status}}</span>                                        </td>
+                                    <td>
+
+                                        <button type="button" class="btn btn-rounded btn-secondary-outline margin-inline" ng-disabled="!payment.failedHistory.length > 0"
+                                            data-toggle="modal" data-target="#transactionsList" ng-click="failedTransactions(payment.failedHistory) && payment.failedHistory.length > 0 ">
+                   
+                                        
+                                           {{payment.failedHistory.length}}
+                                       </button>
+                                    </td>
+                                </tr>
+                                <tr ng-show="!(paymentGatewaysList)">
+                                    <td colspan="6">
+                                        <center>No data found</center>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6"><button type="button" class="btn btn-secondary margin-inline" ng-click="updatePaymentGateway()">Update</button>
+                                    </td>
+                                </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Ecommerce Products List -->
+
+</div>
+
+<!-- modal popup to list failed transactions-->
+<div class="modal fade modal-size-large" id="transactionsList" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                <h4 class="modal-title" id="myModalLabel">Failed Transactions List</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-inverse">
+                        <thead>
+                            <tr>
+                                <!--<th>S.No</th>-->
+                                <th>Name</th>
+                                <th>Failed Count Limit</th>
+                                <th>Failed Count</th>
+                                <th>Date</th>
+
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="trannsactions in modalDetials   ">
+                                <!--<td>{{itemsInPage *(currentPage-1)+$index+1}}</td>-->
+                                <td>{{trannsactions.name }}</td>
+                                <td>{{trannsactions.failedCountLimit}}</td>
+                                <td>{{trannsactions.failedCount}}</td>
+                                <td>{{trannsactions.updatedAt | date : 'yyyy-MM-dd'}}</td>
+
+                            </tr>
+                            <!--<tr>
+                    <td colspan="4"> <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls></td>
+                    
+                </tr>-->
+                        </tbody>
+                    </table>
+                </div>
+                <!--<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                            <p>{{modalDetials}}</p>-->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                <!--<button type="button" class="btn btn-primary" ng-click="saveStatus(modalDetials)" >Save changes</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Scripts -->
+<script>
+    // $(function () {
+
+    //     // Datatables
+    //     $('#example1').DataTable({
+    //         "lengthMenu": [[50, 100, 200, -1], [50, 100, 200, "All"]],
+    //         responsive: true,
+    //         "autoWidth": false
+    //     });
+
+    // })
+</script>
+<script>
+    $(function () {
+
+        $('.select2').select2();
+        $('.select2-tags').select2({
+            tags: true,
+            tokenSeparators: [',', ' ']
+        });
+
+        $('.selectpicker').selectpicker();
+
+    })
+</script>
+<!-- End Page Scripts -->

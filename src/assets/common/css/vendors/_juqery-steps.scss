@@ -48,6 +48,7 @@
                     line-height: 30px;
                     position: relative;
                     z-index: 2;
+                    // cursor: pointer;
                     .number {
                         display: none;
                     }
@@ -88,7 +89,13 @@
                     }
                     a {
                         color: $black-lighten-more-more !important;
+                        // cursor: pointer !important;
                     }
+                }
+                &.last.disabled{
+                  a.disableHover{
+                    cursor: pointer !important;
+                  }
                 }
             }
             @media (max-width: $md-max-width) {

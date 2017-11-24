@@ -11,8 +11,8 @@ var cleanUI = {
 /**
  * CLEAN UI TEMPLATE SCRIPTS
  */
-
-$(function(){
+$( document ).ready(function() {
+// $(function(){
     
     /////////////////////////////////////////////////////////////////////////////
     // Slide toggle menu items on click
@@ -60,8 +60,7 @@ $(function(){
         }
     }
 
-    if ($('body').hasClass('menu-top')) {
-
+    if ($('body').hasClass('menu-top')) {``
         var translateSelector = $('nav.left-menu .left-menu-inner'),
             startTranslateX = 0;
 

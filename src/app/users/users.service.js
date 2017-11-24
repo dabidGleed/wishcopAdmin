@@ -17,7 +17,14 @@ app.factory('usersService', ['$http','globalVars', function($http,globalVars) {
                 // headers:  
             }) 
         };
-
+        usersServiceMethods.getCompetitorsList = function() {
+            
+           var finalUrl = baseURL + "competitors/list/all"
+           return $http({
+               method: 'GET',
+               url: finalUrl
+           }) 
+        };
          //service to active user
         usersServiceMethods.activeUserStatus = function(userId) {
              

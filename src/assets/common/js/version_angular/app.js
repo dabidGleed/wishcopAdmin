@@ -104,6 +104,12 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             controller: "auditLogsCtrl"
 
         })
+        .state('main.competitors', {
+            url: "competitors-list",
+            templateUrl: "competitors-list/competitors-list.html",
+            controller: "competitorsCtrl"
+
+        })
         .state('main.accountTransfer', {
             url: "account-transfer",
             templateUrl: "account-transfer/account-transfer.html",

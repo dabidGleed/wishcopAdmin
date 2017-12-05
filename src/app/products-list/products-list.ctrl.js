@@ -382,7 +382,6 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
         },
         function (isConfirm) {
             if (isConfirm) {
-              
                 productsServiceMethods.bulkUpload($scope.myFile,data).then(function (response) {
                     if (response.status == 200) {
                         $scope.bulk ={
@@ -395,19 +394,18 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
                         }, {
                             type: 'success'
                         });
-                    } else {
-                        $.notify({
-                            title: '<strong>Unsuccessful!</strong>',
-                            message: "Something went wrong"
-                        }, {
-                            type: 'danger'
-                        });
-                    }
+                    } 
 
+                }).catch(function (err) {
+                    console.log(err);
+                    $.notify({
+                        title: '<strong>Unsuccessful!</strong>',
+                        message: err.data.error
+                    }, {
+                        type: 'danger'
+                    });
                 });
 
-            } else {
-              
             }
         });
  

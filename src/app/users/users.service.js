@@ -7,16 +7,36 @@ app.factory('usersService', ['$http','globalVars', function($http,globalVars) {
      var baseURL = globalVars.baseURL;
 
          //service to get all users list
-        usersServiceMethods.getUsersList = function() {
+        // usersServiceMethods.getUsersList = function() {
              
-            var finalUrl = baseURL + "admin/users/get/all"
-            return $http({
-                method: 'POST',
-                url: finalUrl
-                // data: dataObj,
-                // headers:  
-            }) 
-        };
+        //     var finalUrl = baseURL + "admin/users/get/all"
+        //     return $http({
+        //         method: 'POST',
+        //         url: finalUrl
+        //         // data: dataObj,
+        //         // headers:  
+        //     }) 
+        // };
+        usersServiceMethods.getUsersList = function(page, searchData) {
+            var query = "";
+            if (searchData.name != "") {
+              query += "&str="+searchData.name;
+            }
+  
+            if (searchData.role != "") {
+              query += "&role="+searchData.role;
+            }
+            if (searchData.status != "") {
+              query += "&status="+searchData.status;
+            }
+              var finalUrl = baseURL + "admin/user/list/all?limit=16&skip=" + page +query  ;
+              return $http({
+                  method: 'POST',
+                  url: finalUrl
+                  // data: dataObj,
+                  // headers:
+              })
+          };
         usersServiceMethods.getCompetitorsList = function() {
             
            var finalUrl = baseURL + "competitors/list/all"

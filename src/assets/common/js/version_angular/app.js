@@ -1,7 +1,7 @@
 'use strict';
 
 var app = angular.module('cleanUI', [
-    "ui.router", "angularUtils.directives.dirPagination", "summernote", "ngStorage"
+    "ui.router", "angularUtils.directives.dirPagination", "summernote", "ngStorage","ngMaterial"
 ])
 
 app.run(function ($rootScope, $state) {

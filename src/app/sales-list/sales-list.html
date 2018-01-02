@@ -78,7 +78,9 @@
         <div class="panel-body">
             <div class="cui-ecommerce--catalog">
                 <div class="row">
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12" ng-repeat="sales in salesList  | filter :{ title : search.name,owner:search.vendor,status:search.status,sale_type:search.sale_type}">
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12"
+                    dir-paginate="sales in salesList  | itemsPerPage:itemsPerPage" current-page="currentPage"
+                    total-items="totalCount">
                         <div class="cui-ecommerce--catalog--item prd-block">
                             <span class="cui-ecommerce--catalog--item--status--title" ng-class="sales.status" ng-if="sales.status == 'SALE_APPROVED'">APPROVED</span>
                             <span class="cui-ecommerce--catalog--item--status--title" ng-class="sales.status" ng-if="sales.status == 'SALE_REJECTED'">REJECTED</span>
@@ -142,6 +144,9 @@
 
                 </div>
             </div>
+        </div>
+        <div align="center">
+            <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
         </div>
     </section>
     <!-- End Ecommerce Products Catalog -->

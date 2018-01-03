@@ -11,17 +11,23 @@
                 <form name="categoryForm" ng-submit="categoryForm.$valid && uploadProducts(bulk)" novalidate>
                     <div class="col-xs-12">
                         <div class="form-group row">
-                            <div class="col-md-4 col-xs-4">
+                            <div class="col-md-3 col-xs-3">
                                 <label class="form-control-label" for="l0">Choose Vendor </label>
                             </div>
-                            <div class="col-md-4 col-xs-4 form-group" ng-class="{'has-danger' : categoryForm.searchvendor.$invalid && categoryForm.$submitted}  ">
+                            <div class="col-md-3 col-xs-3 form-group" ng-class="{'has-danger' : categoryForm.searchvendor.$invalid && categoryForm.$submitted}  ">
                                 <select class="form-control" name="searchvendor" ng-model="bulk.vendor"
-                                ng-options="vendors.id as vendors.firstName for vendors in vendorList ">
+                                ng-options="vendors.id as vendors.name for vendors in vendorList ">
                                 <option value="" selected>Select</option>
                                 </select>
                             </div>
-                            <div class="col-md-4 col-xs-4 form-group">
-                                
+                            <div class="col-md-3 col-xs-3">
+                                <label class="form-control-label" ng-show="subVendor" for="l0">Choose SubVendor </label>
+                            </div>
+                            <div class="col-md-3 col-xs-3 form-group">
+                                <select class="form-control" name="searchvendor" ng-show="subVendor" ng-model="bulk.subVendor"
+                                ng-options="sub.id as sub.name for sub in subBrands ">
+                                <option value="" selected>Select</option>
+                                </select>
                             </div>
                         </div>
                     </div>

@@ -3,16 +3,10 @@
     <!-- Ecommerce Products List -->
     <section class="panel panel-with-borders">
         <div class="panel-heading">
-            <h2>
-
-                Users List
-            </h2>
+            <h2> Users List</h2>
         </div>
         <div class="panel-body">
-            <h4>
-                Filters
-
-            </h4>
+            <h4> Filters</h4>
             <div class="col-xs-12">
                 <div class="col-xs-3  ">
                     <div class="form-group row">
@@ -31,11 +25,11 @@
                         </div>
                         <div class="col-md-9">
                             <select class="form-control" name="searchRole" ng-model="search.role">
-                                        <option value=""  selected >All</option>
-                                        <option value="VENDOR">Vendor</option>
-                                        <option value="BUYER">Buyer</option>
-                                        <option value="DISTRIBUTOR">Distributor</option>
-                                    </select>
+                                <option value="" selected>All</option>
+                                <option value="VENDOR">Vendor</option>
+                                <option value="BUYER">Buyer</option>
+                                <option value="DISTRIBUTOR">Distributor</option>
+                            </select>
                         </div>
                     </div>
 
@@ -47,22 +41,23 @@
                         </div>
                         <div class="col-md-9">
                             <select class="form-control" name="searchstatus" ng-model="search.status">
-                                        <option value="" selected >All</option>
-                                        <option value="ACTIVE">Active</option>
-                                        <option value="DELETED">Deleted</option>
-                                        <option value="NOTVERIFIED">Not Verified</option>
-                                        
-                                    </select>
+                                <option value="" selected>All</option>
+                                <option value="ACTIVE">Active</option>
+                                <option value="DELETED">Deleted</option>
+                                <option value="NOTVERIFIED">Not Verified</option>
+
+                            </select>
                         </div>
                     </div>
 
                 </div>
 
-                <div class="col-xs-2"><a href="javascript: void(0);" class="pull-right btn btn-primary" ng-click="resetFilters()">Reset</a></div>
+                <div class="col-xs-2">
+                    <a href="javascript: void(0);" class="pull-right btn btn-primary" ng-click="resetFilters()">Reset</a>
+                </div>
             </div>
         </div>
         <div class="panel-body">
-
             <div class="table-responsive thead-default margin-bottom-50">
                 <table class="table table-hover">
                     <thead>
@@ -79,51 +74,42 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <!--<tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Thumbnail</th>
-                                    <th>Name</th>
-                                    <th>Role</th>
-                                    <th>Email</th>
-                                    
-                                    <th>Mobile Number</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot>-->
                     <tbody>
-                        <tr dir-paginate="users in userList   | filter : {firstName:search.name,role:search.role,status:search.status} | itemsPerPage:itemsPerPage"
-                            current-page="currentPage">
+                        <tr dir-paginate="users in userList | itemsPerPage:itemsPerPage" current-page="currentPage" total-items="totalCount">
                             <!--<td><a href="javascript: void(0);" class="link-underlined">{{$index+1}}</a></td>-->
                             <td>{{itemsPerPage *(currentPage-1)+$index+1}}</td>
-                            <td><a href="javascript: void(0);" class="cui-ecommerce--dashboard--list--img"><img ng-src="{{users.gravatarUrl}}" /></a></td>
+                            <td>
+                                <a href="javascript: void(0);" class="cui-ecommerce--dashboard--list--img">
+                                    <img ng-src="{{users.gravatarUrl}}" />
+                                </a>
+                            </td>
                             <td>{{users.firstName}} {{users.lastName}}</td>
-                            <td><span ng-repeat="role in users.role" class="label label-pill label-default font-size-14 margin-inline">{{role}}</span>                                </td>
+                            <td>
+                                <span ng-repeat="role in users.role" class="label label-pill label-default font-size-14 margin-inline">{{role}}</span>
+                            </td>
                             <td>{{users.email}}</td>
                             <td>{{users.mobileNumber}}</td>
                             <td>{{users.createdAt | date : 'yyyy-MM-dd'}}</td>
-                            <td><span class="label {{users.status == 'ACTIVE' ? 'label-success' : ''}} {{users.status == 'DELETED' ? 'label-danger':''}} {{users.status == 'NOTVERIFIED' ? 'label-default':''}} ">{{users.status}}</span></td>
+                            <td>
+                                <span class="label {{users.status == 'ACTIVE' ? 'label-success' : ''}} {{users.status == 'DELETED' ? 'label-danger':''}} {{users.status == 'NOTVERIFIED' ? 'label-default':''}} ">{{users.status}}</span>
+                            </td>
                             <td>
                                 <!--<a href="javascript: void(0);" class="link-underlined margin-right-5"><i class="icmn-pencil5"> </i> View</a>-->
                                 <button type="button" class="btn btn-rounded btn-secondary-outline margin-inline" data-toggle="modal" data-target="#userData"
                                     ng-click="userDetails(users);">
-                                           <i class="icmn-pencil5"> </i> View
-                                       </button>
+                                    <i class="icmn-pencil5"> </i> View
+                                </button>
                             </td>
                         </tr>
                         <tr ng-show="!(userList   | filter : {firstName:search.name,role:search.role,status:search.status}).length">
                             <td colspan="10">
                                 <center>No data found</center>
                             </td>
-
                         </tr>
-
                         <tr>
-                            <td colspan="10">
-                                <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                            <td colspan="5" align="center">
+                                <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
                             </td>
-
                         </tr>
                     </tbody>
                 </table>
@@ -139,8 +125,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 <h4 class="modal-title" id="myModalLabel">User Details</h4>
             </div>
             <div class="modal-body">
@@ -157,7 +143,11 @@
                                 <td class="text-nowrap">
                                     Profile image
                                 </td>
-                                <td><a href="javascript: void(0);" class="cui-ecommerce--dashboard--list--img"><img ng-src="{{modalDetials.gravatarUrl}}" /></a>                                    </td>
+                                <td>
+                                    <a href="javascript: void(0);" class="cui-ecommerce--dashboard--list--img">
+                                        <img ng-src="{{modalDetials.gravatarUrl}}" />
+                                    </a>
+                                </td>
                             </tr>
                             <tr>
                                 <td class="text-nowrap">
@@ -180,9 +170,11 @@
 
                             <tr>
                                 <td class="text-nowrap">
-                                    Role
+                                    Change Role
                                 </td>
-                                <td><span ng-repeat="role in modalDetials.role" class="label label-pill label-default font-size-14 margin-inline">{{role}}</span>                                    </td>
+                                <td>
+                                    <span ng-repeat="role in modalDetials.role" class="label label-pill label-default font-size-14 margin-inline">{{role}}</span>
+                                </td>
                             </tr>
                             <tr>
                                 <td class="text-nowrap">
@@ -208,7 +200,7 @@
                                 </td>
                                 <td>{{modalDetials.createdAt | date : 'yyyy-MM-dd'}}</td>
                             </tr>
-                           
+
                             <th>
                                 <td colspan="2">Profile Detials</td>
                             </th>
@@ -296,7 +288,11 @@
 
                                                         <tbody>
                                                             <tr ng-repeat="row in legalities.imageproofs   ">
-                                                                <td colspan="2"> <a href="{{row.oralink}}" target="_blank"><img ng-src="{{row.link}}" class="messaging-img" alt="{{row.imageName}}"></a></td>
+                                                                <td colspan="2">
+                                                                    <a href="{{row.oralink}}" target="_blank">
+                                                                        <img ng-src="{{row.link}}" class="messaging-img" alt="{{row.imageName}}">
+                                                                    </a>
+                                                                </td>
 
 
                                                             </tr>
@@ -353,7 +349,11 @@
 
                                                         <tbody>
                                                             <tr ng-repeat="row in news.imageproofs   ">
-                                                                <td colspan="2"> <a href="{{row.oralink}}" target="_blank"><img ng-src="{{row.link}}" class="messaging-img" alt="{{row.imageName}}"></a></td>
+                                                                <td colspan="2">
+                                                                    <a href="{{row.oralink}}" target="_blank">
+                                                                        <img ng-src="{{row.link}}" class="messaging-img" alt="{{row.imageName}}">
+                                                                    </a>
+                                                                </td>
 
 
                                                             </tr>
@@ -367,17 +367,19 @@
                                     </table>
                                 </td>
                             </tr>
-                             <tr>
+                            <tr>
                                 <td class="text-nowrap">
                                     Status
                                 </td>
-                                <td> <select class="form-control" name="userStatus" ng-model="modalDetials.status">
-                                       
+                                <td>
+                                    <select class="form-control" name="userStatus" ng-model="modalDetials.status">
+
                                         <option value="ACTIVE">Active</option>
                                         <option value="DELETED">Delete</option>
-                                       
-                                        
-                                    </select></td>
+
+
+                                    </select>
+                                </td>
                             </tr>
 
 

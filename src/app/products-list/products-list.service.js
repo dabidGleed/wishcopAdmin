@@ -39,6 +39,9 @@ app.factory('productsService', ['$http','globalVars', function($http,globalVars)
         };
         productsServiceMethods.bulkUpload = function(file,data){
             var finalUrl = baseURL + "products/upload/"+data.vendor+"/bulk"
+            if(!!data.subVendor){
+                finalUrl = finalUrl + "?subBrand="+data.subVendor;
+            }
              return $http({
                 method: 'POST',
                 url: finalUrl,

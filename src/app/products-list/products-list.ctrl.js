@@ -6,6 +6,7 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
     $scope.currentPage = 1;
     $scope.itemsPerPage = 16;
     $scope.totalCount = 0;
+    $scope.subVendor = false;
     $scope.bulk = {
         vendor:""
     };
@@ -32,7 +33,18 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
     }
     $scope.getProductsList(0, $scope.localSearch);
     productsServiceMethods.getVendorsList().then(function (response) {
-        $scope.vendorList = response.data;
+        if(response.data){
+            $scope.vendorList = [];
+            angular.forEach(response.data, function (value, key) {
+                if(value.profile){
+                    $scope.vendorList.push(value);
+                    value.name = value.firstName +" " +value.lastName + ", "+ value.profile.companyName;
+                }
+                
+            })
+            // $scope.vendorList = response.data;
+        }
+        
 
     });
 
@@ -72,7 +84,19 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
         angular.copy($scope.search, $scope.localSearch);
         $scope.getProductsList(0, $scope.localSearch);
     });
-
+    $scope.$watch("bulk.vendor", function () {
+        if ($scope.bulk.vendor != "" && $scope.bulk.vendor != null) {
+            var vendor = $filter('filter')($scope.vendorList, { id: $scope.bulk.vendor })[0];
+            $scope.subVendor = false;
+            $scope.subBrands = [];
+            if (vendor.profile) {
+                if (vendor.profile.subBrands) {
+                    $scope.subVendor = true;
+                    $scope.subBrands = vendor.profile.subBrands;
+                }
+            }
+        }
+    });
     //modal popup details of the Product
     $scope.productDetails = function(productData) {
 
@@ -369,6 +393,7 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
         NProgress.done();
     }
     $scope.uploadProducts = function(data){
+        console.log(data);
         swal({
             title: "Are you sure?",
             text: "You want to upload all products in sheet!",

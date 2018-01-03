@@ -6,19 +6,56 @@ app.controller('usersListCtrl', ["$location", "$scope", "$rootScope", "usersServ
 
 
     $scope.currentPage = 1;
-    $scope.itemsPerPage = 15;
+    $scope.itemsPerPage = 16;
+    $scope.totalCount = 0;
 
-
-
-    // get users list
-    usersServiceMethods.getUsersList().then(function (response) {
-        $scope.userList = response.data;
-    });
     $scope.search = {
         name: "",
         role: "",
         status: ""
     };
+    $scope.localSearch = {
+        name: "",
+        vendor: "",
+        status: ""
+    };
+    
+    // get users list
+    $scope.getUsersList = function(data, searchData){
+        NProgress.start();
+        usersServiceMethods.getUsersList(data, searchData).then(function (response) {
+            $scope.userList = response.data.users;
+            $scope.totalCount = response.data.count;
+            NProgress.done();
+        });
+    }
+    $scope.pageChanged = function(newPage) {
+        var pageDataList = (newPage - 1) * ($scope.itemsPerPage);
+        $scope.getUsersList(pageDataList, $scope.localSearch);
+    };
+    $scope.getUsersList(0,$scope.localSearch);
+    $scope.$watch("search.status", function () {
+
+        if ($scope.search.status == null) {
+            $scope.search.status = "";
+        }
+        angular.copy($scope.search, $scope.localSearch);
+        $scope.getUsersList(0, $scope.localSearch);
+
+    });
+
+    $scope.$watch("search.role", function () {
+        if ($scope.search.role == null) {
+            $scope.search.role = "";
+        }
+        angular.copy($scope.search, $scope.localSearch);
+        $scope.getUsersList(0, $scope.localSearch);
+    });
+    $scope.$watch("search.name", function () {
+        $scope.search.role = "";
+        angular.copy($scope.search, $scope.localSearch);
+        $scope.getUsersList(0, $scope.localSearch);
+    });
 
     // users list filters
     $scope.resetFilters = function () {
@@ -28,6 +65,8 @@ app.controller('usersListCtrl', ["$location", "$scope", "$rootScope", "usersServ
             status: ""
         };
     }
+
+
     //modal popup details of the user
     $scope.userDetails = function (userData) {
         // console.log(userData);

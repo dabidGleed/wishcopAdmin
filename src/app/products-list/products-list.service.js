@@ -38,14 +38,22 @@ app.factory('productsService', ['$http','globalVars', function($http,globalVars)
             })
         };
         productsServiceMethods.bulkUpload = function(file,data){
-            console.log(file);
             var finalUrl = baseURL + "products/upload/"+data.vendor+"/bulk"
-            var fd = new FormData();
-            fd.append('content', file);
-            return $http.post(finalUrl, fd, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined}
-             })
+            if(!!data.subVendor){
+                finalUrl = finalUrl + "?subBrand="+data.subVendor;
+            }
+             return $http({
+                method: 'POST',
+                url: finalUrl,
+                headers: {
+                    'Content-Type': undefined
+                },
+                transformRequest: function (data, headersGetter) {
+                    var fd = new FormData();
+                    fd.append('content', file);
+                    return fd;
+                }
+            })
             
         };
 

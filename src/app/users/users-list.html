@@ -95,8 +95,7 @@
                             </td>
                             <td>
                                 <!--<a href="javascript: void(0);" class="link-underlined margin-right-5"><i class="icmn-pencil5"> </i> View</a>-->
-                                <button type="button" class="btn btn-rounded btn-secondary-outline margin-inline" data-toggle="modal" data-target="#userData"
-                                    ng-click="userDetails(users);">
+                                <button type="button" class="btn btn-rounded btn-secondary-outline margin-inline" data-toggle="modal" data-target="#userData" ng-click="userDetails(users);">
                                     <i class="icmn-pencil5"> </i> View
                                 </button>
                             </td>
@@ -172,8 +171,12 @@
                                 <td class="text-nowrap">
                                     Change Role
                                 </td>
-                                <td>
+                                <!--<td>
                                     <span ng-repeat="role in modalDetials.role" class="label label-pill label-default font-size-14 margin-inline">{{role}}</span>
+                                </td>-->
+                                <td><span ng-repeat="role in modalDetials.role"><span class="label label-pill label-default font-size-14 margin-inline">{{role}}</span><span class="label label-pill label-default font-size-14 margin-inline">Distibutor</span>
+                                    <span class="label label-pill label-default font-size-14 margin-inline roleActive">Buyer</span>
+                                    </span>
                                 </td>
                             </tr>
                             <tr>
@@ -228,8 +231,7 @@
 
                                                         <tbody>
                                                             <tr ng-repeat="address in companyProfile.addressArray   ">
-                                                                <td>{{$index+1}}. {{address.address}}, {{address.city}}, {{address.state}},
-                                                                    {{address.country}}, pincode : </td>
+                                                                <td>{{$index+1}}. {{address.address}}, {{address.city}}, {{address.state}}, {{address.country}}, pincode : </td>
 
                                                             </tr>
                                                         </tbody>
@@ -289,9 +291,8 @@
                                                         <tbody>
                                                             <tr ng-repeat="row in legalities.imageproofs   ">
                                                                 <td colspan="2">
-                                                                    <a href="{{row.oralink}}" target="_blank">
-                                                                        <img ng-src="{{row.link}}" class="messaging-img" alt="{{row.imageName}}">
-                                                                    </a>
+                                                                    <a href="{{row.oralink}}" target="_blank"><img ng-src="{{row.link}}" class="messaging-img" alt="{{row.imageName}}"></a>
+
                                                                 </td>
 
 
@@ -350,9 +351,12 @@
                                                         <tbody>
                                                             <tr ng-repeat="row in news.imageproofs   ">
                                                                 <td colspan="2">
+                                                                    <a href="{{row.oralink}}" target="_blank"><img ng-src="{{row.link}}" class="messaging-img" alt="{{row.imageName}}"></a>
+
                                                                     <a href="{{row.oralink}}" target="_blank">
                                                                         <img ng-src="{{row.link}}" class="messaging-img" alt="{{row.imageName}}">
                                                                     </a>
+
                                                                 </td>
 
 
@@ -410,7 +414,7 @@
     // })
 </script>
 <script>
-    $(function () {
+    $(function() {
 
         $('.select2').select2();
         $('.select2-tags').select2({

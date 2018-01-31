@@ -1,51 +1,100 @@
-.cui-ecommerce--catalog--item--status{
-  .cui-ecommerce--catalog--item--status--title{
-    top: 7px;
-    left: -22px;
-    font-size: 9px;
-  }
-}
-.cui-ecommerce--catalog--item{
-  overflow: hidden;
-  .cui-ecommerce--catalog--item--title,.cui-ecommerce--catalog--item--descr{
-      padding-right: 0;
-      font-size: 14px;
-    .cui-ecommerce--catalog--item--price{
-      font-size: 18px;
-      position: relative;
-      top:0;
-      text-align: left;
-      .cui-ecommerce--catalog--item--price--old{
-        text-decoration: none;
-        font-size: 14px;
-        span{
-          text-decoration: line-through;
-        }
-      }
+.cui-ecommerce--catalog--item--status {
+    .cui-ecommerce--catalog--item--status--title {
+        top: 7px;
+        left: -22px;
+        font-size: 9px;
     }
-  }
-  .cui-ecommerce--catalog--item--status--title{
-    background: red;
-    top: -6px;
-    left: -43px;
-    text-align: center;
-    width: 100px;
-    font-size: 10px;
-    padding: 5px 0;
-    z-index: 999;
-  }
 }
 
-.emptySpace{height: 21px;}
-.emptySpaceTrue{display: none;}
-.cui-ecommerce--catalog--item--status--title.SALE_APPROVED,.cui-ecommerce--catalog--item--status--title.ACTIVE{background: #008000;}
-.cui-ecommerce--catalog--item--status--title.SALE_FROZEN{background: #01a8fe;}
-.cui-ecommerce--catalog--item--status--title.SALE_BLOCKED{background: #514d6a;}
-.prd-block{display: inline-block;margin-top: 10px;
-    span{display: inline-block;}
+.cui-ecommerce--catalog--item {
+    overflow: hidden;
+    .cui-ecommerce--catalog--item--title,
+    .cui-ecommerce--catalog--item--descr {
+        padding-right: 0;
+        font-size: 14px;
+        .cui-ecommerce--catalog--item--price {
+            font-size: 18px;
+            position: relative;
+            top: 0;
+            text-align: left;
+            .cui-ecommerce--catalog--item--price--old {
+                text-decoration: none;
+                font-size: 14px;
+                span {
+                    text-decoration: line-through;
+                }
+            }
+        }
+    }
+    .cui-ecommerce--catalog--item--status--title {
+        background: red;
+        top: -6px;
+        left: -43px;
+        text-align: center;
+        width: 100px;
+        font-size: 10px;
+        padding: 5px 0;
+        z-index: 999;
+    }
 }
-.prd-hide{display: block;height: 51px;}
-.cui-ecommerce--catalog--item .cui-ecommerce--catalog--item--status--title.sale-status{position: absolute;top: 14px;left: -23px;}
-.cui-ecommerce--catalog--item.prd-block{height: 455px;width: 100%;}
-.order-total{font-size: 16px;}
-.btn-margin{margin-bottom: 10px;}
+
+.emptySpace {
+    height: 21px;
+}
+
+.emptySpaceTrue {
+    display: none;
+}
+
+.cui-ecommerce--catalog--item--status--title.SALE_APPROVED,
+.cui-ecommerce--catalog--item--status--title.ACTIVE {
+    background: #008000;
+}
+
+.cui-ecommerce--catalog--item--status--title.SALE_FROZEN {
+    background: #01a8fe;
+}
+
+.cui-ecommerce--catalog--item--status--title.SALE_BLOCKED {
+    background: #514d6a;
+}
+
+.prd-block {
+    display: inline-block;
+    margin-top: 10px;
+    span {
+        display: inline-block;
+    }
+}
+
+.prd-hide {
+    display: block;
+    height: 51px;
+}
+
+.cui-ecommerce--catalog--item .cui-ecommerce--catalog--item--status--title.sale-status {
+    position: absolute;
+    top: 14px;
+    left: -23px;
+}
+
+.cui-ecommerce--catalog--item.prd-block {
+    height: 455px;
+    width: 100%;
+}
+
+.order-total {
+    font-size: 16px;
+}
+
+.btn-margin {
+    margin-bottom: 10px;
+}
+
+.label.roleActive {
+    background: #01a8fe;
+}
+
+.label.label-default {
+    cursor: pointer;
+}

@@ -42,7 +42,11 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             url: "users/list",
             templateUrl: "users/users-list.html",
             controller: "usersListCtrl"
-
+        })
+        .state('main.vendorlist', {
+            url: "vendors/list",
+            templateUrl: "users/vendors-list.html",
+            controller: "vendorsListCtrl"
         })
         .state('main.saleslist', {
             url: "sales-list",

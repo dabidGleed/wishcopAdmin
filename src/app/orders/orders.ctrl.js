@@ -33,7 +33,6 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
         $scope.vendorList = response.data;
 
     });
-
     $scope.pageChanged = function (newPage) {
         var pageDataList = (newPage - 1) * ($scope.itemsPerPage);
         $scope.getTransactionsList(pageDataList, $scope.localSearch);

@@ -25,6 +25,19 @@
               // headers:
           })
       };
+      ordersServiceMethods.getOrderReports = function (page, searchData) {
+        var query = "";
+        if(searchData.status === ""){
+            searchData.status = "All";
+        }
+        var finalUrl = baseURL + "orders/"+searchData.status+"/get/details?limit=15&sort=createdAt DESC&skip=" + page  ;
+        return $http({
+            method: 'GET',
+            url: finalUrl
+            // data: dataObj,
+            // headers:
+        })
+    };
       ordersServiceMethods.getVendorsList = function () {
 
           var finalUrl = baseURL + "admin/vendor/list"
@@ -35,6 +48,16 @@
               // headers:
           })
       };
+      ordersServiceMethods.getStatusList = function () {
+
+        var finalUrl = baseURL + "orders/get/status/all"
+        return $http({
+            method: 'GET',
+            url: finalUrl
+            // data: dataObj,
+            // headers:
+        })
+    };
       //service to get order Details
       ordersServiceMethods.getOrderDetails = function (orderId,saleId) {
            var finalUrl = baseURL + 'orders/' + orderId + '/' + saleId + '/trackorder'  ;

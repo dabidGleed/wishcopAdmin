@@ -172,12 +172,21 @@
                                     Change Role
                                 </td>
                                 <td>
-                                    <span ng-repeat="role in modalDetials.role" class="label label-pill label-default font-size-14 margin-inline">{{role}}</span>
+                                    <label ng-repeat="role in roles" class="label label-pill label-default font-size-14 margin-inline">
+                                        <input
+                                          type="checkbox"
+                                          name="modalDetials.role[]"
+                                          value="{{role}}"
+                                          ng-checked="modalDetials.role.indexOf(role) > -1"
+                                          ng-click="toggleSelection(role)"
+                                        > {{role}}
+                                      </label>
                                 </td>
                                 <!-- <td><span ng-repeat="role in modalDetials.role"><span class="label label-pill label-default font-size-14 margin-inline">{{role}}</span><span class="label label-pill label-default font-size-14 margin-inline">Distibutor</span>
                                     <span class="label label-pill label-default font-size-14 margin-inline roleActive">Buyer</span>
                                     </span>
                                 </td> -->
+                                
                             </tr>
                             <tr>
                                 <td class="text-nowrap">

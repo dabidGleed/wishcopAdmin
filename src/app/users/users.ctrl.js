@@ -16,45 +16,72 @@ app.controller('usersListCtrl', ["$location", "$scope", "$rootScope", "usersServ
     };
     $scope.localSearch = {
         name: "",
-        vendor: "",
-        status: ""
+        status: "",
+        role: "",
     };
-    
+    $scope.roles = ['ADMIN', 'BUYER', 'VENDOR', 'DISTRIBUTOR'];
+    $scope.toggleSelection = function toggleSelection(role) {
+        var idx = $scope.modalDetials.role.indexOf(role);
+
+        // Is currently selected
+        if (idx > -1) {
+            $scope.modalDetials.role.splice(idx, 1);
+        }
+
+        // Is newly selected
+        else {
+            var conflict = false;
+            if (role === "VENDOR" || role === "DISTRIBUTOR") {
+                conflict = $scope.modalDetials.role.indexOf("DISTRIBUTOR") > -1 || $scope.modalDetials.role.indexOf("VENDOR") > -1;
+            }
+            if (conflict) {
+                if (role === "VENDOR") {
+                    $scope.modalDetials.role.splice($scope.modalDetials.role.indexOf("DISTRIBUTOR"), 1);
+                } else {
+                    $scope.modalDetials.role.splice($scope.modalDetials.role.indexOf("VENDOR"), 1);
+                }
+            }
+            $scope.modalDetials.role.push(role);
+
+        }
+    };
     // get users list
-    $scope.getUsersList = function(data, searchData){
+    $scope.getUsersList = function (data, searchData) {
         NProgress.start();
         usersServiceMethods.getUsersList(data, searchData).then(function (response) {
+            console.log(response.data);
             $scope.userList = response.data.users;
             $scope.totalCount = response.data.count;
             NProgress.done();
         });
     }
-    $scope.pageChanged = function(newPage) {
+    $scope.pageChanged = function (newPage) {
         var pageDataList = (newPage - 1) * ($scope.itemsPerPage);
         $scope.getUsersList(pageDataList, $scope.localSearch);
     };
-    $scope.getUsersList(0,$scope.localSearch);
+    $scope.getUsersList(0, $scope.localSearch);
     $scope.$watch("search.status", function () {
-
-        if ($scope.search.status == null) {
-            $scope.search.status = "";
+        if ($scope.search.status) {
+            angular.copy($scope.search, $scope.localSearch);
+            $scope.getUsersList(0, $scope.localSearch);
         }
-        angular.copy($scope.search, $scope.localSearch);
-        $scope.getUsersList(0, $scope.localSearch);
-
     });
 
     $scope.$watch("search.role", function () {
-        if ($scope.search.role == null) {
-            $scope.search.role = "";
+
+        if ($scope.search.role) {
+            angular.copy($scope.search, $scope.localSearch);
+            $scope.getUsersList(0, $scope.localSearch);
         }
-        angular.copy($scope.search, $scope.localSearch);
-        $scope.getUsersList(0, $scope.localSearch);
+
     });
     $scope.$watch("search.name", function () {
-        $scope.search.role = "";
-        angular.copy($scope.search, $scope.localSearch);
-        $scope.getUsersList(0, $scope.localSearch);
+        if ($scope.search.name) {
+            $scope.search.role = "";
+            angular.copy($scope.search, $scope.localSearch);
+            $scope.getUsersList(0, $scope.localSearch);
+        }
+
     });
 
     // users list filters
@@ -102,8 +129,8 @@ app.controller('usersListCtrl', ["$location", "$scope", "$rootScope", "usersServ
                     title: '<strong>Unsuccessful!</strong>',
                     message: response.data.message
                 }, {
-                    type: 'danger'
-                });
+                        type: 'danger'
+                    });
             }
         });
 
@@ -115,10 +142,29 @@ app.controller('usersListCtrl', ["$location", "$scope", "$rootScope", "usersServ
             id: modaldetails.id
         });
         if ($scope.filterData[0].status == modaldetails.status) {
+            $scope.userList[$scope.userList.indexOf($scope.filterData[0])] = modaldetails;
+            usersServiceMethods.changeRole(modaldetails.id, modaldetails.role).then(function (response) {
+                if (response.status == 200) {
+                    $scope.filterData[0].status = modaldetails.status;
 
+                    $.notify({
+                        title: '<strong>Success!</strong>',
+                        message: response.data.message
+                    }, {
+                            type: 'success'
+                        });
+                } else {
+                    $.notify({
+                        title: '<strong>Unsuccessful!</strong>',
+                        message: response.data.message
+                    }, {
+                            type: 'danger'
+                        });
+                }
+            });
         } else {
             if (modaldetails.status == "ACTIVE") {
-                usersServiceMethods.activeUserStatus(modaldetails.id).then(function (response) {
+                usersServiceMethods.activeUserStatus(modaldetails.id, modaldetails.role).then(function (response) {
                     if (response.status == 200) {
                         $scope.filterData[0].status = modaldetails.status;
 
@@ -126,21 +172,21 @@ app.controller('usersListCtrl', ["$location", "$scope", "$rootScope", "usersServ
                             title: '<strong>Success!</strong>',
                             message: response.data.message
                         }, {
-                            type: 'success'
-                        });
+                                type: 'success'
+                            });
                     } else {
                         $.notify({
                             title: '<strong>Unsuccessful!</strong>',
                             message: response.data.message
                         }, {
-                            type: 'danger'
-                        });
+                                type: 'danger'
+                            });
                     }
                 });
             }
             if (modaldetails.status == "DELETED") {
 
-                usersServiceMethods.deleteUserStatus(modaldetails.id).then(function (response) {
+                usersServiceMethods.deleteUserStatus(modaldetails.id, modaldetails.role).then(function (response) {
                     if (response.status == 200) {
                         $scope.filterData[0].status = modaldetails.status;
 
@@ -148,15 +194,15 @@ app.controller('usersListCtrl', ["$location", "$scope", "$rootScope", "usersServ
                             title: '<strong>Success!</strong>',
                             message: response.data.message
                         }, {
-                            type: 'success'
-                        });
+                                type: 'success'
+                            });
                     } else {
                         $.notify({
                             title: '<strong>Unsuccessful!</strong>',
                             message: response.data.message
                         }, {
-                            type: 'danger'
-                        });
+                                type: 'danger'
+                            });
                     }
                 });
             }

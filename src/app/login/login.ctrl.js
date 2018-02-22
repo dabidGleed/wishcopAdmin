@@ -8,7 +8,7 @@ app.controller('loginPageCtrl', ["loginService", "$location", "$state", "$scope"
     $rootScope.hideTopMenu = true;
     $rootScope.showFooter = false;
     $scope.user = {};
-
+    $scope.error = false;
     $scope.goToDashboard = function (user) {
         loginServiceMethods.login(user).then(function (response) {
             if (response.data.role[0] == "ADMIN") {
@@ -21,7 +21,7 @@ app.controller('loginPageCtrl', ["loginService", "$location", "$state", "$scope"
                 })
 
             } else {
-                $scope.error = "User name and password not valid"
+                $scope.error = "Your credentials do not match, please check the credentials"
             }
         });
     }
@@ -43,12 +43,13 @@ app.controller('loginPageCtrl', ["loginService", "$location", "$state", "$scope"
                         reload: true
                     })
                 } else {
-                    $scope.error = "User name and password not valid"
+                    $scope.error = "Your credentials do not match, please check the credentials"
                 }
 
 
-            }, function (error) {
-                $scope.error = "User name and password not valid"
+            }).catch(function (error) {
+                console.log(error);
+                $scope.error = "Your credentials do not match, please check the credentials"
             });
 
     };

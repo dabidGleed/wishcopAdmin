@@ -22,6 +22,26 @@ app.factory('usersService', ['$http', 'globalVars', function ($http, globalVars)
             // headers:
         })
     };
+    usersServiceMethods.getUsersList = function (page, searchData) {
+        var query = "";
+        if (searchData.name != "") {
+            query += "&str=" + searchData.name;
+        }
+
+        if (searchData.role != "") {
+            query += "&role=" + searchData.role;
+        }
+        if (searchData.status != "") {
+            query += "&status=" + searchData.status;
+        }
+        var finalUrl = baseURL + "admin/user/list/all?limit=16&skip=" + page + query;
+        return $http({
+            method: 'POST',
+            url: finalUrl
+            // data: dataObj,
+            // headers:
+        })
+    };
     usersServiceMethods.stopOrStartSales = function (data) {
         
         var finalUrl = baseURL + "admin/"+data.vendorId+"/"+data.status+"/stop-resume/sales";
@@ -47,13 +67,13 @@ app.factory('usersService', ['$http', 'globalVars', function ($http, globalVars)
         })
     };
     //service to active user
-    usersServiceMethods.activeUserStatus = function (userId) {
+    usersServiceMethods.activeUserStatus = function (userId, roles) {
 
         var finalUrl = baseURL + "admin/" + userId + "/make/active"
         return $http({
             method: 'POST',
-            url: finalUrl
-            // data: dataObj,
+            url: finalUrl,
+            data: {role: roles},
             // headers:  
         })
     };
@@ -72,17 +92,27 @@ app.factory('usersService', ['$http', 'globalVars', function ($http, globalVars)
 
 
     //service to delete user
-    usersServiceMethods.deleteUserStatus = function (userId) {
+    usersServiceMethods.deleteUserStatus = function (userId, roles) {
 
         var finalUrl = baseURL + "admin/" + userId + "/delete"
         return $http({
-            method: 'DELETE',
-            url: finalUrl
-            // data: dataObj,
+            method: 'POST',
+            url: finalUrl,
+            data: {role: roles}
             // headers:  
         })
     };
+     //service to change role
+     usersServiceMethods.changeRole = function (userId, roles) {
 
+        var finalUrl = baseURL + "admin/" + userId + "/change/role"
+        return $http({
+            method: 'POST',
+            url: finalUrl,
+            data: {role: roles}
+            // headers:  
+        })
+    };
 
     return usersServiceMethods;
 }])

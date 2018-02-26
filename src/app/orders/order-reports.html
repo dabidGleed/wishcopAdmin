@@ -65,7 +65,6 @@
                                             <th>Amount</th>
                                             <th>Created Date</th>
                                             <th>Order Details</th>
-
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -87,7 +86,7 @@
                                             <td colspan="2">{{sales.title}}
                                                 <br>Quantity : {{sales.order_quantity}}
                                                 <br>Status :
-                                                <span ng-class="sales.status==='ORDER_CANCELED' ? 'text-danger' : 'text-success'">{{sales.status.replace("_"," ")}}</span>
+                                                <span ng-class="sales.status==='ORDER_CANCELED' ? 'text-danger' : 'text-success'">{{sales.status === "ORDER_APPROVED"? "SHIPPING_PENDING".replace("_"," "): sales.status.replace("_"," ")}}</span>
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-primary margin-inline" data-toggle="modal"

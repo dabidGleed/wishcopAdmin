@@ -27,7 +27,16 @@ app.controller('orderReportsCtrl', ["$location", "$scope", "$rootScope", "orders
     $scope.getOrderReports(0, $scope.localSearch);
 
     ordersServiceMethods.getStatusList().then(function (response) {
+        
         $scope.statusList = response.data;
+        angular.forEach($scope.statusList, function(value, key){
+            if(value == "ORDER_APPROVED"){
+                $scope.statusList[key] = "SHIPPING_PENDING";
+            }
+            if(value == "ORDER_SHIPPED"){
+                $scope.statusList[key]  = "DELIVERY_PENDING";
+            }
+         });
 
     });
     $scope.pageChanged = function (newPage) {
@@ -36,10 +45,17 @@ app.controller('orderReportsCtrl', ["$location", "$scope", "$rootScope", "orders
     };
 
     $scope.$watch("search.status", function () {
-        if(!$scope.search.status){
-            $scope.search.status = "";
+        if($scope.search.status){
+            var status = $scope.search.status;
+            if($scope.search.status == "SHIPPING_PENDING"){
+                status = "ORDER_APPROVED";
+            }
+            if($scope.search.status == "DELIVERY_PENDING"){
+                status = "ORDER_SHIPPED";
+            }
+            $scope.getOrderReports(0, {status:status});
         }
-        $scope.getOrderReports(0, $scope.search);
+        
     });
     // users list filters
     $scope.resetFilters = function () {

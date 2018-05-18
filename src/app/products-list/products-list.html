@@ -1,33 +1,14 @@
 <div class="page-content-inner" id="exportthis">
-
-    <!-- Ecommerce Products Catalog -->
     <section class="panel panel-with-borders">
         <div class="panel-heading">
             <h2>
-
-
                 Products List
             </h2>
-
-
         </div>
         <div class="panel-body">
             <h4 class="col-md-6 col-sm-6 col-xs-6">
                 Filters
             </h4>
-            <!-- <div class="form-group order-total col-md-6 col-xs-12">
-              <div class="form-grou row">
-                <div class="col-md-3 col-sm-3 col-xs-3">
-                    <small>Search</small>
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-9">
-                  <input type="text" class="form-control" ng-model="search.name" placeholder="Search keyword"
-                         id="l0">
-                </div>
-              </div>
-
-            </div> -->
-
             <div class="col-xs-12">
                 <div class="col-lg-6 col-md-12 col-sm-12">
                     <div class="form-group row">
@@ -35,8 +16,7 @@
                             <label class="form-control-label" for="l0">Search </label>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-9">
-                            <input type="text" class="form-control" ng-model="search.name" placeholder="Search keyword"
-                                   id="l0">
+                            <input type="text" class="form-control" ng-model="search.name" placeholder="Search keyword" id="l0">
                         </div>
                     </div>
                 </div>
@@ -46,8 +26,7 @@
                             <label class="form-control-label" for="l0">Vendors </label>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-9">
-                            <select class="form-control" name="searchvendor" ng-model="search.vendor"
-                                    ng-options="vendors.id as vendors.firstName for vendors in vendorList ">
+                            <select class="form-control" name="searchvendor" ng-model="search.vendor" ng-options="vendors.id as vendors.firstName for vendors in vendorList ">
                                 <option value="" selected>All</option>
                             </select>
                         </div>
@@ -70,38 +49,29 @@
 
                 <div class="col-md-6 col-sm-6 col-xs-12 pull-right btn-margin">
                     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-5">
-                           <button class="pull-right btn btn-primary"
-                                         ng-click="resetFilters()">Reset</button>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-5">
-                          <button   class="pull-right btn btn-primary"
-                                         ng-click="export(search.vendor)">export</button>
-                        </div>
-                  </div>
+                        <button class="pull-right btn btn-primary" ng-click="resetFilters()">Reset</button>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-5">
+                        <button class="pull-right btn btn-primary" ng-click="export(search.vendor)">export</button>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="panel-body">
             <div class="cui-ecommerce--catalog">
                 <div class="row">
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12"
-                         dir-paginate="products in productsList  | itemsPerPage:itemsPerPage" current-page="currentPage"
-                             total-items="totalCount">
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12" dir-paginate="products in productsList  | itemsPerPage:itemsPerPage" current-page="currentPage"
+                        total-items="totalCount">
                         <div class="cui-ecommerce--catalog--item">
-                            <span class="cui-ecommerce--catalog--item--status--title" ng-class="products.status"
-                                  ng-if="products.status == 'DELETED'">Deleted</span>
-                            <span class="cui-ecommerce--catalog--item--status--title" ng-class="products.status"
-                                  ng-if="products.status == 'ACTIVE'">Active</span>
+                            <span class="cui-ecommerce--catalog--item--status--title" ng-class="products.status" ng-if="products.status == 'DELETED'">Deleted</span>
+                            <span class="cui-ecommerce--catalog--item--status--title" ng-class="products.status" ng-if="products.status == 'ACTIVE'">Active</span>
                             <div class="cui-ecommerce--catalog--item--img">
-                                <!-- <div class="cui-ecommerce--catalog--item--status" ng-class="products.status">
-                                    </div> -->
                                 <div class="cui-ecommerce--catalog--item--like cui-ecommerce--catalog--item--like__selected">
-                                    <i class="icmn-file-eye cui-ecommerce--catalog--item--like--liked"
-                                       data-toggle="modal" data-target="#productDetails"
-                                       ng-click="productDetails(products);"> </i>
+                                    <i class="icmn-file-eye cui-ecommerce--catalog--item--like--liked" data-toggle="modal" data-target="#productDetails" ng-click="productDetails(products);">
+                                    </i>
                                 </div>
                                 <a href="javascript: void(0);">
-                                    <img ng-src="{{products.images[0].imageURL}}"
-                                         alt="{{products.images[0].filename}}"/>
+                                    <img ng-src="{{products.images[0].imageURL}}" alt="{{products.images[0].filename}}" />
                                 </a>
                             </div>
                             <div class="cui-ecommerce--catalog--item--title">
@@ -112,9 +82,8 @@
                                 </div>
                             </div>
                             <div class="cui-ecommerce--catalog--item--descr">
-                                <div star-rating stars="5" outer-star-selection="stars" outer-percent="rating"
-                                     star-radius="10" rating-stars="{{products.review.avg_rating}}" sel-color="gold"
-                                     back-color="white"></div>
+                                <div star-rating stars="5" outer-star-selection="stars" outer-percent="rating" star-radius="10" rating-stars="{{products.review.avg_rating}}"
+                                    sel-color="gold" back-color="white"></div>
                             </div>
                         </div>
                     </div>
@@ -122,17 +91,12 @@
             </div>
         </div>
         <div align="center">
-        <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
-    </div>
+            <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+        </div>
     </section>
-
-    <!-- End Ecommerce Products Catalog -->
-
 </div>
 
-<!-- modal popup to Product details-->
-<div class="modal fade modal-size-large" id="productDetails" tabindex="-1" role="dialog" aria-labelledby=""
-     aria-hidden="true">
+<div class="modal fade modal-size-large" id="productDetails" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -150,234 +114,242 @@
                         </colgroup>
 
                         <tbody>
-                        <tr>
-                            <td class="text-nowrap">
-                                Owner
-                            </td>
-                            <td>{{modalDetials.owner}}</td>
-                        </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Owner
+                                </td>
+                                <td>{{modalDetials.owner}}</td>
+                            </tr>
 
 
-                        <tr>
-                            <td class="text-nowrap">
-                                Product Title
-                            </td>
-                            <td>{{modalDetials.title}}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-nowrap">
-                                Product Image
-                            </td>
-                            <td><img class="messaging-img" ng-src="{{modalDetials.images[0].imageURL}}"/></td>
-                        </tr>
-                        <tr>
-                            <td class="text-nowrap">
-                                Max. Retail Price
-                            </td>
-                            <td>{{modalDetials.MRPprice | currency:currency}}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-nowrap">
-                                Actual Price
-                            </td>
-                            <td>{{modalDetials.price | currency:currency}}</td>
-                        </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Product Title
+                                </td>
+                                <td>{{modalDetials.title}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Product Image
+                                </td>
+                                <td>
+                                    <img class="messaging-img" ng-src="{{modalDetials.images[0].imageURL}}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Max. Retail Price
+                                </td>
+                                <td>{{modalDetials.MRPprice | currency:currency}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Actual Price
+                                </td>
+                                <td>{{modalDetials.price | currency:currency}}</td>
+                            </tr>
 
-                        <tr>
-                            <td class="text-nowrap">
-                                Category
-                            </td>
-                            <td>{{modalDetials.category.name}}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-nowrap">
-                                Sub Category
-                            </td>
-                            <td>{{modalDetials.sub_category }}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-nowrap">
-                                Tax
-                            </td>
-                            <td>
-                                <table class="table table-inverse">
-                                    <thead>
-                                    <tr>
-                                        <th>Sale</th>
-                                        <th>Discount (%)</th>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Category
+                                </td>
+                                <td>{{modalDetials.category.name}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Sub Category
+                                </td>
+                                <td>{{modalDetials.sub_category }}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Tax
+                                </td>
+                                <td>
+                                    <table class="table table-inverse">
+                                        <thead>
+                                            <tr>
+                                                <th>Sale</th>
+                                                <th>Discount (%)</th>
 
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr ng-repeat="taxes in modalDetials.taxes">
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="taxes in modalDetials.taxes">
 
-                                        <td>{{taxes.sale}}</td>
-                                        <td>{{taxes.discount}}</td>
+                                                <td>{{taxes.sale}}</td>
+                                                <td>{{taxes.discount}}</td>
 
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-nowrap">
-                                Description
-                            </td>
-                            <td ng-bind-html="modalDetials.htmlDesc"></td>
-                        </tr>
-                        <tr>
-                            <td class="text-nowrap">
-                                Variants
-                            </td>
-                            <td>
-                                <table class="table table-inverse">
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Description
+                                </td>
+                                <td ng-bind-html="modalDetials.htmlDesc"></td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Variants
+                                </td>
+                                <td>
+                                    <table class="table table-inverse">
 
-                                    <tbody>
-                                    <tr ng-repeat="variators in modalDetials.variator">
+                                        <tbody>
+                                            <tr ng-repeat="variators in modalDetials.variator">
 
-                                        <td>{{variators.name}}</td>
-                                        <td><span ng-repeat="variant in variators.value "><span
-                                                class="label label-info font-size-14 margin-inline">{{variant}}</span> </span>
-                                        </td>
+                                                <td>{{variators.name}}</td>
+                                                <td>
+                                                    <span ng-repeat="variant in variators.value ">
+                                                        <span class="label label-info font-size-14 margin-inline">{{variant}}</span>
+                                                    </span>
+                                                </td>
 
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-nowrap">
-                                Variation list
-                            </td>
-                            <td>
-                                <table class="table table-inverse">
-                                    <thead>
-                                    <tr>
-                                        <th>Product</th>
-                                        <th ng-repeat="variator in modalDetials.variator">{{variator.name}}</th>
-                                        <th>Available</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Variation list
+                                </td>
+                                <td>
+                                    <table class="table table-inverse">
+                                        <thead>
+                                            <tr>
+                                                <th>Product</th>
+                                                <th ng-repeat="variator in modalDetials.variator">{{variator.name}}</th>
+                                                <th>Available</th>
 
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr ng-repeat="variantsData in modalDetials.variants">
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="variantsData in modalDetials.variants">
 
-                                        <td><span ng-repeat="imageDetail in variantsData.images"> <img
-                                                ng-src="{{imageDetail.imageURL}}" class="messaging-img"/>  </span></td>
-                                        <td ng-repeat="variators in modalDetials.variator">
-                                            {{variantsData[variators.name]}}
-                                        </td>
-                                        <td>{{variantsData.isActive}}</td>
+                                                <td>
+                                                    <span ng-repeat="imageDetail in variantsData.images">
+                                                        <img ng-src="{{imageDetail.imageURL}}" class="messaging-img" /> </span>
+                                                </td>
+                                                <td ng-repeat="variators in modalDetials.variator">
+                                                    {{variantsData[variators.name]}}
+                                                </td>
+                                                <td>{{variantsData.isActive}}</td>
 
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <td class="text-nowrap">
-                                Specifications
-                            </td>
-                            <td>
-                                <table class="table table-inverse">
-                                    <thead>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Specifications
+                                </td>
+                                <td>
+                                    <table class="table table-inverse">
+                                        <thead>
 
-                                    </thead>
-                                    <tbody>
-                                    <tr ng-repeat="specifications in modalDetials.specifications">
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="specifications in modalDetials.specifications">
 
-                                        <td>{{specifications.name}}</td>
-                                        <td>{{specifications.value}}</td>
+                                                <td>{{specifications.name}}</td>
+                                                <td>{{specifications.value}}</td>
 
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-nowrap">
-                                Tags
-                            </td>
-                            <td><span ng-repeat="tag in modalDetials.tagsList"><span
-                                    class="label label-info font-size-14 margin-inline">{{tag}}</span> </span></td>
-                        </tr>
-                        <tr>
-                            <td class="text-nowrap">
-                                Courier
-                            </td>
-                            <td>{{modalDetials.courier_details}}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-nowrap">
-                                Created Date
-                            </td>
-                            <td>{{modalDetials.createdAt | date : 'yyyy-MM-dd'}}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-nowrap">
-                                Competitive products
-                            </td>
-                            <td><span ng-repeat="competetiveProducts in modalDetials.competitiveProducts">{{competetiveProducts}} </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-nowrap">
-                                Ratings
-                            </td>
-                            <td> {{modalDetials.review.avg_rating}}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-nowrap">
-                                Status
-                            </td>
-                            <td><select class="form-control" name="userStatus" ng-model="modalDetials.status" ng-change="changesStatus(modalDetials)">
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Tags
+                                </td>
+                                <td>
+                                    <span ng-repeat="tag in modalDetials.tagsList">
+                                        <span class="label label-info font-size-14 margin-inline">{{tag}}</span>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Courier
+                                </td>
+                                <td>{{modalDetials.courier_details}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Created Date
+                                </td>
+                                <td>{{modalDetials.createdAt | date : 'yyyy-MM-dd'}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Competitive products
+                                </td>
+                                <td>
+                                    <span ng-repeat="competetiveProducts in modalDetials.competitiveProducts">{{competetiveProducts}} </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Ratings
+                                </td>
+                                <td> {{modalDetials.review.avg_rating}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Status
+                                </td>
+                                <td>
+                                    <select class="form-control" name="userStatus" ng-model="modalDetials.status" ng-change="changesStatus(modalDetials)">
 
-                                <option value="ACTIVE">Active</option>
-                                <option value="DELETED">Delete</option>
-
-
-                            </select></td>
-                        </tr>
-                         <tr ng-if="showData">
-                            <td class="text-nowrap">
-                                <span ng-show="modalDetials.status == 'DELETED'"> Reason to Delete</span>
-                                 <span ng-show="modalDetials.status == 'ACTIVE'"> Reason to Active</span>
-
-                            </td>
-                            <td><textarea class="form-control" name="reasonToBlock" ng-model="modalDetials.reason"></textarea>
+                                        <option value="ACTIVE">Active</option>
+                                        <option value="DELETED">Delete</option>
 
 
-                            </select></td>
-                        </tr>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr ng-if="showData">
+                                <td class="text-nowrap">
+                                    <span ng-show="modalDetials.status == 'DELETED'"> Reason to Delete</span>
+                                    <span ng-show="modalDetials.status == 'ACTIVE'"> Reason to Active</span>
+
+                                </td>
+                                <td>
+                                    <textarea class="form-control" name="reasonToBlock" ng-model="modalDetials.reason"></textarea>
+
+
+                                    </select>
+                                </td>
+                            </tr>
 
                         </tbody>
                     </table>
                 </div>
-                <!--<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-            <p>{{modalDetials}}</p>-->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" ng-click="changeProductStatus(modalDetials)">Save
-                    changes
+                <button type="button" class="btn btn-primary" ng-click="changeProductStatus(modalDetials)">Save changes
                 </button>
             </div>
         </div>
     </div>
 </div>
-
+<!-- <hot-table datarows="productsData"></hot-table> -->
 <!-- Page Scripts -->
 <script>
 
     $(function () {
-
         $('.cui-ecommerce--catalog--item--like').on('click', function () {
             $(this).toggleClass('cui-ecommerce--catalog--item--like__selected')
         });
-
         $("[data-toggle=tooltip]").tooltip();
-
     });
 
 </script>

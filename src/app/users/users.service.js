@@ -40,7 +40,7 @@ app.factory('usersService', ['$http','globalVars', function($http,globalVars) {
         //service to get user profile Detials
         usersServiceMethods.userprofileDetials = function(userId) {
              
-            var finalUrl = baseURL + "vendor/"+userId+"/profile";
+            var finalUrl = baseURL + "admin/"+userId+"/userprofile";
             return $http({
                 method: 'GET',
                 url: finalUrl

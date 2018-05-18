@@ -56,7 +56,8 @@ var path = {
         'src/assets/vendors/bower/nprogress/nprogress.css',
         'src/assets/vendors/bower/jquery-steps/demo/css/jquery.steps.css',
         'src/assets/vendors/bower/bootstrap-select/dist/css/bootstrap-select.min.css',
-        'src/assets/vendors/bower/dropify/dist/css/dropify.min.css'
+        'src/assets/vendors/bower/dropify/dist/css/dropify.min.css',
+        'src/assets/vendors/bower/handsontable/dist/handsontable.full.css'
         ],
         vendor_js:[
         'src/assets/vendors/bower/jquery/jquery.min.js',
@@ -100,7 +101,13 @@ var path = {
         'src/assets/vendors/bower/jquery-steps/build/jquery.steps.min.js',
         'src/assets/vendors/bower/bootstrap-select/dist/js/bootstrap-select.min.js',
         'src/assets/vendors/bower/dropify/dist/js/dropify.min.js',
-        'src/assets/vendors/manual/vfsfonts/vfs_fonts.js'        
+        'src/assets/vendors/manual/vfsfonts/vfs_fonts.js',
+        'src/assets/vendors/manual/ratings/rating.js',
+        'src/assets/vendors/bower/handsontable/dist/handsontable.full.js',
+        'src/assets/vendors/bower/ngHandsontable/dist/ngHandsontable.js',
+        'src/assets/vendors/manual/pagination/dirPagination.js',
+        'src/assets/vendors/bower/release/angular-ui-router/angular-ui-router.min.js',
+        'src/assets/vendors/bower/angular-summernote/dist/angular-summernote.js'
         ],
         angular_src:[
         'src/assets/vendors/bower/angular/angular.min.js',
@@ -265,11 +272,13 @@ gulp.task('css_vendor:build', function () {
 /////////////////////////////////////////////////////////////////////////////
 // IMAGES BUILD
 gulp.task('img:build', function (cb) {
-    gulp.src(path.src.img)
-        .pipe(image())
-        .on('error', printError)
-        .pipe(gulp.dest(path.build.img))
-        .on('end', cb)
+    // gulp.src(path.src.img)
+    //     .pipe(image())
+    //     .on('error', printError)
+    //     .pipe(gulp.dest(path.build.img))
+    //     .on('end', cb)
+    return gulp.src('src/assets/common/img/**/*')
+        .pipe(gulp.dest('build/assets/common/img'))
 });
 
 

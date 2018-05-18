@@ -34,7 +34,6 @@ app.controller('loginPageCtrl', ["loginService", "$location", "$state", "$scope"
                     $localStorage.currentUser = result;
                     
                     authService.init();
-                    console.log(result)
                     $rootScope.hideLeftMenu = false;
                     $rootScope.hideTopMenu = false;
                     $rootScope.showFooter = false;

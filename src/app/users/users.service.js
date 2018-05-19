@@ -15,7 +15,7 @@ app.factory('usersService', ['$http','globalVars', function($http,globalVars) {
                 url: finalUrl
                 // data: dataObj,
                 // headers:  
-            }) 
+            }); 
         };
         usersServiceMethods.getCompetitorsList = function() {
             

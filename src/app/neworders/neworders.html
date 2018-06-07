@@ -1,0 +1,280 @@
+<div class="page-content-inner">
+    <!-- Ecommerce Products List -->
+    <section class="panel panel-with-borders">
+        <div class="load-overlay" ng-show="isLoding">
+            <img src="../assets/common/img/loader.gif" width="100">
+        </div>
+        <div class="panel-heading">
+            <h2>New Orders List</h2>
+        </div>
+        <div class="panel-body">
+            <h4 class="col-md-6 col-sm-6 col-xs-6">Filters</h4>
+            <div class="form-group order-total row pull-right col-md-6 col-sm-6 col-xs-6">
+                <div class="col-md-4 col-sm-4 col-xs-6">
+                    <span>Total: </span>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-6">
+                    <label>{{totalCount}} </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group row">
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <label class="form-control-label" for="l0">Order ID </label>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                <input type="text" class="form-control" name="searchName" ng-model="search.name">
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <a href="javascript: void(0);" class="btn btn-primary" ng-click="applyFilters(search)">Apply</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group row">
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <label class="form-control-label" for="l0">Vendors </label>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                <select ng-model="search.vendor" ng-options="vendors as vendors.firstName for vendors in vendorList track by vendors.id"
+                                    class="form-control" name="searchvendor">
+                                </select>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <a href="javascript: void(0);" class="btn btn-primary" ng-click="resetFilters()">Reset</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class=" table-responsive table   margin-bottom-50">
+                <table class="table">
+                    <tbody>
+                        <tr dir-paginate="order in ordersList  | itemsPerPage:itemsPerPage | orderBy:order.createdAt:asc" current-page="currentPage"
+                            total-items="totalCount">
+                            <td colspan="6">
+                                <table class="table  ">
+                                    <thead ng-if="$index == 0">
+                                        <tr>
+                                            <th width="70">S.No</th>
+                                            <th width="200">OrderID</th>
+                                            <th width="200">Amount</th>
+                                            <th width="170">Created Date</th>
+                                            <th width="200">Order Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td width="70">{{itemsPerPage *(currentPage-1)+$index+1}}</td>
+                                            <td width="200">{{order.id}} </td>
+                                            <td width="200">{{order.order_total | currency:currency}}</td>
+                                            <td width="170">{{order.createdAt | date : 'yyyy-MM-dd'}}</td>
+                                            <td width="200">
+                                            </td>
+                                        </tr>
+                                        <tr ng-repeat="sale in order.sales ">
+                                            <td> </td>
+                                            <td>
+                                                <a href="javascript: void(0);" class="cui-ecommerce--dashboard--list--img">
+                                                    <img ng-src="{{sale.sale_image.imageURL}}" />
+                                                </a>
+                                            </td>
+                                            <td colspan="2">{{sale.title}}
+                                                <br>Quantity : {{sale.order_quantity}}
+                                                <br>Status :
+                                                <span ng-class="{'text-success': sale.status==='ORDER_APPROVED', 'text-warning': sale.status!='ORDER_APPROVED'}">{{sale.status.replace("_"," ")}}</span>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary margin-inline" ng-show="sale.distributor" data-toggle="modal" data-target="#distributorView" ng-click="viewDistributor(sale.distributor);">
+                                                    Display distributor 
+                                                </button>
+                                                <button type="button" class="btn btn-primary margin-inline" ng-hide="sale.distributor" data-toggle="modal" data-target="#distributorData" ng-click="selectDistributor(sale.owner, order.id, sale.order_item_id);">
+                                                    Select distributor
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr ng-show="!(ordersList).length">
+                            <td colspan="6">
+                                <center>No Orders for {{ search.vendor.firstName}} </center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" align="center">
+                                <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <!-- End Ecommerce Orders List -->
+</div>
+<!-- modal popup to Add or Select Distributor for Order-->
+<div class="modal fade modal-size-large" id="distributorData" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Select Distributor</h4>
+            </div>
+            <div class="modal-body" style="min-height: 300px;">
+                <div class="row form-group">
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <label class="form-control-label" for="l0">Select/Add Distributor</label>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-4">
+                        <select ng-model="dist" ng-options="dist as dist.companyName for dist in distributorsList track by dist.id" class="form-control"
+                            name="searchvendor">
+                            <option value="" selected>Select</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-4">
+                        <button type="submit" class="btn btn-sm btn-primary" ng-click="addDist()">Add Distributor</button>
+                    </div>
+                </div>
+                <form id="form-validation" ng-show="!showAdd" name="form-submit" ng-submit="attachDistributorforNewInvoice(dist)">
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary width-150">Submit</button>
+                        </div>
+                </form>
+                <form  ng-show="showAdd" name="distributorForm" ng-submit="distributorForm.$valid && addDistributor(distributor)" novalidate>
+                    <div class="row form-group">
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <label class="form-control-label" for="email">Distributor Name</label>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <input id="validation-cname" class="form-control" placeholder="Distributor Name" name="companyName" type="text" ng-model="distributor.companyName" required>
+                            <div class="errorText" ng-if="distributorForm.companyName.$touched || distributorForm.$submitted" style="color:red">
+                                <span style="color:red" ng-show="distributorForm.companyName.$error.required">Please Enter Distributor Name </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <label class="form-control-label" for="email">Drug License</label>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <input id="validation-drugLicense" class="form-control" placeholder="Drug License Number" name="drugLicense" type="text"
+                                ng-model="distributor.drugLicense" required>
+                                <div class="errorText" ng-if="distributorForm.drugLicense.$touched || distributorForm.$submitted" style="color:red">
+                                    <span style="color:red" ng-show="distributorForm.drugLicense.$error.required">Please Enter Drug License Number </span>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <label class="form-control-label" for="email">GST</label>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <input id="validation-gst" class="form-control" placeholder="gst" name="gst" type="text" ng-model="distributor.gst" required>
+                            <div class="errorText" ng-if="distributorForm.gst.$touched || distributorForm.$submitted" style="color:red">
+                                <span style="color:red" ng-show="distributorForm.gst.$error.required">Please Enter GST Number </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" row form-group">
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <label class="form-control-label" for="email">Email</label>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <input id="validation-email" class="form-control" placeholder="Email" name="email" type="text" ng-model="distributor.email" required>
+                                <div class="errorText" ng-if="distributorForm.email.$touched || distributorForm.$submitted" style="color:red">
+                                    <span style="color:red" ng-show="distributorForm.email.$error.required">Please Enter Email Id </span>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary width-150">Add</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade modal-size-large" id="distributorView" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Distributor Details</h4>
+            </div>
+            <div class="modal-body" style="min-height: 300px;">
+                
+                <form name="distributorForm" ng-submit="distributorForm.$valid && addDistributor(distributor)" novalidate>
+                    <div class="row form-group">
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <label class="form-control-label" for="email">Distributor Name</label>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <input id="validation-cname" class="form-control" placeholder="Distributor Name" name="companyName" type="text" ng-model="distributor.companyName" required>
+                            <div class="errorText" ng-if="distributorForm.companyName.$touched || distributorForm.$submitted" style="color:red">
+                                <span style="color:red" ng-show="distributorForm.companyName.$error.required">Please Enter Distributor Name </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <label class="form-control-label" for="email">Drug License</label>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <input id="validation-drugLicense" class="form-control" placeholder="Drug License Number" name="drugLicense" type="text"
+                                ng-model="distributor.drugLicense" required>
+                                <div class="errorText" ng-if="distributorForm.drugLicense.$touched || distributorForm.$submitted" style="color:red">
+                                    <span style="color:red" ng-show="distributorForm.drugLicense.$error.required">Please Enter Drug License Number </span>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <label class="form-control-label" for="email">GST</label>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <input id="validation-gst" class="form-control" placeholder="gst" name="gst" type="text" ng-model="distributor.gst" required>
+                            <div class="errorText" ng-if="distributorForm.gst.$touched || distributorForm.$submitted" style="color:red">
+                                <span style="color:red" ng-show="distributorForm.gst.$error.required">Please Enter GST Number </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" row form-group">
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <label class="form-control-label" for="email">Email</label>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <input id="validation-email" class="form-control" placeholder="Email" name="email" type="text" ng-model="distributor.email" required>
+                                <div class="errorText" ng-if="distributorForm.email.$touched || distributorForm.$submitted" style="color:red">
+                                    <span style="color:red" ng-show="distributorForm.email.$error.required">Please Enter Email Id </span>
+                                </div>
+                            </div>
+                        </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('.selectpicker').selectpicker();
+
+    })
+</script>
+<!-- End Page Scripts -->

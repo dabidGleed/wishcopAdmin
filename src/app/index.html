@@ -28,11 +28,12 @@
     <!-- <link rel="stylesheet" type="text/css" href="assets/common/css/star-rating.css"> -->
     <link rel="stylesheet" type="text/css" href="assets/vendors/summernote/dist/summernote.css">
     <link rel="stylesheet" media="screen" href="assets/vendors/handsontable/dist/handsontable.full.css">
+    <link rel="stylesheet" href="assets/vendors/bootstrap-select/dist/css/bootstrap-select.min.css">
 
 
     <!-- Vendors Scripts -->
     <!-- v1.0.0 -->
-    <script src="assets/vendors/jquery/jquery.min.js"></script>
+    <script src="assets/vendors/jquery/dist/jquery.min.js"></script>
     <script src="assets/vendors/tether/dist/js/tether.min.js"></script>
     <script src="assets/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="assets/vendors/jquery-mousewheel/jquery.mousewheel.min.js"></script>
@@ -216,7 +217,11 @@
                                 Orders List
                             </a>
                         </li>
-
+                        <li>
+                            <a class="left-menu-link" href="#!/neworders">
+                                Distributor Orders
+                            </a>
+                        </li>
 
                     </ul>
                 </li>
@@ -329,20 +334,20 @@
                         <a class="dropdown-item" href="javascript:void(0)">
                             <i class="dropdown-icon icmn-user"></i> Profile</a>
                         <div class="dropdown-divider"></div>
-                        <div class="dropdown-header">Home</div>
+                        <!-- <div class="dropdown-header">Home</div>
                         <a class="dropdown-item" href="javascript:void(0)">
                             <i class="dropdown-icon icmn-circle-right"></i> System Dashboard</a>
                         <a class="dropdown-item" href="javascript:void(0)">
                             <i class="dropdown-icon icmn-circle-right"></i> User Boards</a>
                         <a class="dropdown-item" href="javascript:void(0)">
                             <i class="dropdown-icon icmn-circle-right"></i> Issue Navigator (35 New)</a>
-                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-divider"></div> -->
                         <a class="dropdown-item" href="javascript:void(0)" ng-click="logout()">
                             <i class="dropdown-icon icmn-exit"></i> Logout</a>
                     </ul>
                 </div>
             </div>
-            <div class="menu-user-block menu-notifications">
+            <!-- <div class="menu-user-block menu-notifications">
                 <div class="dropdown dropdown-avatar">
                     <a href="javascript: void(0);" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         <i class="menu-notification-icon icmn-bubbles7"></i>
@@ -448,7 +453,7 @@
                     </div>
                 </div>
                 
-            </div>
+            </div> -->
         </div>
 
     </nav>

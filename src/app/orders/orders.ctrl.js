@@ -10,11 +10,7 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
     $scope.DeliveredDa = [];
     $scope.search = {
         name: "",
-        vendor:""
-    };
-    $scope.localSearch = {
-        name: "",
-        vendor:""
+        vendor: ""
     };
 
     // get account transfers list
@@ -26,8 +22,8 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
             NProgress.done();
         });
 
-    }
-    $scope.getTransactionsList(0, $scope.localSearch);
+    };
+    $scope.getTransactionsList(0, $scope.search);
 
     ordersServiceMethods.getVendorsList().then(function (response) {
         $scope.vendorList = response.data;
@@ -36,11 +32,11 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
 
     $scope.pageChanged = function (newPage) {
         var pageDataList = (newPage - 1) * ($scope.itemsPerPage);
-        $scope.getTransactionsList(pageDataList, $scope.localSearch);
+        $scope.getTransactionsList(pageDataList, $scope.search);
     };
 
     $scope.$watch("search.vendor", function () {
-        if(!$scope.search.vendor){
+        if (!$scope.search.vendor) {
             $scope.search.vendor = "";
         }
         $scope.getTransactionsList(0, $scope.search);
@@ -51,26 +47,23 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
             name: "",
             vendor: ""
         };
-        $scope.localSearch = {
-            name: "",
-            vendor: ""
-        };
-        $scope.getTransactionsList(0, $scope.localSearch);
-    }
+        $scope.getTransactionsList(0, $scope.search);
+    };
     //modal popup details of the Transactions
     $scope.userDetails = function (orderId, saleId) {
         $scope.saleData = {};
-        //  $scope.filterData = $filter('filter')($scope.userList, {
-        //     id: userData.id
-        // });
         ordersServiceMethods.getOrderDetails(orderId, saleId).then(function (data, status) {
             $scope.saleData = data.data;
-            //$scope.trackStatus($scope.saleData);
-            // console.log( $scope.saleData);
             angular.forEach($scope.saleData.sales.products, function (item1) {
                 item1.trackingStatus = 0;
                 angular.forEach(item1.variant, function (item2) {
-                    item2.trackListNew = { ORDER_RECEIVED: [], ORDER_APPROVED: [], ORDER_SHIPPED: [], ORDER_DELIVERED: [], ORDER_CANCELED: [] }
+                    item2.trackListNew = {
+                        ORDER_RECEIVED: [],
+                        ORDER_APPROVED: [],
+                        ORDER_SHIPPED: [],
+                        ORDER_DELIVERED: [],
+                        ORDER_CANCELED: []
+                    };
                     angular.forEach(item2.trackList, function (item3) {
                         if (item3.status == "ORDER_RECEIVED") {
                             item2.trackListNew.ORDER_RECEIVED.push(item3);
@@ -89,15 +82,13 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
                             item2.trackListNew.ORDER_CANCELED.push(item3);
                         }
 
-                    })
-                })
+                    });
+                });
 
 
             });
-        })
-        // $scope.modalDetials = {};
-        // angular.copy(userData, $scope.modalDetials);
-    }
+        });
+    };
 
     $scope.confirmDeliveryStatus = function (varientId, orderItemId, orderId, saleId) {
         $scope.deliveryData = {};
@@ -106,16 +97,16 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
         $scope.deliveryData.orderId = orderId;
         $scope.deliveryData.saleId = saleId;
         swal({
-            title: "Are you sure?",
-            text: "You want to update status to Delivered!",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonClass: "btn-danger",
-            confirmButtonText: "Yes",
-            cancelButtonText: "Cancel",
-            closeOnConfirm: true,
-            closeOnCancel: true
-        },
+                title: "Are you sure?",
+                text: "You want to update status to Delivered!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes",
+                cancelButtonText: "Cancel",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            },
             function (isConfirm) {
                 if (isConfirm) {
 
@@ -126,16 +117,16 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
                                 title: '<strong>Success!</strong>',
                                 message: response.data.message
                             }, {
-                                    type: 'success'
-                                });
+                                type: 'success'
+                            });
                         } else {
                             $scope.userDetails(orderId, orderItemId);
                             $.notify({
                                 title: '<strong>Unsuccessful!</strong>',
                                 message: response.data.message
                             }, {
-                                    type: 'danger'
-                                });
+                                type: 'danger'
+                            });
                         }
 
                     });
@@ -145,13 +136,11 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
                 }
             });
 
-    }
-
-
+    };
     $scope.applyFilters = function (searchData) {
         $scope.search.vendor = "";
-        angular.copy(searchData, $scope.localSearch);
-        $scope.getTransactionsList(0, $scope.localSearch);
+        angular.copy(searchData, $scope.search);
+        $scope.getTransactionsList(0, $scope.search);
 
-    }
+    };
 }]);

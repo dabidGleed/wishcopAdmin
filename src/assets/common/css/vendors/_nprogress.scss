@@ -40,3 +40,21 @@ body.menu-top {
         }
     }
 }
+
+.load-overlay {
+    background-color: rgba(255,255,255,.6);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    text-align: center;
+    padding-top: 20%;
+}
+.errorText{
+    position: absolute;
+    bottom: -15px;
+    left: 9px;
+    font-size: 11px;
+}

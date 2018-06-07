@@ -1,16 +1,11 @@
-'use strict';
-
 var app = angular.module('cleanUI', [
     "ui.router", "angularUtils.directives.dirPagination", "summernote", "ngStorage"
-])
+]);
 
 app.run(function ($rootScope, $state) {
-
     $rootScope.currency = '₹';
-
 });
 app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
-
     $stateProvider
         .state('main', { // Main Inner Page
             url: "/",
@@ -19,10 +14,6 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                     templateUrl: "main/main.html",
                     controller: "homeCtrl"
                 },
-                // 'leftMenuBlock@main': {
-                //     templateUrl: "left-menu/_left-menu.html",
-                //     controller: "leftMenuCtrl"
-                // },
                 'footer@main': {
                     templateUrl: "footer/_footer.html",
                     controller: "footerCtrl"
@@ -80,7 +71,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             controller: "paymentGatewayCtrl"
 
         })
-         .state('main.paymenttransactions', {
+        .state('main.paymenttransactions', {
             url: "payment-transactions",
             templateUrl: "payment-transactions/payment-transactions.html",
             controller: "paymentTransactionsCtrl"
@@ -98,7 +89,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             controller: "subCategoryCtrl"
 
         })
-         .state('main.auditlogs', {
+        .state('main.auditlogs', {
             url: "audit-logs",
             templateUrl: "audit-logs/audit-logs.html",
             controller: "auditLogsCtrl"
@@ -134,6 +125,12 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             controller: "ordersCtrl"
 
         })
+        .state('main.neworders', {
+            url: "neworders",
+            templateUrl: "neworders/neworders.html",
+            controller: "newOrdersCtrl"
+
+        })
         .state('login', {
             url: "/login",
             templateUrl: "login/login.html",
@@ -155,14 +152,13 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
 
     $urlRouterProvider.otherwise("/login");
-    // $locationProvider.html5Mode(true);
-})
- 
+});
+
 
 app.run(['$rootScope', '$http', '$location', '$localStorage', function ($rootScope, $http, $location, $localStorage) {
     // keep user logged in after page refresh
     if ($localStorage.currentUser) {
-     
+
         $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.accessToken;
     }
 
@@ -176,24 +172,21 @@ app.run(['$rootScope', '$http', '$location', '$localStorage', function ($rootSco
     });
 }]);
 app.config(function ($provide, $httpProvider) {
- 
+
     $provide.factory('unauthorisedInterceptor', ['$q', function ($q) {
         return {
             'responseError': function (rejection) {
                 if (rejection.status === 401) {
                     window.location.href = '/#!/login';
                 }
- 
+
                 return $q.reject(rejection);
             }
         };
     }]);
- 
+
     $httpProvider.interceptors.push('unauthorisedInterceptor');
-})
-
-// var app = angular.module('cleanUI.controllers', []);
-
+});
 app.controller('MainCtrl', function ($location, $scope, $rootScope, $timeout) {
 
     NProgress.configure({
@@ -313,8 +306,8 @@ app.factory("stars", function ($http) {
     // Return API
     return {
         drawRatingElement: drawRatingElement
-    }
-})
+    };
+});
 
 
 app.factory('starsUtility', function () {
@@ -387,7 +380,7 @@ app.factory('starsUtility', function () {
         percentFullStars: percentFullStars,
         starsByPercent: starsByPercent
     };
-})
+});
 
 
 // ------------------------

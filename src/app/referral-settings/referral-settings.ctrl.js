@@ -52,8 +52,6 @@ app.controller('referralsSettingsCtrl',["$location", "$scope", "$rootScope","ref
                     
                 }
 
-            }
-
-           
+            };
 
 }]);

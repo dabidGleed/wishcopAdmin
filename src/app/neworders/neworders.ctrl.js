@@ -18,7 +18,8 @@ app.controller('newOrdersCtrl', ["$location", "$scope", "$rootScope", "ordersSer
     // get account orders list
     $scope.getOrders = function (data, searchData) {
         $scope.isLoding = true;
-        ordersServiceMethods.getTransactionsList(data, searchData).then(function (response) {
+        ordersServiceMethods.getDistributorOrdersList(data, searchData).then(function (response) {
+            console.log(response);
             $scope.ordersList = response.data.orders;
             $scope.totalCount = response.data.count;
             $scope.isLoding = false;
@@ -40,8 +41,13 @@ app.controller('newOrdersCtrl', ["$location", "$scope", "$rootScope", "ordersSer
             $scope.isLoding = false;
         });
     };
-    $scope.viewDistributor = function(dist){
+    $scope.viewDistributor = function(dist,orderId,orderItemId){
         $scope.distributor = dist;
+        $scope.orderId = orderId;
+        $scope.orderItemId = orderItemId;
+        console.log(dist);
+        console.log(orderId);
+        console.log(orderItemId);
     };
     $scope.addDistributor = function (distributor) {
         $scope.isLoding = true;
@@ -60,6 +66,7 @@ app.controller('newOrdersCtrl', ["$location", "$scope", "$rootScope", "ordersSer
     };
     $scope.attachDistributorforNewInvoice = function(distributor){
         $scope.isLoding = true;
+        console.log(distributor);
         distributor.orderItemId = $scope.orderItemId;
         ordersServiceMethods.generateDistributorInvoice($scope.orderId, distributor).then(function (response) {
             $scope.distributor = {};
@@ -71,7 +78,7 @@ app.controller('newOrdersCtrl', ["$location", "$scope", "$rootScope", "ordersSer
             }, {
                 type: 'success'
             });
-            $('#distributorData').modal('hide');
+            $('#distributorView').modal('hide');
         });
     };
 

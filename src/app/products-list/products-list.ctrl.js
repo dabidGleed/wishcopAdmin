@@ -7,7 +7,7 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
     $scope.itemsPerPage = 16;
     $scope.totalCount = 0;
     $scope.bulk = {
-        vendor:""
+        vendor: ""
     };
     $scope.search = {
         name: "",
@@ -19,6 +19,47 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
         vendor: "",
         status: ""
     };
+
+    $scope.gridOptions = {
+        enableCellSelection: true,
+        enableCellEditOnFocus: true,
+        cellEditableCondition: 'row.entity.editable',
+    };
+
+    $scope.reset = reset;
+
+    function reset() {
+        $scope.gridOptions.data = [];
+        $scope.gridOptions.columnDefs = [];
+    }
+    $scope.submit = function () {
+        productsServiceMethods.addProductPrices($scope.gridOptions.productId, $scope.gridOptions.data).then(function (response) {
+            $.notify({
+                title: '<strong>Success!</strong>',
+                message: response.data.message
+            }, {
+                type: 'success'
+            });
+            $scope.gridOptions.data = [];
+            $scope.gridOptions.columnDefs = [];
+        }, function (response) {
+            var message = "";
+            if(response.data.message){
+                message = response.data.message;
+            }else if(response.data.error){
+                message = response.data.error;
+            }else{
+                message = "Something went wrong";
+            }
+            $.notify({
+                title: '<strong>Unsuccessful!</strong>',
+                message: response.data.message
+            }, {
+                type: 'danger'
+            });
+        });
+
+    };
     $scope.getProductsList = function (data, searchData) {
         NProgress.start();
         productsServiceMethods.getProductsList(data, searchData).then(function (response) {
@@ -26,31 +67,28 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
             $scope.totalCount = response.data.count;
             angular.forEach($scope.productsList, function (value, key) {
                 value.htmlDesc = $sce.trustAsHtml(value.description);
-            })
+            });
             NProgress.done();
         });
-    }
+    };
     $scope.getProductsList(0, $scope.localSearch);
     productsServiceMethods.getVendorsList().then(function (response) {
         $scope.vendorList = response.data;
 
     });
-
-
-
     // users list filters
-    $scope.resetFilters = function() {
+    $scope.resetFilters = function () {
         $scope.search = {
             name: "",
             vendor: "",
             status: ""
         };
-    }
-    $scope.pageChanged = function(newPage) {
+    };
+    $scope.pageChanged = function (newPage) {
         var pageDataList = (newPage - 1) * ($scope.itemsPerPage);
         $scope.getProductsList(pageDataList, $scope.localSearch);
     };
-    $scope.$watch("search.status", function() {
+    $scope.$watch("search.status", function () {
 
         if ($scope.search.status == null) {
             $scope.search.status = "";
@@ -60,7 +98,7 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
 
     });
 
-    $scope.$watch("search.vendor", function() {
+    $scope.$watch("search.vendor", function () {
         if ($scope.search.vendor == null) {
             $scope.search.vendor = "";
         }
@@ -74,7 +112,7 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
     });
 
     //modal popup details of the Product
-    $scope.productDetails = function(productData) {
+    $scope.productDetails = function (productData) {
 
         $scope.modalDetials = {};
         angular.copy(productData, $scope.modalDetials);
@@ -83,11 +121,11 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
         } else {
             $scope.modalDetials.starRatings = 0;
         }
-    }
+    };
 
 
     //change Product status
-    $scope.changeProductStatus = function(modaldetails) {
+    $scope.changeProductStatus = function (modaldetails) {
         $('#productDetails').modal('hide');
         var data = {
             reasonToBlock: modaldetails.reason
@@ -96,7 +134,7 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
             id: modaldetails.id
         });
         if ($scope.filterData[0].id == modaldetails.id && modaldetails.status == "DELETED" && modaldetails.status != $scope.filterData[0].status) {
-            productsServiceMethods.blockProduct(modaldetails.id, data).then(function(response) {
+            productsServiceMethods.blockProduct(modaldetails.id, data).then(function (response) {
                 if (response.status == 200) {
                     $scope.filterData[0].status = modaldetails.status;
 
@@ -104,20 +142,20 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
                         title: '<strong>Success!</strong>',
                         message: response.data.message
                     }, {
-                            type: 'success'
-                        });
+                        type: 'success'
+                    });
                 } else {
                     $.notify({
                         title: '<strong>Unsuccessful!</strong>',
                         message: response.data.message
                     }, {
-                            type: 'danger'
-                        });
+                        type: 'danger'
+                    });
                 }
             });
 
         } else if ($scope.filterData[0].id == modaldetails.id && modaldetails.status == "ACTIVE" && modaldetails.status != $scope.filterData[0].status) {
-            productsServiceMethods.activeProduct(modaldetails.id).then(function(response) {
+            productsServiceMethods.activeProduct(modaldetails.id).then(function (response) {
                 if (response.status == 200) {
                     $scope.filterData[0].status = modaldetails.status;
 
@@ -125,15 +163,15 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
                         title: '<strong>Success!</strong>',
                         message: response.data.message
                     }, {
-                            type: 'success'
-                        });
+                        type: 'success'
+                    });
                 } else {
                     $.notify({
                         title: '<strong>Unsuccessful!</strong>',
                         message: response.data.message
                     }, {
-                            type: 'danger'
-                        });
+                        type: 'danger'
+                    });
                 }
             });
 
@@ -143,14 +181,14 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
                 title: '<strong>Unsuccessful!</strong>',
                 message: "Action cannot be performed"
             }, {
-                    type: 'warning'
-                });
+                type: 'warning'
+            });
 
         }
 
     };
 
-    $scope.changesStatus = function(modaldetails) {
+    $scope.changesStatus = function (modaldetails) {
         $scope.filterData = $filter('filter')($scope.productsList, {
             id: modaldetails.id
         });
@@ -159,16 +197,17 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
         } else {
             $scope.showData = true;
         }
-    }
+    };
 
     $scope.export = function (id) {
         NProgress.start();
         //print all vendors data
-
+        var data = [];
+        var docDefinition ={};
         if ($scope.search.vendor == "") {
-            var data = [];
+            
 
-            angular.forEach($scope.vendorList, function(value, key) {
+            angular.forEach($scope.vendorList, function (value, key) {
                 if (value.profile.companyName == undefined) {
                     value.profile.companyName = '';
                 }
@@ -213,7 +252,7 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
                 $scope.pdfFilterData = $filter('filter')($scope.productsList, {
                     owner: value.id
                 });
-                angular.forEach($scope.pdfFilterData, function(value1, key1) {
+                angular.forEach($scope.pdfFilterData, function (value1, key1) {
                     value1.sno = key1 + 1;
                     tableData.table.body.push([{
                         text: (value1.sno).toString(),
@@ -224,14 +263,14 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
                     }, {
                         text: " ₹​" + value1.price,
                         style: 'title'
-                    }])
+                    }]);
 
                 });
                 data.push(tableData);
 
             });
 
-            var docDefinition = {
+            docDefinition = {
 
                 content: data,
                 pageSize: 'A4',
@@ -279,43 +318,43 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
             if ($scope.vendorDetails[0].profile.aboutCompany == undefined) {
                 $scope.vendorDetails[0].profile.aboutCompany = '';
             }
-            var data = [{
-                text: 'Company : ' + $scope.vendorDetails[0].profile.companyName,
-                style: 'title'
-            },
-            {
-                text: 'About Company : ' + $scope.vendorDetails[0].profile.aboutCompany,
-                style: 'title'
-            },
-            {
-                style: 'tableExample',
-                table: {
-                    // headers are automatically repeated if the table spans over multiple pages
-                    // you can declare how many rows should be treated as headers
-                    headerRows: 1,
-                    widths: [60, 'auto', 80],
+            data = [{
+                    text: 'Company : ' + $scope.vendorDetails[0].profile.companyName,
+                    style: 'title'
+                },
+                {
+                    text: 'About Company : ' + $scope.vendorDetails[0].profile.aboutCompany,
+                    style: 'title'
+                },
+                {
+                    style: 'tableExample',
+                    table: {
+                        // headers are automatically repeated if the table spans over multiple pages
+                        // you can declare how many rows should be treated as headers
+                        headerRows: 1,
+                        widths: [60, 'auto', 80],
 
-                    body: [
-                        [{
-                            text: 'S.NO',
-                            style: 'tableheader'
-                        }, {
-                            text: 'Product Name',
-                            style: 'tableheader'
-                        }, {
-                            text: 'Price',
-                            style: 'tableheader'
-                        }]
-                    ]
+                        body: [
+                            [{
+                                text: 'S.NO',
+                                style: 'tableheader'
+                            }, {
+                                text: 'Product Name',
+                                style: 'tableheader'
+                            }, {
+                                text: 'Price',
+                                style: 'tableheader'
+                            }]
+                        ]
+                    }
                 }
-            }
             ];
 
             $scope.pdfFilterData = $filter('filter')($scope.productsList, {
                 owner: id
             });
 
-            angular.forEach($scope.pdfFilterData, function(value, key) {
+            angular.forEach($scope.pdfFilterData, function (value, key) {
                 value.sno = key + 1;
                 data[2].table.body.push([{
                     text: (value.sno).toString(),
@@ -326,11 +365,11 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
                 }, {
                     text: " ₹​" + value.price,
                     style: 'title'
-                }])
+                }]);
 
             });
 
-            var docDefinition = {
+            docDefinition = {
                 header: [{
                     text: 'Vendor Name :' + $scope.vendorDetails[0].firstName + $scope.vendorDetails[0].lastName,
                     style: 'header'
@@ -367,65 +406,109 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
 
         }
         NProgress.done();
-    }
-    $scope.uploadProducts = function(data){
+    };
+    $scope.uploadProducts = function (data) {
         swal({
-            title: "Are you sure?",
-            text: "You want to upload all products in sheet!",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonClass: "btn-danger",
-            confirmButtonText: "Yes",
-            cancelButtonText: "Cancel",
-            closeOnConfirm: true,
-            closeOnCancel: true
-        },
-        function (isConfirm) {
-            if (isConfirm) {
-              
-                productsServiceMethods.bulkUpload($scope.myFile,data).then(function (response) {
-                    if (response.status == 200) {
-                        $scope.bulk ={
-                            vendor :""
+                title: "Are you sure?",
+                text: "You want to upload all products in sheet!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes",
+                cancelButtonText: "Cancel",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+
+                    productsServiceMethods.bulkUpload($scope.myFile, data).then(function (response) {
+                        if (response.status == 200) {
+                            $scope.bulk = {
+                                vendor: ""
+                            };
+                            $scope.myFile = null;
+                            $.notify({
+                                title: '<strong>Success!</strong>',
+                                message: "Successfully Uploaded"
+                            }, {
+                                type: 'success'
+                            });
+                        } else {
+                            $.notify({
+                                title: '<strong>Unsuccessful!</strong>',
+                                message: "Something went wrong"
+                            }, {
+                                type: 'danger'
+                            });
                         }
-                        $scope.myFile = null;
-                        $.notify({
-                            title: '<strong>Success!</strong>',
-                            message: "Successfully Uploaded"
-                        }, {
-                            type: 'success'
-                        });
-                    } else {
-                        $.notify({
-                            title: '<strong>Unsuccessful!</strong>',
-                            message: "Something went wrong"
-                        }, {
-                            type: 'danger'
-                        });
-                    }
 
-                });
+                    });
 
-            } else {
-              
-            }
-        });
- 
-    }
+                } else {
+
+                }
+            });
+
+    };
 
 }]);
 app.directive('fileModel', ['$parse', function ($parse) {
     return {
-       restrict: 'A',
-       link: function(scope, element, attrs) {
-          var model = $parse(attrs.fileModel);
-          var modelSetter = model.assign;
-          
-          element.bind('change', function(){
-             scope.$apply(function(){
-                modelSetter(scope, element[0].files[0]);
-             });
-          });
-       }
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+
+            element.bind('change', function () {
+                scope.$apply(function () {
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
     };
- }]);
+}]);
+
+app.directive("fileread", [function () {
+    return {
+        scope: {
+            opts: '='
+        },
+        link: function ($scope, $elm, $attrs) {
+            $elm.on('change', function (changeEvent) {
+                var reader = new FileReader();
+
+                reader.onload = function (evt) {
+                    $scope.$apply(function () {
+                        var data = evt.target.result;
+
+                        var workbook = XLSX.read(data, {
+                            type: 'binary'
+                        });
+
+                        var headerNames = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], {
+                            header: 1
+                        })[0];
+
+                        data = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
+
+                        $scope.opts.columnDefs = [];
+                        $scope.opts.productId = workbook.SheetNames[0];
+                        headerNames.forEach(function (h) {
+                            $scope.opts.columnDefs.push({
+                                field: h,
+                                enableCellEdit: true
+                            });
+                        });
+
+                        $scope.opts.data = data;
+
+                        $elm.val(null);
+                    });
+                };
+
+                reader.readAsBinaryString(changeEvent.target.files[0]);
+            });
+        }
+    };
+}]);

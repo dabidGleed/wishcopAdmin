@@ -54,7 +54,8 @@ var path = {
         'src/assets/vendors/bower/jquery-steps/demo/css/jquery.steps.css',
         'src/assets/vendors/bower/bootstrap-select/dist/css/bootstrap-select.min.css',
         'src/assets/vendors/bower/dropify/dist/css/dropify.min.css',
-        'src/assets/vendors/bower/handsontable/dist/handsontable.full.css'
+        'src/assets/vendors/bower/handsontable/dist/handsontable.full.css',
+        'src/assets/vendors/bower/angular-ui-grid/ui-grid.min.css'
         ],
         vendor_js:[
         'src/assets/vendors/bower/jquery/jquery.min.js',
@@ -89,6 +90,7 @@ var path = {
         'src/assets/vendors/bower/d3/d3.min.js',
         'src/assets/vendors/bower/c3/c3.min.js',
         'src/assets/vendors/bower/chartist/dist/chartist.min.js',
+        'src/assets/vendors/bower/angular-ui-grid/ui-grid.min.js',
         'src/assets/vendors/bower/peity/jquery.peity.min.js',
         'src/assets/vendors/bower/chartist-plugin-tooltip/dist/chartist-plugin-tooltip.min.js',
         'src/assets/vendors/bower/gsap/src/minified/TweenMax.min.js',
@@ -104,7 +106,8 @@ var path = {
         'src/assets/vendors/bower/ngHandsontable/dist/ngHandsontable.js',
         'src/assets/vendors/manual/pagination/dirPagination.js',
         'src/assets/vendors/bower/release/angular-ui-router/angular-ui-router.min.js',
-        'src/assets/vendors/bower/angular-summernote/dist/angular-summernote.js'
+        'src/assets/vendors/bower/angular-summernote/dist/angular-summernote.js',
+        'src/assets/vendors/bower/js-xlsx/dist/xlsx.full.min.js'
         ],
         angular_src:[
         'src/assets/vendors/bower/angular/angular.min.js',

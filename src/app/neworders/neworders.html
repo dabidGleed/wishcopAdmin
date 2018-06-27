@@ -28,23 +28,25 @@
                                 <input type="text" class="form-control" name="searchName" ng-model="search.name">
                             </div>
                             <div class="col-md-3 col-sm-3 col-xs-3">
-                                <a href="javascript: void(0);" class="btn btn-primary" ng-click="applyFilters(search)">Apply</a>
+                                <label class="form-control-label" for="l0">Vendors </label>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group row">
-                            <div class="col-md-3 col-sm-3 col-xs-3">
-                                <label class="form-control-label" for="l0">Vendors </label>
-                            </div>
+                            
                             <div class="col-md-6 col-sm-6 col-xs-6">
                                 <select ng-model="search.vendor" ng-options="vendors as vendors.firstName for vendors in vendorList track by vendors.id"
                                     class="form-control" name="searchvendor">
                                 </select>
                             </div>
                             <div class="col-md-3 col-sm-3 col-xs-3">
+                                <a href="javascript: void(0);" class="btn btn-primary" ng-click="applyFilters(search)">Apply</a>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-3">
                                 <a href="javascript: void(0);" class="btn btn-primary" ng-click="resetFilters()">Reset</a>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -89,10 +91,12 @@
                                                 <span ng-class="{'text-success': sale.status==='ORDER_APPROVED', 'text-warning': sale.status!='ORDER_APPROVED'}">{{sale.status.replace("_"," ")}}</span>
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-primary margin-inline" ng-show="sale.distributor" data-toggle="modal" data-target="#distributorView" ng-click="viewDistributor(sale.distributor);">
-                                                    Display distributor 
+                                                <button type="button" class="btn btn-primary margin-inline" ng-show="sale.distributor" data-toggle="modal" data-target="#distributorView"
+                                                    ng-click="viewDistributor(sale.distributor, order.id, sale.order_item_id);">
+                                                    Display distributor
                                                 </button>
-                                                <button type="button" class="btn btn-primary margin-inline" ng-hide="sale.distributor" data-toggle="modal" data-target="#distributorData" ng-click="selectDistributor(sale.owner, order.id, sale.order_item_id);">
+                                                <button type="button" class="btn btn-primary margin-inline" ng-hide="sale.distributor" data-toggle="modal" data-target="#distributorData"
+                                                    ng-click="selectDistributor(sale.owner, order.id, sale.order_item_id);">
                                                     Select distributor
                                                 </button>
                                             </td>
@@ -145,17 +149,18 @@
                     </div>
                 </div>
                 <form id="form-validation" ng-show="!showAdd" name="form-submit" ng-submit="attachDistributorforNewInvoice(dist)">
-                        <div class="form-actions">
-                            <button type="submit" class="btn btn-primary width-150">Submit</button>
-                        </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary width-150">Submit</button>
+                    </div>
                 </form>
-                <form  ng-show="showAdd" name="distributorForm" ng-submit="distributorForm.$valid && addDistributor(distributor)" novalidate>
+                <form ng-show="showAdd" name="distributorForm" ng-submit="distributorForm.$valid && addDistributor(distributor)" novalidate>
                     <div class="row form-group">
                         <div class="col-md-3 col-sm-3 col-xs-3">
                             <label class="form-control-label" for="email">Distributor Name</label>
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-3">
-                            <input id="validation-cname" class="form-control" placeholder="Distributor Name" name="companyName" type="text" ng-model="distributor.companyName" required>
+                            <input id="validation-cname" class="form-control" placeholder="Distributor Name" name="companyName" type="text" ng-model="distributor.companyName"
+                                required>
                             <div class="errorText" ng-if="distributorForm.companyName.$touched || distributorForm.$submitted" style="color:red">
                                 <span style="color:red" ng-show="distributorForm.companyName.$error.required">Please Enter Distributor Name </span>
                             </div>
@@ -168,9 +173,9 @@
                         <div class="col-md-3 col-sm-3 col-xs-3">
                             <input id="validation-drugLicense" class="form-control" placeholder="Drug License Number" name="drugLicense" type="text"
                                 ng-model="distributor.drugLicense" required>
-                                <div class="errorText" ng-if="distributorForm.drugLicense.$touched || distributorForm.$submitted" style="color:red">
-                                    <span style="color:red" ng-show="distributorForm.drugLicense.$error.required">Please Enter Drug License Number </span>
-                                </div>
+                            <div class="errorText" ng-if="distributorForm.drugLicense.$touched || distributorForm.$submitted" style="color:red">
+                                <span style="color:red" ng-show="distributorForm.drugLicense.$error.required">Please Enter Drug License Number </span>
+                            </div>
                         </div>
                     </div>
                     <div class="row form-group">
@@ -185,16 +190,17 @@
                         </div>
                     </div>
                     <div class=" row form-group">
-                            <div class="col-md-3 col-sm-3 col-xs-3">
-                                <label class="form-control-label" for="email">Email</label>
-                            </div>
-                            <div class="col-md-3 col-sm-3 col-xs-3">
-                                <input id="validation-email" class="form-control" placeholder="Email" name="email" type="text" ng-model="distributor.email" required>
-                                <div class="errorText" ng-if="distributorForm.email.$touched || distributorForm.$submitted" style="color:red">
-                                    <span style="color:red" ng-show="distributorForm.email.$error.required">Please Enter Email Id </span>
-                                </div>
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <label class="form-control-label" for="email">Email</label>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <input id="validation-email" class="form-control" placeholder="Email" name="email" type="text" ng-model="distributor.email"
+                                required>
+                            <div class="errorText" ng-if="distributorForm.email.$touched || distributorForm.$submitted" style="color:red">
+                                <span style="color:red" ng-show="distributorForm.email.$error.required">Please Enter Email Id </span>
                             </div>
                         </div>
+                    </div>
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary width-150">Add</button>
                     </div>
@@ -216,14 +222,15 @@
                 <h4 class="modal-title" id="myModalLabel">Distributor Details</h4>
             </div>
             <div class="modal-body" style="min-height: 300px;">
-                
-                <form name="distributorForm" ng-submit="distributorForm.$valid && addDistributor(distributor)" novalidate>
+
+                <form name="distributorForm" ng-submit="distributorForm.$valid && attachDistributorforNewInvoice(distributor)" novalidate>
                     <div class="row form-group">
                         <div class="col-md-3 col-sm-3 col-xs-3">
                             <label class="form-control-label" for="email">Distributor Name</label>
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-3">
-                            <input id="validation-cname" class="form-control" placeholder="Distributor Name" name="companyName" type="text" ng-model="distributor.companyName" required>
+                            <input id="validation-cname"  ng-readonly="true" class="form-control" placeholder="Distributor Name" name="companyName" type="text" ng-model="distributor.companyName"
+                                required>
                             <div class="errorText" ng-if="distributorForm.companyName.$touched || distributorForm.$submitted" style="color:red">
                                 <span style="color:red" ng-show="distributorForm.companyName.$error.required">Please Enter Distributor Name </span>
                             </div>
@@ -234,11 +241,11 @@
                             <label class="form-control-label" for="email">Drug License</label>
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-3">
-                            <input id="validation-drugLicense" class="form-control" placeholder="Drug License Number" name="drugLicense" type="text"
+                            <input id="validation-drugLicense" ng-readonly="true" class="form-control" placeholder="Drug License Number" name="drugLicense" type="text"
                                 ng-model="distributor.drugLicense" required>
-                                <div class="errorText" ng-if="distributorForm.drugLicense.$touched || distributorForm.$submitted" style="color:red">
-                                    <span style="color:red" ng-show="distributorForm.drugLicense.$error.required">Please Enter Drug License Number </span>
-                                </div>
+                            <div class="errorText" ng-if="distributorForm.drugLicense.$touched || distributorForm.$submitted" style="color:red">
+                                <span style="color:red" ng-show="distributorForm.drugLicense.$error.required">Please Enter Drug License Number </span>
+                            </div>
                         </div>
                     </div>
                     <div class="row form-group">
@@ -246,23 +253,27 @@
                             <label class="form-control-label" for="email">GST</label>
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-3">
-                            <input id="validation-gst" class="form-control" placeholder="gst" name="gst" type="text" ng-model="distributor.gst" required>
+                            <input id="validation-gst" ng-readonly="true" class="form-control" placeholder="gst" name="gst" type="text" ng-model="distributor.gst" required>
                             <div class="errorText" ng-if="distributorForm.gst.$touched || distributorForm.$submitted" style="color:red">
                                 <span style="color:red" ng-show="distributorForm.gst.$error.required">Please Enter GST Number </span>
                             </div>
                         </div>
                     </div>
                     <div class=" row form-group">
-                            <div class="col-md-3 col-sm-3 col-xs-3">
-                                <label class="form-control-label" for="email">Email</label>
-                            </div>
-                            <div class="col-md-3 col-sm-3 col-xs-3">
-                                <input id="validation-email" class="form-control" placeholder="Email" name="email" type="text" ng-model="distributor.email" required>
-                                <div class="errorText" ng-if="distributorForm.email.$touched || distributorForm.$submitted" style="color:red">
-                                    <span style="color:red" ng-show="distributorForm.email.$error.required">Please Enter Email Id </span>
-                                </div>
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <label class="form-control-label" for="email">Email</label>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <input id="validation-email" class="form-control" placeholder="Email" name="email" type="text" ng-model="distributor.email"
+                            ng-readonly="true" required>
+                            <div class="errorText" ng-if="distributorForm.email.$touched || distributorForm.$submitted" style="color:red">
+                                <span style="color:red" ng-show="distributorForm.email.$error.required">Please Enter Email Id </span>
                             </div>
                         </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary width-150">Resend Invoice</button>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">

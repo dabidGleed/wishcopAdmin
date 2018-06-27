@@ -1,5 +1,5 @@
 var app = angular.module('cleanUI', [
-    "ui.router", "angularUtils.directives.dirPagination", "summernote", "ngStorage"
+    "ui.router", "angularUtils.directives.dirPagination", "summernote", "ngStorage","ui.grid", 'ui.grid.edit', 'ui.grid.rowEdit', 'ui.grid.cellNav'
 ]);
 
 app.run(function ($rootScope, $state) {
@@ -50,6 +50,12 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('main.productsbulkupload', {
             url: "products-upload",
             templateUrl: "products-list/products-bulk-upload.html",
+            controller: "productsListCtrl"
+
+        })
+        .state('main.productsprices', {
+            url: "products-prices",
+            templateUrl: "products-list/products-pricing.html",
             controller: "productsListCtrl"
 
         })

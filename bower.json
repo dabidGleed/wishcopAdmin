@@ -48,7 +48,9 @@
     "dropify": "0.2.1",
     "ngHandsontable": "^0.13.0",
     "angular-ui-router": "1.0.3",
-    "angular-summernote": "0.8.1"
+    "angular-summernote": "0.8.1",
+    "angular-ui-grid": "^4.4.11",
+    "js-xlsx": "^0.13.0"
   },
   "resolutions": {
     "chartist": "^0.9.7",

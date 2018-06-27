@@ -23,6 +23,21 @@
               url: finalUrl
           });
       };
+      ordersServiceMethods.getDistributorOrdersList = function (page, searchData) {
+        var query = "";
+        if (searchData.name != "") {
+            query = "&searchString=" + searchData.name;
+        }
+
+        if (searchData.vendor != "") {
+            query = "&vendorId=" + searchData.vendor.id;
+        }
+        var finalUrl = baseURL + "admin/list/distributor/orders?limit=15&sort=createdAt DESC&skip=" + page + query;
+        return $http({
+            method: 'GET',
+            url: finalUrl
+        });
+    };
       ordersServiceMethods.getVendorsList = function (type) {
 
           var finalUrl = baseURL + "admin/vendor/list";

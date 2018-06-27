@@ -1,0 +1,33 @@
+<div class="page-content-inner">
+
+    <!-- Ecommerce Products List -->
+    <section class="panel panel-with-borders" id="editcategroy">
+        <div class="panel-heading">
+            <h2>Products Pricing</h2>
+        </div>
+        <div style=" display: inline;">
+            <button type="button" class="btn btn-success"  style="margin: 10px"; ng-click="reset()">Reset</button>
+            <button type="button" class="btn btn-success"  style="margin:10px;" ng-disabled="gridOptions.data.length === 0" ng-click="submit()">Submit</button>
+            <form method="get" style="display: inline;" action="https://wishcop.s3.amazonaws.com/PincodeWisePricingSampleSheet.xlsx">
+              <label>Download sample Excel Sheet</label>
+                 <button type="submit">Download!</button>
+               </form>
+        </div>
+
+      <br />
+      <div id="grid1" ui-grid="gridOptions" ui-grid-edit ui-grid-row-edit ui-grid-cellNav class="grid">
+        <div class="grid-msg-overlay" ng-show="!gridOptions.data.length">
+          <div class="msg">
+            <div class="center">
+              <span class="muted">Select Spreadsheet File</span>
+              <br />
+              <input type="file" accept=".xls,.xlsx" fileread="" opts="gridOptions" multiple="false" />
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </section>
+    <!-- End Ecommerce Products List -->
+
+</div>

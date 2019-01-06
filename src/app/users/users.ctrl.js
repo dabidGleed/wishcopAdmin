@@ -8,8 +8,6 @@ app.controller('usersListCtrl', ["$location", "$scope", "$rootScope", "usersServ
     $scope.currentPage = 1;
     $scope.itemsPerPage = 15;
 
-
-
     // get users list
     usersServiceMethods.getUsersList().then(function (response) {
         $scope.userList = response.data;
@@ -27,7 +25,7 @@ app.controller('usersListCtrl', ["$location", "$scope", "$rootScope", "usersServ
             role: "",
             status: ""
         };
-    }
+    };
     //modal popup details of the user
     $scope.userDetails = function (userData) {
         // console.log(userData);
@@ -55,7 +53,7 @@ app.controller('usersListCtrl', ["$location", "$scope", "$rootScope", "usersServ
                     if (key.category == "NEWS") {
                         $scope.news = key;
                     }
-                })
+                });
                 $scope.modalDetialsProfile = response.data;
 
             } else {
@@ -68,7 +66,7 @@ app.controller('usersListCtrl', ["$location", "$scope", "$rootScope", "usersServ
             }
         });
 
-    }
+    };
 
     $scope.saveStatus = function (modaldetails) {
         $('#userData').modal('hide');

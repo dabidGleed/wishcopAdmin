@@ -49,7 +49,7 @@
 
           var finalUrl = baseURL + "admin/" + userId + "/delete";
           return $http({
-              method: 'DELETE',
+              method: 'POST',
               url: finalUrl
           });
       };

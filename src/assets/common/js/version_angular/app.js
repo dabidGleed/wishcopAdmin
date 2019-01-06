@@ -33,7 +33,16 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             url: "users/list",
             templateUrl: "users/users-list.html",
             controller: "usersListCtrl"
-
+        })
+        .state('main.buyerslist', {
+            url: "buyers/list",
+            templateUrl: "buyers/buyers-list.html",
+            controller: "buyersListCtrl"
+        })
+        .state('main.vendorslist', {
+            url: "vendors/list",
+            templateUrl: "buyers/vendors-list.html",
+            controller: "vendorsListCtrl"
         })
         .state('main.saleslist', {
             url: "sales-list",

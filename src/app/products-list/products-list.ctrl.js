@@ -500,7 +500,7 @@ app.directive("fileread", [function () {
                                 enableCellEdit: true
                             });
                         });
-
+                        
                         $scope.opts.data = data;
 
                         $elm.val(null);

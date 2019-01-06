@@ -1,0 +1,199 @@
+<div class="page-content-inner">
+
+    <!-- Ecommerce Products List -->
+    <section class="panel panel-with-borders">
+        <div class="panel-heading">
+            <h2>
+                Buyers List
+            </h2>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6 col-sm-8 col-xs-8">
+                    <input  class ="form-control" type="text" ng-model="searchText" placeholder="Search keyword" id="l0">
+                </div>
+                <div class="col-md-3 col-sm-4 col-xs-4">
+                    <a href="javascript: void(0);" class="form-control btn btn-primary" ng-click="resetFilters()">Reset</a>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+
+            <div class="table-responsive thead-default margin-bottom-50">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>S.NO</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Mobile Number</th>
+                            <th>Created Date</th>
+                            <th>Admin Approval Status</th>
+                            <th>View Profile</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr dir-paginate="users in userList | orderBy:'-updatedAt' | itemsPerPage:itemsPerPage"
+                            current-page="currentPage" total-items="totalCount">
+                            <td>{{itemsPerPage *(currentPage-1)+$index+1}}</td>
+                            <td>{{users.firstName}} {{users.lastName}}</td>
+                            <td>{{users.email}}</td>
+                            <td>{{users.mobileNumber}}</td>
+                            <td>{{users.updatedAt | date : 'yyyy-MM-dd'}}</td>
+                            <td>
+                                <span ng-if="!!users.profile.adminApprove" class="label {{users.profile.adminApprove == 'APPROVED' ? 'label-success' : ''}} {{users.profile.adminApprove == 'PENDING' ? 'label-danger':''}}"> {{users.profile.adminApprove}}</span>
+                                
+                                <span ng-if="!users.profile.adminApprove" class="label label-danger">PENDING</span>
+                            </td>
+                            <td ng-if="users.profile.companyName">
+                                <!--<a href="javascript: void(0);" class="link-underlined margin-right-5"><i class="icmn-pencil5"> </i> View</a>-->
+                                <button  type="button" class="btn btn-rounded btn-secondary-outline margin-inline" data-toggle="modal" data-target="#userData"
+                                    ng-click="userDetails(users);">
+                                    <i class="icmn-pencil5"> </i> View
+                                </button>
+                                
+                            </td>
+                            <td ng-if="!users.profile.companyName">
+                                    <button  type="button" class="btn btn-rounded" >
+                                            No Profile
+                                        </button>
+                            </td>
+                        </tr>
+                        <tr ng-show="userList.length ==0 ">
+                            <td colspan="10">
+                                <center>No data found</center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="10">
+                                <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <!-- End Ecommerce Products List -->
+
+</div>
+<!-- modal popup to edit users list-->
+<div class="modal fade modal-size-large" id="userData" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">User Details</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <colgroup>
+                            <col class="col-xs-4">
+                            <col class="col-xs-8">
+                        </colgroup>
+
+                        <tbody>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Company Name
+                                </td>
+                                <td>{{companyProfile.companyName}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Drug License Number
+                                </td>
+                                <td>{{companyProfile.drugLicense}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    GST 
+                                </td>
+                                <td>{{companyProfile.gst}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Created
+                                </td>
+                                <td>{{modalDetials.createdAt | date : 'yyyy-MM-dd'}}</td>
+                            </tr>
+                            <tr>
+                                    <td class="text-nowrap">
+                                        Uploaded Documents
+                                    </td>
+                                    <td>
+                                        <div class="upload-products-container">
+                                            <div class="products-container row">
+                                                <div class="col-xs-6 col-sm-6 col-md-3" ng-repeat="f in companyProfile.documents">
+                                                    <!-- <a href="{{f.oralink}} " target="_blank " style="background-image:url({{f.link}}); " class="profileLegImg ">
+                                                    </a> -->
+                                                   <a href="{{f.link}}" download target="_blank"> <img style="border-radius: 3px;
+                                                    margin: 0 5px 4px 0;
+                                                    max-width: 128px;" ng-src="{{f.link}}" alt="{{f.link}}" />
+                                                    <span>{{f.imageName | limitTo: 20 }}{{f.imageName.length < 20 ? '...' : '' }}
+                                                    </span> 
+                                                </a>
+                                                </div> 
+                                            </div> 
+                                        </div> 
+                                    </td>
+                                </tr>
+                            <!-- <tr ng-if="!!companyProfile.companyName" style="color:#759be7";>
+                                <td>COMPANY PROFILE</td>
+                                <td>
+                                    <table class="table table-inverse">
+
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-nowrap">Company Name </td>
+                                                <td> {{companyProfile.companyName}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-nowrap">Drug License Number </td>
+                                                <td> {{companyProfile.drugLicense}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-nowrap">GST </td>
+                                                <td> {{companyProfile.gst}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </td>
+                            </tr> -->
+                            <tr>
+                                <td class="text-nowrap">
+                                    Admin Approval
+                                </td>
+                                <td>
+                                    <select class="form-control" name="userStatus" ng-model="companyProfile.adminApprove">
+                                        <option value="PENDING">PENDING</option>
+                                        <option value="APPROVED">APPROVED</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Admin Notes
+                                </td>
+                                <td>
+                                    <textarea class="form-control" rows="3" cols="50" data-ng-model="companyProfile.adminNotes"></textarea>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="saveStatus(companyProfile.userId, companyProfile)">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Scripts -->
+<script>
+</script>

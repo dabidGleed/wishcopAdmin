@@ -15,7 +15,7 @@ app.factory('referralSettingsService', ['$http','globalVars', function($http,glo
                 url: finalUrl
                 // data: dataObj,
                 // headers:  
-            }) 
+            });
         };
 
         referralSettingsServiceMethods.updateReferrals = function(data,id) {

@@ -9,15 +9,12 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
-    rigger = require('gulp-rigger'),
     ignore = require('gulp-ignore'),
-    image = require('gulp-image'),
     rimraf = require('gulp-rimraf'),
     browserSync = require("browser-sync"),
     concatCss = require('gulp-concat-css'),
     uglify = require('gulp-uglify'),
     
-    copy = require('gulp-contrib-copy'),
     reload = browserSync.reload;
 
 

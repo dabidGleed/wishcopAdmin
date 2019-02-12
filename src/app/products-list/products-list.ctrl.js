@@ -110,6 +110,16 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
         angular.copy($scope.search, $scope.localSearch);
         $scope.getProductsList(0, $scope.localSearch);
     });
+    $scope.$watch("bulk.vendor", function () {
+        if(!!$scope.bulk.vendor){
+            $scope.subVendors = $filter('filter')($scope.vendorList, {
+                id: $scope.bulk.vendor
+            });
+            $scope.subVendors = $scope.subVendors[0].profile;
+            console.log($scope.subVendors);
+        }
+        
+    });
 
     //modal popup details of the Product
     $scope.productDetails = function (productData) {
@@ -425,7 +435,8 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
                     productsServiceMethods.bulkUpload($scope.myFile, data).then(function (response) {
                         if (response.status == 200) {
                             $scope.bulk = {
-                                vendor: ""
+                                vendor: "",
+                                subVendor: ""
                             };
                             $scope.myFile = null;
                             $.notify({

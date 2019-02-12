@@ -38,8 +38,13 @@
           });
       };
       productsServiceMethods.bulkUpload = function (file, data) {
+
           console.log(file);
           var finalUrl = baseURL + "products/upload/" + data.vendor + "/bulk";
+          if(data.subVendor){
+            finalUrl = finalUrl + "?subBrand="+ data.subVendor;
+          }
+          
           var fd = new FormData();
           fd.append('content', file);
           return $http.post(finalUrl, fd, {

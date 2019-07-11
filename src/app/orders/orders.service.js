@@ -17,32 +17,32 @@
           if (searchData.vendor != "") {
               query = "&vendorId=" + searchData.vendor.id;
           }
-          var finalUrl = baseURL + "admin/list/all/orders?limit=15&sort=createdAt DESC&skip=" + page + query;
+          var finalUrl = baseURL + "admin/list/all/orders?limit=30&sort=createdAt DESC&skip=" + page + query;
           return $http({
               method: 'GET',
               url: finalUrl
           });
       };
       ordersServiceMethods.getDistributorOrdersList = function (page, searchData) {
-        var query = "";
-        if (searchData.name != "") {
-            query = "&searchString=" + searchData.name;
-        }
+          var query = "";
+          if (searchData.name != "") {
+              query = "&searchString=" + searchData.name;
+          }
 
-        if (searchData.vendor != "") {
-            query = "&vendorId=" + searchData.vendor.id;
-        }
-        var finalUrl = baseURL + "admin/list/distributor/orders?limit=15&sort=createdAt DESC&skip=" + page + query;
-        return $http({
-            method: 'GET',
-            url: finalUrl
-        });
-    };
+          if (searchData.vendor != "") {
+              query = "&vendorId=" + searchData.vendor.id;
+          }
+          var finalUrl = baseURL + "admin/list/distributor/orders?limit=15&sort=createdAt DESC&skip=" + page + query;
+          return $http({
+              method: 'GET',
+              url: finalUrl
+          });
+      };
       ordersServiceMethods.getVendorsList = function (type) {
 
           var finalUrl = baseURL + "admin/vendor/list";
-          if(type){
-            finalUrl = baseURL + "admin/vendor/list?type=DISTRIBUTOR";
+          if (type) {
+              finalUrl = baseURL + "admin/vendor/list?type=DISTRIBUTOR";
           }
           return $http({
               method: 'GET',
@@ -51,28 +51,28 @@
       };
       ordersServiceMethods.getDistributorsList = function (vendorId) {
 
-          var finalUrl = baseURL + "admin/get/"+vendorId+"/distributors/list";
+          var finalUrl = baseURL + "admin/get/" + vendorId + "/distributors/list";
           return $http({
               method: 'GET',
               url: finalUrl
           });
       };
-      ordersServiceMethods.addDistributor = function(vendorId, data){
-          var finalUrl = baseURL + "admin/create/"+vendorId+"/distributor";
+      ordersServiceMethods.addDistributor = function (vendorId, data) {
+          var finalUrl = baseURL + "admin/create/" + vendorId + "/distributor";
           return $http({
-            method: 'POST',
-            url: finalUrl,
-            data: data
-        });
+              method: 'POST',
+              url: finalUrl,
+              data: data
+          });
       };
-      ordersServiceMethods.generateDistributorInvoice = function(orderId, data){
-        var finalUrl = baseURL + "admin/generate/"+orderId+"/distributors/invoice";
-        return $http({
-          method: 'POST',
-          url: finalUrl,
-          data: data
-      });
-    };
+      ordersServiceMethods.generateDistributorInvoice = function (orderId, data) {
+          var finalUrl = baseURL + "admin/generate/" + orderId + "/distributors/invoice";
+          return $http({
+              method: 'POST',
+              url: finalUrl,
+              data: data
+          });
+      };
       //service to get order Details
       ordersServiceMethods.getOrderDetails = function (orderId, saleId) {
           var finalUrl = baseURL + 'orders/' + orderId + '/' + saleId + '/trackorder';
@@ -80,6 +80,17 @@
               method: 'GET',
               url: finalUrl
           });
+      };
+
+      //service to download Invoice
+      ordersServiceMethods.downloadInvoice = function (orderId) {
+        var finalUrl = baseURL + 'orders/' + orderId + '/download-invoices';
+        return $http.get(finalUrl, {
+            responseType: 'arraybuffer' 
+        });
+      };
+      ordersServiceMethods.sendInvoice = function (orderId) {
+        return $http.get(globalVars.baseURL + 'orders/' + orderId + '/send/invoice/email');
       };
 
       //service to update status
@@ -94,7 +105,7 @@
           });
       };
 
-      //service to update to order delivery
+      //service to update to order delivery 
       ordersServiceMethods.updateOrderDelivery = function (varientId, orderItemId, orderId, saleId) {
           var finalUrl = baseURL + "admin/" + orderId + "/updateto/delivered";
           var variendData = [];
@@ -108,6 +119,14 @@
                   status: "ORDER_DELIVERED",
                   variants: variendData
               }
+          });
+      };
+      ordersServiceMethods.updateOrderDetails = function (orderId, order) {
+          var finalUrl = baseURL + "order/update/" + orderId + "/invoice-details";
+          return $http({
+              method: 'POST',
+              url: finalUrl,
+              data: order
           });
       };
       return ordersServiceMethods;

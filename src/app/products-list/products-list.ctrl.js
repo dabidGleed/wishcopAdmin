@@ -74,7 +74,10 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
     $scope.getProductsList(0, $scope.localSearch);
     productsServiceMethods.getVendorsList().then(function (response) {
         $scope.vendorList = response.data;
-
+        $scope.vendors = [];
+        angular.forEach($scope.vendorList, function (value, key) {
+            if(!!value.profile) $scope.vendors.push(value);
+        });
     });
     // users list filters
     $scope.resetFilters = function () {

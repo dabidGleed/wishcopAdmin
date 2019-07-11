@@ -41,7 +41,7 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
         }
         $scope.getTransactionsList(0, $scope.search);
     });
-    // users list filters
+    // orders list filters
     $scope.resetFilters = function () {
         $scope.search = {
             name: "",
@@ -90,6 +90,52 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
         });
     };
 
+    $scope.downloadInvoice = function () {
+        $scope.saleData = {};
+        var fileName = "invoice.pdf";
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+        NProgress.start();
+        ordersServiceMethods.downloadInvoice($scope.orderId).then(function (response, status) {
+            if (response) {
+                $('#orderData').modal('hide');
+                NProgress.done();
+                var file = new Blob([response.data], {
+                    type: 'application/pdf'
+                });
+                var fileURL = window.URL.createObjectURL(file);
+                console.log(fileURL);
+                a.href = fileURL;
+                a.download = fileName;
+                a.click();
+            } else {
+                alert("try again");
+            }
+        });
+    };
+    $scope.sendInvoice = function () {
+        NProgress.start();
+        ordersServiceMethods.sendInvoice($scope.orderId).then(function (response, status) {
+            if (response.status == 200) {
+                $('#orderData').modal('hide');
+                NProgress.done();
+                $.notify({
+                    title: '<strong>Successfuly Sent!</strong>',
+                    message: response.data.message
+                }, {
+                    type: 'success'
+                });
+            } else {
+                $.notify({
+                    title: '<strong>Unsuccessful!</strong>',
+                    message: response.data.message
+                }, {
+                    type: 'danger'
+                });
+            }
+        });
+    };
     $scope.confirmDeliveryStatus = function (varientId, orderItemId, orderId, saleId) {
         $scope.deliveryData = {};
         $scope.deliveryData.varientId = varientId;
@@ -142,5 +188,40 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
         angular.copy(searchData, $scope.search);
         $scope.getTransactionsList(0, $scope.search);
 
+    };
+    $scope.editBatchExpiry = function(orderId){
+        $scope.orderId = orderId;
+        console.log("edit");
+        $scope.orderItems = [];
+        var order = $filter('filter')($scope.userList, {
+                 id: orderId
+             });
+        $scope.orderItems = order[0].sales;
+    };
+    $scope.updateBatchAndExpiry = function(){
+        $scope.order = $filter('filter')($scope.userList, {
+            id: $scope.orderId
+        })[0];
+        $scope.order.sales = $scope.orderItems;
+        console.log($scope.order);
+        ordersServiceMethods.updateOrderDetails($scope.orderId, $scope.order).then(function (response, status) {
+            console.log(response);
+            if (response.status == 200) {
+                $.notify({
+                    title: '<strong>Success!</strong>',
+                    message: response.data.message
+                }, {
+                    type: 'success'
+                });
+                $('#orderData').modal('hide');
+            } else {
+                $.notify({
+                    title: '<strong>Unsuccessful!</strong>',
+                    message: response.data
+                }, {
+                    type: 'danger'
+                });
+            }
+        });
     };
 }]);

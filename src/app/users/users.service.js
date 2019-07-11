@@ -24,12 +24,15 @@
           });
       };
       //service to active user
-      usersServiceMethods.activeUserStatus = function (userId) {
+      usersServiceMethods.activeUserStatus = function (userId, access) {
 
           var finalUrl = baseURL + "admin/" + userId + "/make/active";
           return $http({
               method: 'POST',
-              url: finalUrl
+              url: finalUrl,
+              data: {
+                  access: access
+              }
           });
       };
 

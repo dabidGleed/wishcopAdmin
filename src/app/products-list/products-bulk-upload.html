@@ -16,7 +16,7 @@
                             </div>
                             <div class="col-md-3 col-xs-3 form-group" ng-class="{'has-danger' : categoryForm.searchvendor.$invalid && categoryForm.$submitted}  ">
                                 <select class="form-control" name="searchvendor" ng-model="bulk.vendor"
-                                ng-options="vendors.id as vendors.profile.companyName for vendors in vendorList ">
+                                ng-options="vendors.id as vendors.profile.companyName for vendors in vendors ">
                                 <option value="" selected>Select</option>
                                 </select>
                             </div>

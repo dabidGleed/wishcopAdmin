@@ -27,7 +27,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('main.dashboard', {
             url: "dashboard",
             templateUrl: "dashboards/dashboard.html",
-            controller: "MainCtrl"
+            controller: "dashboardCtrl"
         })
         .state('main.userslist', {
             url: "users/list",
@@ -48,127 +48,107 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             url: "sales-list",
             templateUrl: "sales-list/sales-list.html",
             controller: "salesListCtrl"
-
         })
         .state('main.productslist', {
             url: "products-list",
             templateUrl: "products-list/products-list.html",
             controller: "productsListCtrl"
-
         })
         .state('main.productsbulkupload', {
             url: "products-upload",
             templateUrl: "products-list/products-bulk-upload.html",
             controller: "productsListCtrl"
-
         })
         .state('main.productsprices', {
             url: "products-prices",
             templateUrl: "products-list/products-pricing.html",
             controller: "productsListCtrl"
-
         })
         .state('main.referralslist', {
             url: "referrals-list",
             templateUrl: "referrals/referrals.html",
             controller: "referralsListCtrl"
-
         })
         .state('main.smsemaillist', {
             url: "smsemail",
             templateUrl: "send-sms-email/users-list.html",
             controller: "smsEmailCtrl"
-
         })
         .state('main.paymentgateway', {
             url: "payment-gateway",
             templateUrl: "payment-gateway/payment-gateway.html",
             controller: "paymentGatewayCtrl"
-
         })
         .state('main.paymenttransactions', {
             url: "payment-transactions",
             templateUrl: "payment-transactions/payment-transactions.html",
             controller: "paymentTransactionsCtrl"
-
         })
         .state('main.category', {
             url: "category",
             templateUrl: "category/category.html",
             controller: "categoryCtrl"
-
         })
         .state('main.subcategory', {
             url: "sub-category",
             templateUrl: "sub-category/sub-category.html",
             controller: "subCategoryCtrl"
-
         })
         .state('main.auditlogs', {
             url: "audit-logs",
             templateUrl: "audit-logs/audit-logs.html",
             controller: "auditLogsCtrl"
-
+        })
+        .state('main.mandates', {
+            url: "mandates",
+            templateUrl: "mandates/mandates.html",
+            controller: "mandateCtrl"
         })
         .state('main.competitors', {
             url: "competitors-list",
             templateUrl: "competitors-list/competitors-list.html",
             controller: "competitorsCtrl"
-
         })
         .state('main.accountTransfer', {
             url: "account-transfer",
             templateUrl: "account-transfer/account-transfer.html",
             controller: "accountTransferCtrl"
-
         })
         .state('main.referralSettings', {
             url: "referral-settings",
             templateUrl: "referral-settings/referral-settings.html",
             controller: "referralsSettingsCtrl"
-
         })
         .state('main.appSettings', {
             url: "app-settings",
             templateUrl: "app-settings/app-settings.html",
             controller: "appSettingsCtrl"
-
         })
         .state('main.orders', {
             url: "orders",
             templateUrl: "orders/orders.html",
             controller: "ordersCtrl"
-
         })
         .state('main.neworders', {
             url: "neworders",
             templateUrl: "neworders/neworders.html",
             controller: "newOrdersCtrl"
-
         })
         .state('login', {
             url: "/login",
             templateUrl: "login/login.html",
             controller: "loginPageCtrl"
-
         })
         .state('pages404', {
             url: "/pages/page-404",
             templateUrl: "pages/page-404.html"
-
         })
         .state('pages500', {
             url: "/pages/page-500",
             templateUrl: "pages/page-500.html"
-
         });
-
-
-
-
     $urlRouterProvider.otherwise("/login");
 });
-
 
 app.run(['$rootScope', '$http', '$location', '$localStorage', function ($rootScope, $http, $location, $localStorage) {
     // keep user logged in after page refresh

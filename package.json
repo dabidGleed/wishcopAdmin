@@ -5,8 +5,8 @@
   "description": "Clean UI Admin Template Classic",
   "private": true,
   "devDependencies": {
-    "browser-sync": "latest",
-    "gulp": "^3.9.0",
+    "browser-sync": "^2.26.7",
+    "gulp": "3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-clean-css": "^2.0.6",
     "gulp-concat": "^2.6.0",
@@ -16,7 +16,7 @@
     "gulp-rimraf": "^0.2.0",
     "gulp-sass": "^3.0.0",
     "gulp-uglify": "^1.5.4",
-    "gulp-watch": "^4.3.5",
+    "gulp-watch": "^4.3.10",
     "rimraf": "^2.4.3"
   },
   "dependencies": {

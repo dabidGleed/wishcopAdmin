@@ -1,10 +1,7 @@
 var app = angular.module('cleanUI', [
-    "ui.router", "angularUtils.directives.dirPagination", "summernote", "ngStorage","ui.grid", 'ui.grid.edit', 'ui.grid.rowEdit', 'ui.grid.cellNav'
+    "ui.router", "angularUtils.directives.dirPagination", "ngFileUpload", "summernote", "ngStorage","ui.grid", 'ui.grid.edit', 'ui.grid.rowEdit', 'ui.grid.cellNav'
 ]);
 
-app.run(function ($rootScope, $state) {
-    $rootScope.currency = '₹';
-});
 app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     $stateProvider
         .state('main', { // Main Inner Page
@@ -152,11 +149,10 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
 app.run(['$rootScope', '$http', '$location', '$localStorage', function ($rootScope, $http, $location, $localStorage) {
     // keep user logged in after page refresh
+    $rootScope.currency = '₹';
     if ($localStorage.currentUser) {
-
         $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.accessToken;
     }
-
     // redirect to login page if not logged in and trying to access a restricted page
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
         var publicPages = ['/login'];
@@ -182,14 +178,13 @@ app.config(function ($provide, $httpProvider) {
 
     $httpProvider.interceptors.push('unauthorisedInterceptor');
 });
-app.controller('MainCtrl', function ($location, $scope, $rootScope, $timeout) {
-
+app.controller('MainCtrl', function ($location, $scope, $rootScope, $localStorage) {
+    
     NProgress.configure({
         minimum: 0.2,
         trickleRate: 0.1,
         trickleSpeed: 200
     });
-
     $scope.$on('$routeChangeStart', function () {
 
         // NProgress Start

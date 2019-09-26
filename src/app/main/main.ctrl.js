@@ -2,15 +2,20 @@
  * MAIN PAGE CONTROLLER
  */
 
-app.controller('homeCtrl',  function( $location, $scope, $rootScope, $timeout  ) {
+app.controller('homeCtrl',  function( $location, $scope, $rootScope, $localStorage) {
  NProgress.configure({
         minimum: 0.2,
         trickleRate: 0.1,
         trickleSpeed: 200
     });
+    console.log("Home Ctrl");
+    if ($localStorage.currentUser) {
+        console.log($localStorage.currentUser);
+        $rootScope.isAdmin = $localStorage.currentUser.role.includes('ADMIN');
+        console.log($rootScope.isAdmin);
+    }
 
     $scope.$on('$routeChangeStart', function() {
-
         // NProgress Start
         $('body').addClass('cui-page-loading-state');
         NProgress.start();

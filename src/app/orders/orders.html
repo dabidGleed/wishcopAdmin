@@ -27,7 +27,7 @@
                                 <input type="text" class="form-control" name="searchName" ng-model="search.name">
                             </div>
                             <div class="col-md-3 col-sm-3 col-xs-3">
-                                <label class="form-control-label" for="l0">Vendors </label>
+                                <label class="form-control-label" for="l0">Buyers </label>
                             </div>
                         </div>
                     </div>
@@ -35,20 +35,17 @@
                         <div class="form-group row">
 
                             <div class="col-md-6 col-sm-6 col-xs-6">
-                                <select ng-model="search.vendor"
-                                    ng-options="vendors as vendors.firstName for vendors in vendorList track by vendors.id"
+                                <select ng-model="search.buyer" ng-options="buyers as (buyers.profile.companyName | uppercase) for buyers in buyersList | orderBy:'profile.companyName' track by buyers.id "
                                     class="form-control" name="searchvendor">
 
                                     <option value="" selected>All</option>
                                 </select>
                             </div>
                             <div class="col-md-3 col-sm-3 col-xs-3">
-                                <a href="javascript: void(0);" class="btn btn-primary"
-                                    ng-click="applyFilters(search)">Apply</a>
+                                <a href="javascript: void(0);" class="btn btn-primary" ng-click="applyFilters(search)">Apply</a>
                             </div>
                             <div class="col-md-3 col-sm-3 col-xs-3">
-                                <a href="javascript: void(0);" class="btn btn-primary"
-                                    ng-click="resetFilters()">Reset</a>
+                                <a href="javascript: void(0);" class="btn btn-primary" ng-click="resetFilters()">Reset</a>
                             </div>
 
                         </div>
@@ -60,8 +57,8 @@
             <div class=" table-responsive table   margin-bottom-50">
                 <table class="table">
                     <tbody>
-                        <tr dir-paginate="order in userList  | itemsPerPage:itemsPerPage | orderBy:order.createdAt:asc"
-                            current-page="currentPage" total-items="totalCount">
+                        <tr dir-paginate="order in ordersList  | itemsPerPage:itemsPerPage" current-page="currentPage"
+                            total-items="totalCount">
                             <td colspan="6">
                                 <table class="table  ">
                                     <thead ng-if="$index == 0">
@@ -69,58 +66,58 @@
                                             <th width="80px">S.No</th>
                                             <th>OrderID</th>
                                             <th>Amount</th>
-                                            <th>Status</th>
-                                            <th>Created Date</th>
+                                            <th>ShippedTo</th>
+                                            <th>Ordered Date</th>
                                             <th>Order Details</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td width="80">{{itemsPerPage *(currentPage-1)+$index+1}}</td>
-                                            <td>{{order.id}} <p>COMPANY NAME: <span style="text-transform: capitalize; font-weight: bold">{{order.buyerprofile.companyName}}</span></p></td>
-                                            <!-- style="text-decoration: underline; cursor: pointer;"  -->
+                                            <td>{{itemsPerPage *(currentPage-1)+$index+1}}</td>
+                                            <td><span style="font-weight: bold">{{order.orderId? order.orderId:
+                                                    order.id}} </span>
+                                                <p>COMPANY NAME: <span style="text-transform: capitalize; font-weight: bold">{{order.buyerprofile.companyName}}</span></p>
+                                            </td>
 
                                             <td>{{order.order_total | currency:currency}}</td>
-                                            <td>
+                                            <!-- <td>
                                                 <span
                                                     class="label {{order.status == 'PAYMENT_CONFIRMED' ? 'label-success' : ''}} {{order.status == 'PAYMENT_PENDING' ? 'label-warning':''}} {{order.status == 'PAYMENT_FAILED' ? 'label-danger':''}}">{{order.status.replace("_", " ")}}</span>
+                                            </td> -->
+                                            <td style="font-size: 12px;">
+                                                <p>{{order.shipping_address.name}}, {{order.shipping_address.address}}
+                                                </p>
+                                                <p>{{order.shipping_address.city}} {{order.shipping_address.state}}
+                                                </p>
                                             </td>
-                                            <td>{{order.createdAt | date : 'yyyy-MM-dd'}}</td>
+                                            <td>{{order.orderDate | date : 'yyyy-MM-dd'}}</td>
                                             <td>
-                                                <button type="button" class="btn btn-primary margin-inline"
-                                                    data-toggle="modal" data-target="#orderData"
-                                                    ng-click="editBatchExpiry(order.id);">
-                                                    View Order
+                                                <button type="button" class="btn btn-primary btn-md margin-inline" data-toggle="modal"
+                                                    data-target="#orderData" ng-click="editBatchExpiry(order.id);"> Edit
+                                                </button>
+                                                <button type="button" class="btn btn-primary margin-inline" data-toggle="modal"
+                                                    data-target="#uploadModal" ng-click="openUploadModal(order.id);"> Upload
                                                 </button>
                                             </td>
                                         </tr>
                                         <tr ng-repeat="sales in order.sales ">
                                             <td> </td>
-                                            <td>
-                                                <a href="javascript: void(0);"
+                                            <td colspan="2">
+                                                <!-- <a href="javascript: void(0);"
                                                     class="cui-ecommerce--dashboard--list--img">
                                                     <img ng-src="{{sales.sale_image.imageURL}}" />
-                                                </a>
+                                                </a> -->
+                                                <span>{{$index +1 }}</span>. {{sales.title | limitTo:
+                                                35}}{{sales.title.length > 35? '...': ''}} - {{ sales.order_quantity }}
                                             </td>
-                                            <td colspan="2">{{sales.title}}
-                                                <br>Quantity : {{sales.order_quantity}}
-                                                <br>Status : {{sales.status.replace("_"," ")}}
-                                            </td>
-                                            <!-- <td>
-                                                <button type="button" class="btn btn-primary margin-inline" ng-click="downloadInvoice(order.id,sales.order_item_id);">
-                                                    Download Invoice
-                                                </button>
-                                            </td> -->
-                                            <!-- <td>
-                                                <button type="button" class="btn btn-primary margin-inline" ng-click="editBatchExpiry(order.id,sales.order_item_id);">
-                                                    Edit
-                                                </button>
-                                            </td> -->
-                                            <td>
-                                                <button type="button" class="btn btn-primary margin-inline"
-                                                    data-toggle="modal" data-target="#userData"
-                                                    ng-click="userDetails(order.id,sales.order_item_id);">
-                                                    <i class="icmn-pencil5"> </i> Track
+                                            <!-- <td colspan="2"> -->
+                                            <!-- <br>Quantity : {{sales.order_quantity}} -->
+                                            <!-- <br>Status : {{sales.status.replace("_"," ")}} -->
+                                            <!-- </td> -->
+                                            <td colspan="2">
+                                                <button type="button" class="btn btn-primary btn-sm margin-inline"
+                                                    data-toggle="modal" data-target="#userData" ng-click="userDetails(order.id,sales.order_item_id);">
+                                                    Track
                                                 </button>
                                             </td>
                                         </tr>
@@ -129,7 +126,7 @@
                                 </table>
                             </td>
                         </tr>
-                        <tr ng-show="!(userList ).length">
+                        <tr ng-show="ordersList.length == 0">
                             <td colspan="6">
                                 <center>No data found</center>
                             </td>
@@ -148,8 +145,7 @@
     <!-- End Ecommerce Products List -->
 </div>
 <!-- modal popup to edit order list-->
-<div class="modal fade modal-size-large" id="userData" tabindex="-1" role="dialog" aria-labelledby=""
-    aria-hidden="true">
+<div class="modal fade modal-size-large" id="userData" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -159,17 +155,17 @@
                 <h4 class="modal-title" id="myModalLabel">Track Sale</h4>
             </div>
             <div class="modal-body">
-                <div ng-repeat="x in saleData.sales.products">
-                    <h3>{{x.title}} </h3>
-                    <div ng-repeat="y in x.variant track by $index">
+                <div ng-repeat="product in saleData.sales.products">
+                    <h3>{{product.title}} </h3>
+                    <div ng-repeat="variant in product.variant track by $index">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="col-md-5">
                                     <a href="javascript: void(0);" class="cui-ecommerce--dashboard--list--img">
-                                        <img ng-src="{{y.images[0].imageURL}}" />
+                                        <img ng-src="{{variant.images[0].imageURL}}" />
                                     </a>
-                                    <span ng-repeat="varitor in x.variator">{{varitor.name}}:
-                                        {{y[varitor.name]}},</span>
+                                    <span ng-repeat="varitor in product.variator">{{varitor.name}}:
+                                        {{variant[varitor.name]}},</span>
                                 </div>
                                 <div class="col-md-7">
                                     <div id="example-icons" class="cui-wizard wizard clearfix" role="application">
@@ -180,63 +176,62 @@
                                                         <span class="number">1.</span>
                                                         <i class="icmn-circles cui-wizard--steps--icon"></i>
                                                         <span class="cui-wizard--steps--title">Order Received
-                                                            <br>{{y.trackListNew.ORDER_RECEIVED[0].status_updated_at | date:'dd/MM/yyyy'
+                                                            <br>{{variant.trackListNew.ORDER_RECEIVED[0].status_updated_at
+                                                            | date:'dd/MM/yyyy'
                                                             }}</span>
                                                     </a>
                                                 </li>
-                                                <li role="tab" class=" done"
-                                                    ng-class="y.trackListNew.ORDER_APPROVED[0].status == 'ORDER_APPROVED'  ? ' ' : 'disabled'">
+                                                <li role="tab" class=" done" ng-class="variant.trackListNew.ORDER_APPROVED[0].status == 'ORDER_APPROVED'  ? ' ' : 'disabled'">
                                                     <a>
                                                         <span class="number">2.</span>
                                                         <i class="icmn-circles cui-wizard--steps--icon"></i>
                                                         <span class="cui-wizard--steps--title">Order
                                                             <br>
-                                                            <span class="trackStatus"
-                                                                ng-if="y.trackListNew.ORDER_APPROVED[0].status == 'ORDER_APPROVED'">Order
+                                                            <span class="trackStatus" ng-if="variant.trackListNew.ORDER_APPROVED[0].status == 'ORDER_APPROVED'">Order
                                                                 Confirmed </span>
-                                                            <span class="trackStatus"
-                                                                ng-if="y.trackListNew.ORDER_CANCELED[0].status == 'ORDER_CANCELED'">Order
+                                                            <span class="trackStatus" ng-if="variant.trackListNew.ORDER_CANCELED[0].status == 'ORDER_CANCELED'">Order
                                                                 Cancelled</span>
                                                         </span>
-                                                        {{y.trackList[1].status_updated_at | date:'dd/MM/yyyy'}}</a>
+                                                        {{variant.trackList[1].status_updated_at | date:'dd/MM/yyyy'}}</a>
                                                 </li>
-                                                <li role="tab" class=" done"
-                                                    ng-class="y.trackListNew.ORDER_SHIPPED[0].status_updated_at ? '' : 'disabled'">
+                                                <li role="tab" class=" done" ng-class="variant.trackListNew.ORDER_SHIPPED[0].status_updated_at ? '' : 'disabled'">
                                                     <a>
                                                         <span class="current-info audible">current step: </span>
                                                         <span class="number">3.</span>
-                                                        <i class="icmn-circles cui-wizard--steps--icon"></i>
+                                                        <i ng-hide="variant.trackListNew.ORDER_SHIPPED[0].status_updated_at"
+                                                            class="icmn-circles cui-wizard--steps--icon" style="cursor: pointer;"
+                                                            ng-click="updateTrackingDetails(saleData, product)"></i>
+                                                        <i ng-show="variant.trackListNew.ORDER_SHIPPED[0].status_updated_at"
+                                                            class="icmn-circles cui-wizard--steps--icon"></i>
                                                         <span class="cui-wizard--steps--title">Tracking
                                                             <br>
-                                                            <span
-                                                                ng-show="y.trackListNew.ORDER_SHIPPED[0].status_updated_at">
+                                                            <span ng-show="variant.trackListNew.ORDER_SHIPPED[0].status_updated_at">
                                                                 #
-                                                                {{y.trackListNew.ORDER_SHIPPED[0].tracking_details.trackingId}}
-                                                                <br> {{y.trackListNew.ORDER_SHIPPED[0].status_updated_at
+                                                                {{variant.trackListNew.ORDER_SHIPPED[0].tracking_details.trackingId}}
+                                                                <br>
+                                                                {{variant.trackListNew.ORDER_SHIPPED[0].status_updated_at
                                                                 | date:'dd/MM/yyyy'}}
                                                             </span>
                                                         </span>
                                                     </a>
                                                 </li>
-                                                <li role="tab"
-                                                    ng-click=" (y.trackListNew.ORDER_SHIPPED[0].status == 'ORDER_SHIPPED') && (y.trackListNew.ORDER_DELIVERED[0].status != 'ORDER_DELIVERED') && confirmDeliveryStatus(y.id,saleData.sales.order_item_id, saleData.id, saleData.sales.id)"
-                                                    class="last"
-                                                    ng-class="y.trackListNew.ORDER_DELIVERED[0].status == 'ORDER_DELIVERED' ? ' ' : 'disabled'"
+                                                <li role="tab" ng-click=" (variant.trackListNew.ORDER_SHIPPED[0].status == 'ORDER_SHIPPED') && (variant.trackListNew.ORDER_DELIVERED[0].status != 'ORDER_DELIVERED') && confirmDeliveryStatus(variant.id,saleData.sales.order_item_id, saleData.id, saleData.sales.id)"
+                                                    class="last" ng-class="variant.trackListNew.ORDER_DELIVERED[0].status == 'ORDER_DELIVERED' ? ' ' : 'disabled'"
                                                     ng-hide="DeliveredDa[$index]">
-                                                    <a
-                                                        ng-class="((y.trackListNew.ORDER_SHIPPED[0].status == 'ORDER_SHIPPED') && (y.trackListNew.ORDER_DELIVERED[0].status != 'ORDER_DELIVERED')) ? 'disableHover' : '' ">
+                                                    <a ng-class="((variant.trackListNew.ORDER_SHIPPED[0].status == 'ORDER_SHIPPED') && (variant.trackListNew.ORDER_DELIVERED[0].status != 'ORDER_DELIVERED')) ? 'disableHover' : '' ">
                                                         <span class="current-info audible">current step: </span>
                                                         <span class="number">3.</span>
                                                         <i class="icmn-circles cui-wizard--steps--icon"></i>
                                                         <span class="cui-wizard--steps--title"></span>
-                                                        <span ng-hide="y.trackListNew.ORDER_DELIVERED[0].status">
+                                                        <span ng-hide="variant.trackListNew.ORDER_DELIVERED[0].status">
                                                             Delivery
                                                             <br>
                                                         </span>
-                                                        <span ng-show="y.trackListNew.ORDER_DELIVERED[0].status">
+                                                        <span ng-show="variant.trackListNew.ORDER_DELIVERED[0].status">
                                                             Delivered
                                                         </span>
-                                                        {{y.trackListNew.ORDER_DELIVERED[0].status_updated_at | date:'dd/MM/yyyy'}}
+                                                        {{variant.trackListNew.ORDER_DELIVERED[0].status_updated_at |
+                                                        date:'dd/MM/yyyy'}}
                                                     </a>
                                                 </li>
                                         </div>
@@ -253,44 +248,54 @@
         </div>
     </div>
 </div>
-<div class="modal fade modal-size-large" id="orderData" tabindex="-1" role="dialog" aria-labelledby=""
-    aria-hidden="true">
+<div class="modal fade modal-size-large" id="orderData" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">Update Batch and Expiry 
-                        <i class="icmn-download5 pull-right"style="padding: 10px;cursor: pointer;" ng-click="downloadInvoice();"> </i>
-                        <button type="button" class="btn btn-success pull-right" ng-click="sendInvoice();">
-                                Send Invoice 
-                            </button>
-                            
-                            
+                <h4 class="modal-title">Update Batch and Expiry
+                    <i class="icmn-download5 pull-right" style="padding: 10px;cursor: pointer;" ng-click="downloadInvoice();">
+                    </i>
+                    <button type="button" class="btn btn-success pull-right" ng-click="sendInvoice();">
+                        Send Invoice
+                    </button>
                 </h4>
-                
             </div>
             <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3 col-xs-12">
+                        <h4>Select Dispatch Date </h4>
+                    </div>
+                    <div class="col-md-4 col-xs-12" style=" margin-bottom: 6px;">
+                        <input type="date" class="form-control" ng-model="dispatchDate">
+                    </div>
+                </div>
                 <div class="table-responsive thead-default margin-bottom-50">
                     <table class="table table-hover">
                         <thead>
                             <tr class="header">
                                 <th>Title</th>
+                                <th>HSN</th>
                                 <th>Batch</th>
                                 <th>Expiry</th>
-                                <th>HSN</th>
                                 <th>Price</th>
+                                <th>Tax</th>
                                 <th>Quantity</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="sale in orderItems">
+                            <tr ng-repeat="sale in order.sales">
                                 <td>{{sale.title}}</td>
-                                <td style="min-width: 120px;"><input type="text" class="form-control" name="batchName" ng-model="sale.batchName"></td>
-                                <td style="min-width: 120px;"><input type="text" class="form-control" name="expiry" ng-model="sale.expiryDate"></td>
-                                <td style="min-width: 120px;"><input type="text" class="form-control" name="HSN" ng-model="sale.HSNCode"></td>
-                                <td>{{sale.price}}</td>
+                                <td style="min-width: 120px;"><input type="text" class="form-control" name="HSN"
+                                        ng-model="sale.HSNCode"></td>
+                                <td style="min-width: 120px;"><input type="text" class="form-control" name="batchName"
+                                        ng-model="sale.batchName"></td>
+                                <td style="min-width: 120px;"><input type="text" class="form-control" name="expiry"
+                                        ng-model="sale.expiryDate"></td>
+                                <td>{{sale.price | currency:currency }}</td>
+                                <td>{{sale.tax_price | currency:currency }}</td>
                                 <td>{{sale.order_quantity}}</td>
                             </tr>
                         </tbody>
@@ -300,6 +305,45 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" ng-click="updateBatchAndExpiry()">Update</button>
+                <button type="button" class="btn" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade modal-size-large" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Upload Company Invoice
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3 col-xs-12">
+                        <h5>Upload Company Invoices</h5>
+                    </div>
+                    <div class="col-md-4 col-xs-12" >
+                        <button type="file " class="inputfile btn btn-default" id="file"
+                            ngf-select="uploadImageProof($files)" accept="'.pdf, image/*'" name="button">Upload</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="image-product col-md-1" style="display: inline; margin-left:8px;" ng-repeat="f in imagesProofList">
+                        <a class="avatar1" href="javascript:void(0);">
+                            <img ng-src="{{f.link}}" alt="Alternative text to the image" />
+                            <span class="remove-product"><i ng-click="removeImgFiles($index)" class="icmn-cancel"></i></span>
+                        </a>
+                        <p style="margin:0px;">{{f.imageName}}</p>
+        
+                    </div>
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="uploadInvoices()">Save Changes</button>
                 <button type="button" class="btn" data-dismiss="modal">Close</button>
             </div>
         </div>

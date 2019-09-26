@@ -84,6 +84,7 @@
     <!-- v1.7.0 -->
     <script src="assets/vendors/dropify/dist/js/dropify.min.js"></script>
 
+    
 
     <!-- Angular Version Scripts -->
     <script src="assets/vendors/angular/angular.min.js"></script>
@@ -91,7 +92,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.6/ngStorage.min.js"></script>
     <script src="assets/vendors/angular-ui-grid/ui-grid.min.js"></script>
     <script src="assets/vendors/angular-summernote/dist/angular-summernote.js"></script>
-    <script src="assets/common/js/version_angular/app.js"></script>
+    <script src="assets/common/js/version_angular/app.js"></script> 
     <script src="assets/app.min.js"></script>
     <!--PDF canvas export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
@@ -102,6 +103,7 @@
     <script src="assets/vendors/handsontable/dist/handsontable.full.js"></script>
     <script src="assets/vendors/ngHandsontable/dist/ngHandsontable.js"></script>
     <script src="assets/vendors/js-xlsx/dist/xlsx.full.min.js"></script>
+    <script src="assets/vendors/ng-file-upload/ng-file-upload.js"></script>
 
     <!-- Angular Version Controllers -->
     <!--<script src="pages/register.ctrl.js"></script>
@@ -128,9 +130,9 @@
 
 <body class="theme-default mode-box-shadow mode-superclean menu-static colorful-enabled">
 
-    <nav class="left-menu" ui-view="leftMenuBlock" left-menu ng-class="{'hidden-left-menu': hideLeftMenu}">
+    <nav class="left-menu" ui-view="leftMenuBlock" left-menu ng-class="{'hidden-left-menu': hideLeftMenu}" ng-controller="MainCtrl">
         <div class="logo-container">
-            <a href="#!/dashboards" class="logo">
+            <a href="#!/dashboard" class="logo">
                 <img src="../assets/common/img/logo1.png" alt="Clean UI Admin Template" />
                 <img class="logo-inverse" src="../assets/common/img/logo-inverse.png" alt="Clean UI Admin Template" />
             </a>
@@ -148,7 +150,7 @@
                 <li class="left-menu-list-separator">
 
                 </li>
-                <li class="left-menu-list-submenu">
+                <li class="left-menu-list-submenu" ng-show="isAdmin">
                     <a class="left-menu-link" href="javascript: void(0);">
                         <i class="left-menu-link-icon icmn-users2"></i>Users
                     </a>
@@ -170,10 +172,22 @@
                         </li>
                     </ul>
                 </li>
+                <li ng-hide="isAdmin">
+                    <a class="left-menu-link" href="#!/buyers/list">
+                        <i class="left-menu-link-icon icmn-users2"> </i>
+                        <span class="menu-top-hidden">Buyers</span>
+                    </a>
+                </li>
+                <li ng-hide="isAdmin">
+                    <a class="left-menu-link" href="#!/orders">
+                        <i class="left-menu-link-icon icmn-cart5"> </i>
+                        <span class="menu-top-hidden">Orders</span>
+                    </a>
+                </li>
                 <li class="left-menu-list-separator">
 
                 </li>
-                <li class="left-menu-list-submenu">
+                <li class="left-menu-list-submenu" ng-show="isAdmin">
                     <a class="left-menu-link" href="javascript: void(0);">
                         <i class="left-menu-link-icon icmn-cart5"> </i>
                         Master Data
@@ -193,7 +207,7 @@
                     </ul>
                 </li>
 
-                <li class="left-menu-list-submenu">
+                <li class="left-menu-list-submenu" ng-show="isAdmin">
                     <a class="left-menu-link" href="javascript: void(0);">
                         <i class="left-menu-link-icon icmn-cart5"> </i>
                         Ecommerce
@@ -233,7 +247,7 @@
 
                     </ul>
                 </li>
-                <li class="left-menu-list-submenu">
+                <li class="left-menu-list-submenu" ng-show="isAdmin">
                     <a class="left-menu-link" href="javascript: void(0);">
                         <i class="left-menu-link-icon icmn-cart5"> </i>
                         SMS / Email
@@ -249,7 +263,7 @@
                     </ul>
                 </li>
 
-                <li>
+                <li ng-show="isAdmin">
                     <a class="left-menu-link" href="#!/referrals-list">
                         <i class="left-menu-link-icon icmn-collaboration">
 
@@ -258,7 +272,7 @@
                     </a>
                 </li>
 
-                <li class="left-menu-list-submenu">
+                <li class="left-menu-list-submenu" ng-show="isAdmin">
                     <a class="left-menu-link" href="javascript: void(0);">
                         <i class="left-menu-link-icon icmn-cog util-spin-delayed-pseudo"> </i>
 
@@ -278,7 +292,7 @@
 
                     </ul>
                 </li>
-                <li>
+                <li ng-show="isAdmin">
                     <a class="left-menu-link" href="#!/account-transfer">
                         <i class="left-menu-link-icon icmn-cash4">
 
@@ -286,7 +300,7 @@
                         <span class="menu-top-hidden">Account Transfer</span>
                     </a>
                 </li>
-                <li>
+                <li ng-show="isAdmin">
                     <a class="left-menu-link" href="#!/payment-gateway">
                         <i class="left-menu-link-icon icmn-credit-card2">
 
@@ -294,7 +308,7 @@
                         <span class="menu-top-hidden">Payment Gateway</span>
                     </a>
                 </li>
-                <li>
+                <li ng-show="isAdmin">
                     <a class="left-menu-link" href="#!/payment-transactions">
                         <i class="left-menu-link-icon icmn-credit-card2">
 
@@ -302,12 +316,20 @@
                         <span class="menu-top-hidden">Payment Transactions</span>
                     </a>
                 </li>
-                <li>
+                <li ng-show="isAdmin">
                     <a class="left-menu-link" href="#!/audit-logs">
                         <i class="left-menu-link-icon icmn-clipboard3">
 
                         </i>
                         <span class="menu-top-hidden">Audit Logs</span>
+                    </a>
+                </li>
+                <li ng-show="isAdmin">
+                    <a class="left-menu-link" href="#!/mandates">
+                        <i class="left-menu-link-icon icmn-clipboard3">
+
+                        </i>
+                        <span class="menu-top-hidden">Physical Mandates</span>
                     </a>
                 </li>
                 <!-- <li>
@@ -334,7 +356,7 @@
                 <div class="dropdown dropdown-avatar">
                     <a href="javascript: void(0);" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         <span class="avatar" href="javascript:void(0);">
-                            <img ng-src="{{userImg}}" alt="Alternative text to the image">
+                            <img src="../assets/common/img/default-profile.jpg"  alt="Alternative text to the image">
 
                         </span>
                     </a>

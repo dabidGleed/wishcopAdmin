@@ -2,7 +2,7 @@
  * ORDERS PAGE CONTROLLER
  */
 
-app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersService", "$filter", function ($location, $scope, $rootScope, ordersServiceMethods, $filter) {
+app.controller('ordersCtrl', ["$scope", "ordersService", "$filter", "Upload", function ($scope, ordersAPI, $filter, Upload) {
 
     $scope.currentPage = 1;
     $scope.itemsPerPage = 15;
@@ -10,49 +10,60 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
     $scope.DeliveredDa = [];
     $scope.search = {
         name: "",
-        vendor: ""
+        buyer: ""
     };
+    $scope.imagesProofList = [];
 
     // get account transfers list
     $scope.getTransactionsList = function (data, searchData) {
         NProgress.start();
-        ordersServiceMethods.getTransactionsList(data, searchData).then(function (response) {
-            $scope.userList = response.data.orders;
+        ordersAPI.getTransactionsList(data, searchData).then(function (response) {
+            $scope.ordersList = response.data.orders;
             $scope.totalCount = response.data.count;
             NProgress.done();
         });
-
     };
     $scope.getTransactionsList(0, $scope.search);
 
-    ordersServiceMethods.getVendorsList().then(function (response) {
+    ordersAPI.getVendorsList().then(function (response) {
         $scope.vendorList = response.data;
+    });
+    ordersAPI.getBuyersList().then(function (response) {
+        $scope.buyersList = [];
+        if (response.data) {
+            for (var i = 0; i < response.data.length; i++) {
+                if (!!response.data[i].profile && !!response.data[i].profile.companyName) {
+                    $scope.buyersList.push(response.data[i]);
+                }
+            }
+        }
 
     });
-
     $scope.pageChanged = function (newPage) {
         var pageDataList = (newPage - 1) * ($scope.itemsPerPage);
         $scope.getTransactionsList(pageDataList, $scope.search);
     };
 
-    $scope.$watch("search.vendor", function () {
-        if (!$scope.search.vendor) {
-            $scope.search.vendor = "";
+    $scope.$watch("search.buyer", function () {
+        if (!!$scope.search.buyer) {
+            $scope.getTransactionsList(0, $scope.search);
         }
-        $scope.getTransactionsList(0, $scope.search);
+        if (!$scope.search.buyer) {
+            $scope.search.buyer = "";
+        }
     });
     // orders list filters
     $scope.resetFilters = function () {
         $scope.search = {
             name: "",
-            vendor: ""
+            buyer: ""
         };
         $scope.getTransactionsList(0, $scope.search);
     };
     //modal popup details of the Transactions
     $scope.userDetails = function (orderId, saleId) {
         $scope.saleData = {};
-        ordersServiceMethods.getOrderDetails(orderId, saleId).then(function (data, status) {
+        ordersAPI.getOrderDetails(orderId, saleId).then(function (data, status) {
             $scope.saleData = data.data;
             angular.forEach($scope.saleData.sales.products, function (item1) {
                 item1.trackingStatus = 0;
@@ -92,12 +103,12 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
 
     $scope.downloadInvoice = function () {
         $scope.saleData = {};
-        var fileName = "invoice.pdf";
+        var fileName = "invoice" + $scope.orderId + ".pdf";
         var a = document.createElement("a");
         document.body.appendChild(a);
         a.style = "display: none";
         NProgress.start();
-        ordersServiceMethods.downloadInvoice($scope.orderId).then(function (response, status) {
+        ordersAPI.downloadInvoice($scope.orderId).then(function (response, status) {
             if (response) {
                 $('#orderData').modal('hide');
                 NProgress.done();
@@ -105,7 +116,6 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
                     type: 'application/pdf'
                 });
                 var fileURL = window.URL.createObjectURL(file);
-                console.log(fileURL);
                 a.href = fileURL;
                 a.download = fileName;
                 a.click();
@@ -116,7 +126,7 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
     };
     $scope.sendInvoice = function () {
         NProgress.start();
-        ordersServiceMethods.sendInvoice($scope.orderId).then(function (response, status) {
+        ordersAPI.sendInvoice($scope.orderId).then(function (response, status) {
             if (response.status == 200) {
                 $('#orderData').modal('hide');
                 NProgress.done();
@@ -156,7 +166,7 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
             function (isConfirm) {
                 if (isConfirm) {
 
-                    ordersServiceMethods.updateOrderDelivery(varientId, orderItemId, orderId, saleId).then(function (response) {
+                    ordersAPI.updateOrderDelivery(varientId, orderItemId, orderId, saleId).then(function (response) {
                         if (response.status == 200) {
                             $scope.userDetails(orderId, orderItemId);
                             $.notify({
@@ -184,28 +194,30 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
 
     };
     $scope.applyFilters = function (searchData) {
-        $scope.search.vendor = "";
-        angular.copy(searchData, $scope.search);
-        $scope.getTransactionsList(0, $scope.search);
+        $scope.search.buyer = "";
+        // angular.copy(searchData, $scope.search);
+        $scope.getTransactionsList(0, searchData);
 
     };
-    $scope.editBatchExpiry = function(orderId){
+    $scope.editBatchExpiry = function (orderId) {
         $scope.orderId = orderId;
-        console.log("edit");
-        $scope.orderItems = [];
-        var order = $filter('filter')($scope.userList, {
-                 id: orderId
-             });
-        $scope.orderItems = order[0].sales;
-    };
-    $scope.updateBatchAndExpiry = function(){
-        $scope.order = $filter('filter')($scope.userList, {
-            id: $scope.orderId
+        $scope.order = $filter('filter')($scope.ordersList, {
+            id: orderId
         })[0];
-        $scope.order.sales = $scope.orderItems;
-        console.log($scope.order);
-        ordersServiceMethods.updateOrderDetails($scope.orderId, $scope.order).then(function (response, status) {
-            console.log(response);
+        if($scope.order.dispatchDate)   $scope.dispatchDate = new Date($scope.order.dispatchDate);
+    };
+    $scope.openUploadModal = function (orderId) {
+        $scope.order = $filter('filter')($scope.ordersList, {
+            id: orderId
+        })[0];
+        if($scope.order.companyInvoices){
+            $scope.imagesProofList = $scope.order.companyInvoices;
+        }
+    };
+    $scope.updateBatchAndExpiry = function () {
+        $scope.order.dispatchDate = $scope.dispatchDate;
+        if($scope.order.dispatchDate)   $scope.order.dispatchDate = new Date($scope.order.dispatchDate).getTime();
+        ordersAPI.updateOrderDetails($scope.orderId, $scope.order).then(function (response, status) {
             if (response.status == 200) {
                 $.notify({
                     title: '<strong>Success!</strong>',
@@ -214,6 +226,73 @@ app.controller('ordersCtrl', ["$location", "$scope", "$rootScope", "ordersServic
                     type: 'success'
                 });
                 $('#orderData').modal('hide');
+            } else {
+                $.notify({
+                    title: '<strong>Unsuccessful!</strong>',
+                    message: response.data
+                }, {
+                    type: 'danger'
+                });
+            }
+        });
+    };
+    $scope.updateTrackingDetails = function (sale, item) {
+        console.log(sale);
+        console.log(item);
+    };
+    // Upload image proofs
+    $scope.uploadImageProof = function (files) {
+        $scope.files = files;
+        $scope.typeArray = ["application/pdf", "image/jpg", "image/png", "image/jpeg"];
+
+        if (files && files.length) {
+            NProgress.start();
+            Upload.base64DataUrl(files).then(function (urls) {
+                $scope.loadingProgress = true;
+                for (i = 0; i < urls.length; i++) {
+                    if ($scope.typeArray.indexOf(files[i].type) != -1) {
+                        ordersAPI.uploadImage(urls[i], files[i].name).then(uploadProofs);
+                    } else {
+                        $.notify({
+                            title: 'Invalid file format, please upload .pdf, .jpg, .jpeg, .png format files',
+                        }, {
+                            type: 'danger'
+                        });
+                    }
+                }
+            });
+        }
+
+        function uploadProofs(response) {
+            $scope.addImageProofUrl(response.data);
+        }
+    };
+    // Adding image proofs
+    $scope.addImageProofUrl = function (link) {
+        NProgress.done();
+        if (!$scope.imagesProofList) {
+            $scope.imagesProofList = [];
+        }
+        $scope.imagesProofList.push({
+            'link': link.imageURL,
+            'oralink': link.imageURL,
+            'imageName': link.filename
+        });
+    };
+    $scope.removeImgFiles = function (v) {
+        $scope.imagesProofList.splice(v, 1);
+    };
+    $scope.uploadInvoices = function () {
+        $scope.order.companyInvoices = $scope.imagesProofList;
+        ordersAPI.updateOrderDetails($scope.order.id, $scope.order).then(function (response, status) {
+            if (response.status == 200) {
+                $.notify({
+                    title: '<strong>Success!</strong>',
+                    message: response.data.message
+                }, {
+                    type: 'success'
+                });
+                $('#uploadModal').modal('hide');
             } else {
                 $.notify({
                     title: '<strong>Unsuccessful!</strong>',

@@ -4,7 +4,7 @@
     <section class="panel panel-with-borders">
         <div class="panel-heading">
             <h2>
-                <a href="javascript: void(0);" class="pull-right btn btn-primary">Reload Data</a>
+                <a href="#!/orders" class="pull-right btn btn-primary">Orders</a>
                 Dashboard
             </h2>
         </div>
@@ -18,9 +18,9 @@
                                     <li class="nav-item">
                                         <a class="nav-link active" href="javascript: void(0);" data-toggle="tab" data-target="#a1" role="tab">Orders</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <!-- <li class="nav-item">
                                         <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#a2" role="tab">Amount</a>
-                                    </li>
+                                    </li> -->
                                 </ul>
                                 <div class="tab-content padding-top-20">
                                     <div class="tab-pane active" id="a1" role="tabpanel">
@@ -40,7 +40,7 @@
                                                         Revenue
                                                     </div>
                                                     <div class="cui-ecommerce-dashboard-info__description">
-                                                        $623,636.00
+                                                        {{ orderData.totalTransactionAmount | currency:currency}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -50,27 +50,28 @@
                                                         Tax
                                                     </div>
                                                     <div class="cui-ecommerce-dashboard-info__description">
-                                                        $3,526.00
+                                                        {{ orderData.totalTaxAmount | currency:currency}}
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-3">
                                                 <div class="cui-ecommerce-dashboard-info">
                                                     <div class="cui-ecommerce-dashboard-info__title">
-                                                        Shipping
+                                                        <!-- Shipping -->
+                                                        Average Transaction Amount
                                                     </div>
                                                     <div class="cui-ecommerce-dashboard-info__description">
-                                                        $3,600.00
+                                                        {{ orderData.averageTransactionAmount | currency:currency}}
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-3">
                                                 <div class="cui-ecommerce-dashboard-info">
                                                     <div class="cui-ecommerce-dashboard-info__title">
-                                                        Quanitity
+                                                        Orders Count
                                                     </div>
                                                     <div class="cui-ecommerce-dashboard-info__description">
-                                                        1456
+                                                        {{orderData.totalCount }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -487,7 +488,7 @@
                                         <i class="counter-icon icmn-cash3"></i>
                                         <span class="counter-count">
                                             <i class="icmn-arrow-up5"></i>
-                                            $<span class="counter-init" data-from="25" data-to="942">942</span>
+                                            <span class="counter-init">{{orderData.totalTransactionAmount | currency:currency}}</span>
                                         </span>
                                     </div>
                                 </div>
@@ -501,7 +502,7 @@
                                         <i class="counter-icon icmn-stack2"></i>
                                         <span class="counter-count">
                                             <i class="icmn-arrow-up5"></i>
-                                            $<span class="counter-init" data-from="0" data-to="99">99</span>
+                                            <span class="counter-init">{{orderData.averageTransactionAmount | currency:currency}}</span>
                                         </span>
                                     </div>
                                 </div>

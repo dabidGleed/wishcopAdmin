@@ -5,19 +5,17 @@
   app.service('ordersService', function ($http, globalVars) {
       var ordersServiceMethods = {};
       var baseURL = globalVars.baseURL;
-      var userId = globalVars.userData.userId;
 
       //service to get all payment transactions list
       ordersServiceMethods.getTransactionsList = function (page, searchData) {
           var query = "";
-          if (searchData.name != "") {
+          if (!!searchData.name) {
               query = "&searchString=" + searchData.name;
           }
-
-          if (searchData.vendor != "") {
-              query = "&vendorId=" + searchData.vendor.id;
+          if (!!searchData.buyer) {
+              query += "&userId=" + searchData.buyer.id;
           }
-          var finalUrl = baseURL + "admin/list/all/orders?limit=30&sort=createdAt DESC&skip=" + page + query;
+          var finalUrl = baseURL + "admin/list/all/orders?limit=30&sort=orderDate DESC&skip=" + page + query;
           return $http({
               method: 'GET',
               url: finalUrl
@@ -32,7 +30,7 @@
           if (searchData.vendor != "") {
               query = "&vendorId=" + searchData.vendor.id;
           }
-          var finalUrl = baseURL + "admin/list/distributor/orders?limit=15&sort=createdAt DESC&skip=" + page + query;
+          var finalUrl = baseURL + "admin/list/distributor/orders?limit=15&sort=orderDate DESC&skip=" + page + query;
           return $http({
               method: 'GET',
               url: finalUrl
@@ -49,6 +47,14 @@
               url: finalUrl
           });
       };
+      ordersServiceMethods.getBuyersList = function (type) {
+
+        var finalUrl = baseURL + "admin/buyer/list?admin=true";
+        return $http({
+            method: 'GET',
+            url: finalUrl
+        });
+    };
       ordersServiceMethods.getDistributorsList = function (vendorId) {
 
           var finalUrl = baseURL + "admin/get/" + vendorId + "/distributors/list";
@@ -129,5 +135,16 @@
               data: order
           });
       };
+      ordersServiceMethods.uploadImage = function (url, name) {
+        return $http({
+            method: "POST",
+            url: globalVars.baseURL + 'file/base64/upload',
+            data: {
+                imgbase64: url,
+                filename: name
+            },
+            headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + globalVars.userData.uId }
+        });
+    };
       return ordersServiceMethods;
   });

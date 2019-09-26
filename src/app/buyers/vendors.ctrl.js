@@ -70,58 +70,68 @@ app.controller('vendorsListCtrl', ["$scope", "buyerService", "$filter", function
         // });
 
     };
-
-    $scope.saveStatus = function (modaldetails) {
-        // $('#userData').modal('hide');
-
-        // $scope.filterData = $filter('filter')($scope.userList, {
-        //     id: modaldetails.id
-        // });
-        // buyerService.activateVendorStatus(modaldetails.id, modaldetails.access).then(function (response) {
-        //     if (response.status == 200) {
-        //         $scope.filterData[0].access = modaldetails.access;
-
-        //         $.notify({
-        //             title: '<strong>Success!</strong>',
-        //             message: response.data.message
-        //         }, {
-        //             type: 'success'
-        //         });
-        //     } else {
-        //         $.notify({
-        //             title: '<strong>Unsuccessful!</strong>',
-        //             message: response.data.message
-        //         }, {
-        //             type: 'danger'
-        //         });
-        //     }
-        // });
-        $scope.saveStatus = function (userId, profile) {
-            $('#userData').modal('hide');
-            profile.role ="VENDOR";
-            buyerService.activeUserStatus(userId, profile).then(function (response) {
-                if (response.status == 200) {
-                    $scope.companyProfile.adminApprove = profile.adminApprove;
-                    $.notify({
-                        title: '<strong>Success!</strong>',
-                        message: response.data.message
-                    }, {
-                        type: 'success'
-                    });
-                } else {
-                    $.notify({
-                        title: '<strong>Unsuccessful!</strong>',
-                        message: response.data.message
-                    }, {
-                        type: 'danger'
-                    });
-                }
-            });
-        };
+    $scope.providePermission = function (userData) {
+        
+        $scope.modalDetials = {};
+        angular.copy(userData, $scope.modalDetials);
+        $scope.companyProfile = userData.profile;
+        $scope.companyProfile.subBrand = "";
+        $scope.access = userData.access? userData.access: "EVERYONE";
+        if(userData.profile.subBrands && userData.profile.subBrands.length >0){
+            $scope.subBrands = userData.profile.subBrands;
+            delete $scope.companyProfile.subBrands;
+        }
+    };
+    $scope.saveStatus = function (userId, profile) {
+        $('#userData').modal('hide');
+        profile.role ="VENDOR";
+        buyerService.activeUserStatus(userId, profile).then(function (response) {
+            if (response.status == 200) {
+                $scope.companyProfile.adminApprove = profile.adminApprove;
+                $.notify({
+                    title: '<strong>Success!</strong>',
+                    message: response.data.message
+                }, {
+                    type: 'success'
+                });
+            } else {
+                $.notify({
+                    title: '<strong>Unsuccessful!</strong>',
+                    message: response.data.message
+                }, {
+                    type: 'danger'
+                });
+            }
+        });
     };
     $scope.pageChanged = function (newPage) {
         var pageDataList = (newPage - 1) * ($scope.itemsPerPage);
         $scope.getVendorsList($scope.itemsPerPage, pageDataList,$scope.searchText);
     };
+    $scope.updatePermission = function (userId, access, subBrand) {
+        $('#permission').modal('hide');
+        console.log(userId, access, subBrand.id);
+        buyerService.updateVendorPermission(userId, access, subBrand.id).then(function (response) {
+            if (response.status == 200) {
+                $.notify({
+                    title: '<strong>Success!</strong>',
+                    message: response.data.message
+                }, {
+                    type: 'success'
+                });
+            } else {
+                $.notify({
+                    title: '<strong>Unsuccessful!</strong>',
+                    message: response.data.message
+                }, {
+                    type: 'danger'
+                });
+            }
+        });
+    };
+    $scope.selectSubBrand = function(subBrand){
+        $scope.access = subBrand.access?subBrand.access:"EVERYONE";
+    };
+    
 
 }]);

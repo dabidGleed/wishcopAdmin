@@ -1,0 +1,135 @@
+<div class="page-content-inner">
+
+    <!-- Vendors List -->
+    <section class="panel panel-with-borders">
+        <div class="panel-heading">
+            <h2>
+                Physical Mandates
+            </h2>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6 col-sm-8 col-xs-8">
+                    <input  class ="form-control" type="text" ng-model="searchText" placeholder="Search keyword" id="l0">
+                </div>
+                <div class="col-md-3 col-sm-4 col-xs-4">
+                    <a href="javascript: void(0);" class="form-control btn btn-primary" ng-click="resetFilters()">Reset</a>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+
+            <div class="table-responsive thead-default margin-bottom-50">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>S.NO</th>
+                            <th>Mandate ID</th>
+                            <th>Customer Name</th>
+                            <th>Created Date</th>
+                            <th>Amount</th>
+                            <th>status</th>
+                            <th>Payments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr dir-paginate="mandate in mandates | orderBy:'-createdAt' |itemsPerPage:itemsPerPage"
+                            current-page="currentPage" total-items="totalCount">
+                            <td>{{itemsPerPage *(currentPage-1)+$index+1}}</td>
+                            <td>{{mandate.mandateId}}</td>
+                            <td>{{mandate.user.companyName}}</td>
+                            <td>{{mandate.createdAt | date : 'yyyy-MM-dd'}}</td>
+                            <td>{{mandate.mandate_details.nach_debit.maximum_amount/100 | currency:currency}}</td>
+                            <td>
+                                <span ng-if="mandate.status == 'ACTIVE'" class="label label-success"> {{mandate.status}}</span>
+                                
+                                <span ng-if="mandate.status == 'INACTIVE'" class="label label-warning">{{mandate.status}}</span>
+                                <span ng-if="mandate.status == 'DELETED'" class="label label-danger">{{mandate.status}}</span>
+                            </td>
+                            <td>
+                                <!--<a href="javascript: void(0);" class="link-underlined margin-right-5"><i class="icmn-pencil5"> </i> View</a>-->
+                                <button  type="button" class="btn btn-rounded btn-secondary-outline margin-inline" data-toggle="modal" data-target="#mandateModal"
+                                    ng-click="viewPayments(mandate);">
+                                    <i class="icmn-pencil5"> </i> View
+                                </button>
+                                
+                            </td>
+                            <!-- <td ng-if="!mandate.payments || mandate.payments.length == 0">
+                                    <button  type="button" class="btn btn-rounded" >
+                                            No Payments
+                                        </button>
+                            </td> -->
+                        </tr>
+                        <tr ng-show="mandates.length ==0 ">
+                            <td colspan="10">
+                                <center>No data found</center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="10">
+                                <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+</div>
+<div class="modal fade modal-size-large" id="mandateModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Payments</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-hover" ng-if="mandate.payments && mandate.payments.length >0">
+                        <thead>
+                            <tr>
+                                <th>S.NO</th>
+                                <th>Payment ID</th>
+                                <th>Created Date</th>
+                                <th>Collection Date</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="payment in payments | orderBy:'-start_date'">
+                                <td>{{$index+1}}</td>
+                                <td>{{payment.paymentId}}</td>
+                                <td>{{payment.start_date | date : 'yyyy-MM-dd'}}</td>
+                                <td>{{payment.collection_date | date : 'yyyy-MM-dd'}}</td>
+                                <td>{{payment.amount/100 | currency:currency}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-hover">
+                        <tr>
+                            <td class="col-sm-4"></td>
+                            <td class="text-nowrap col-sm-3">
+                                Status
+                            </td>
+                            <td class="col-sm-3">
+                                <select class="form-control" name="access" ng-model="mandate.status">
+                                    <option value="ACTIVE">ACTIVE</option>
+                                    <option value="INACTIVE">INACTIVE</option>
+                                    <option value="DELETED">DELETED</option>
+                                </select>
+                            </td>
+                            <td class="col-sm-2"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="saveStatus(mandate.mandateId, mandate.status)">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

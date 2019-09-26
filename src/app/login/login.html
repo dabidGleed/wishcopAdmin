@@ -50,15 +50,9 @@
                                data-validation-message="$ must be at least 6 characters"
                                placeholder="Password">
                     </div>
-                    <!-- <div class="form-group">
-                        <a href="javascript: void(0);" class="pull-right">Forgot Password?</a>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="example6" checked>
-                                Remember me
-                            </label>
-                        </div>
-                    </div> -->
+                    <div class="form-group" ng-show="error">
+                        <span style="color:red">{{ error }}</span>
+                    </div>
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary width-150">Sign In</button>
                     </div>

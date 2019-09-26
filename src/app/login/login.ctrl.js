@@ -9,30 +9,32 @@ app.controller('loginPageCtrl', ["loginService", "$location", "$state", "$scope"
     $rootScope.showFooter = false;
     $scope.user = {};
 
-    $scope.goToDashboard = function (user) {
-        loginServiceMethods.login(user).then(function (response) {
-            if (response.data.role[0] == "ADMIN") {
-                $rootScope.hideLeftMenu = false;
-                $rootScope.hideTopMenu = false;
-                $rootScope.showFooter = false;
-                $('body').removeClass('single-page single-page-inverse');
-                $state.go("main.dashboard", {}, {
-                    reload: true
-                })
-
-            } else {
-                $scope.error = "User name and password not valid"
-            }
-        });
-    }
+    // $scope.goToDashboard = function (user) {
+    //     loginServiceMethods.login(user).then(function (response) {
+    //         console.log(response.data.role);
+    //         console.log(response.data.role.includes("MARKETING_ADMIN"));
+    //         if (response.data.role.includes("ADMIN") || response.data.role.includes("MARKETING_ADMIN")) {
+    //             $rootScope.hideLeftMenu = false;
+    //             $rootScope.hideTopMenu = false;
+    //             $rootScope.showFooter = false;
+    //             $('body').removeClass('single-page single-page-inverse');
+    //             $state.go("main.dashboard", {}, {
+    //                 reload: true
+    //             });
+    //         } else {
+    //             $scope.error = "User name and password not valid";
+    //         }
+    //     });
+    // };
 
     $scope.authenticationCheck = function (user) {
         authService.login(user)
             .then(function (result) {
-
-                if (result.role[0] == "ADMIN") {
+                console.log(result);
+                console.log(result.role.includes("MARKETING_ADMIN"));
+                if (result.role.includes("ADMIN") || result.role.includes("MARKETING_ADMIN")) {
                     $localStorage.currentUser = result;
-                    
+
                     authService.init();
                     $rootScope.hideLeftMenu = false;
                     $rootScope.hideTopMenu = false;
@@ -40,14 +42,13 @@ app.controller('loginPageCtrl', ["loginService", "$location", "$state", "$scope"
                     $('body').removeClass('single-page single-page-inverse');
                     $state.go("main.dashboard", {}, {
                         reload: true
-                    })
+                    });
                 } else {
-                    $scope.error = "User name and password not valid"
+                    $scope.error = "Username or password is not Valid";
                 }
 
-
             }, function (error) {
-                $scope.error = "User name and password not valid"
+                $scope.error = "Username or password is not Valid";
             });
 
     };

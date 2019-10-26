@@ -114,10 +114,14 @@
                                             <!-- <br>Quantity : {{sales.order_quantity}} -->
                                             <!-- <br>Status : {{sales.status.replace("_"," ")}} -->
                                             <!-- </td> -->
+
                                             <td colspan="2">
                                                 <button type="button" class="btn btn-primary btn-sm margin-inline"
                                                     data-toggle="modal" data-target="#userData" ng-click="userDetails(order.id,sales.order_item_id);">
                                                     Track
+                                                </button>
+                                                <button  ng-show="$index === 0"  ng-disabled ="sales.status === 'ORDER_DELIVERED'" type="button" class="btn btn-success btn-sm margin-inline" ng-click="confirmDelivery(order.id);">
+                                                    Update Delivered
                                                 </button>
                                             </td>
                                         </tr>
@@ -215,7 +219,7 @@
                                                         </span>
                                                     </a>
                                                 </li>
-                                                <li role="tab" ng-click=" (variant.trackListNew.ORDER_SHIPPED[0].status == 'ORDER_SHIPPED') && (variant.trackListNew.ORDER_DELIVERED[0].status != 'ORDER_DELIVERED') && confirmDeliveryStatus(variant.id,saleData.sales.order_item_id, saleData.id, saleData.sales.id)"
+                                                <li role="tab" 
                                                     class="last" ng-class="variant.trackListNew.ORDER_DELIVERED[0].status == 'ORDER_DELIVERED' ? ' ' : 'disabled'"
                                                     ng-hide="DeliveredDa[$index]">
                                                     <a ng-class="((variant.trackListNew.ORDER_SHIPPED[0].status == 'ORDER_SHIPPED') && (variant.trackListNew.ORDER_DELIVERED[0].status != 'ORDER_DELIVERED')) ? 'disableHover' : '' ">

@@ -146,53 +146,6 @@ app.controller('ordersCtrl', ["$scope", "ordersService", "$filter", "Upload", fu
             }
         });
     };
-    $scope.confirmDeliveryStatus = function (varientId, orderItemId, orderId, saleId) {
-        $scope.deliveryData = {};
-        $scope.deliveryData.varientId = varientId;
-        $scope.deliveryData.orderItemId = orderItemId;
-        $scope.deliveryData.orderId = orderId;
-        $scope.deliveryData.saleId = saleId;
-        swal({
-                title: "Are you sure?",
-                text: "You want to update status to Delivered!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-danger",
-                confirmButtonText: "Yes",
-                cancelButtonText: "Cancel",
-                closeOnConfirm: true,
-                closeOnCancel: true
-            },
-            function (isConfirm) {
-                if (isConfirm) {
-
-                    ordersAPI.updateOrderDelivery(varientId, orderItemId, orderId, saleId).then(function (response) {
-                        if (response.status == 200) {
-                            $scope.userDetails(orderId, orderItemId);
-                            $.notify({
-                                title: '<strong>Success!</strong>',
-                                message: response.data.message
-                            }, {
-                                type: 'success'
-                            });
-                        } else {
-                            $scope.userDetails(orderId, orderItemId);
-                            $.notify({
-                                title: '<strong>Unsuccessful!</strong>',
-                                message: response.data.message
-                            }, {
-                                type: 'danger'
-                            });
-                        }
-
-                    });
-
-                } else {
-
-                }
-            });
-
-    };
     $scope.applyFilters = function (searchData) {
         $scope.search.buyer = "";
         // angular.copy(searchData, $scope.search);
@@ -282,6 +235,10 @@ app.controller('ordersCtrl', ["$scope", "ordersService", "$filter", "Upload", fu
     $scope.removeImgFiles = function (v) {
         $scope.imagesProofList.splice(v, 1);
     };
+    $scope.removeItem = function(sale){
+        var index = $scope.order.sales.indexOf(sale);
+        $scope.order.sales.splice(index, 1);
+    };
     $scope.uploadInvoices = function () {
         $scope.order.companyInvoices = $scope.imagesProofList;
         ordersAPI.updateOrderDetails($scope.order.id, $scope.order).then(function (response, status) {
@@ -302,5 +259,48 @@ app.controller('ordersCtrl', ["$scope", "ordersService", "$filter", "Upload", fu
                 });
             }
         });
+    };
+    $scope.confirmDelivery = function (orderId) {
+        $scope.order = $filter('filter')($scope.ordersList, {
+            id: orderId
+        })[0];
+        swal({
+                title: "Are you sure?",
+                text: "You want to update status to Delivered!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes",
+                cancelButtonText: "Cancel",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+
+                    ordersAPI.updateOrderDelivery(orderId, $scope.order).then(function (response) {
+                        if (response.status == 200) {
+                            $.notify({
+                                title: '<strong>Success!</strong>',
+                                message: response.data.message
+                            }, {
+                                type: 'success'
+                            });
+                        } else {
+                            $.notify({
+                                title: '<strong>Unsuccessful!</strong>',
+                                message: response.data.message
+                            }, {
+                                type: 'danger'
+                            });
+                        }
+
+                    });
+
+                } else {
+
+                }
+            });
+
     };
 }]);

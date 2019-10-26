@@ -112,18 +112,13 @@
       };
 
       //service to update to order delivery 
-      ordersServiceMethods.updateOrderDelivery = function (varientId, orderItemId, orderId, saleId) {
-          var finalUrl = baseURL + "admin/" + orderId + "/updateto/delivered";
-          var variendData = [];
-          variendData[0] = varientId;
+      ordersServiceMethods.updateOrderDelivery = function (orderId, order) {
+          var finalUrl = baseURL + "orders/" + orderId + "/track-deliver/status";
           return $http({
               method: 'POST',
               url: finalUrl,
               data: {
-                  orderItemId: orderItemId,
-                  saleId: saleId,
-                  status: "ORDER_DELIVERED",
-                  variants: variendData
+                  items: order.sales
               }
           });
       };

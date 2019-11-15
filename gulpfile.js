@@ -67,7 +67,7 @@ var path = {
         'src/assets/vendors/bower/jquery-typeahead/dist/jquery.typeahead.min.js',
         'src/assets/vendors/bower/jquery-mask-plugin/dist/jquery.mask.min.js',
         'src/assets/vendors/bower/autosize/dist/autosize.min.js',
-        'src/assets/vendors/bower/bootstrap-show-password/bootstrap-show-password.min.js',
+        'src/assets/vendors/bower/bootstrap-show-password/dist/bootstrap-show-password.min.js',
         'src/assets/vendors/bower/moment/min/moment.min.js',
         'src/assets/vendors/bower/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
         'src/assets/vendors/bower/fullcalendar/dist/fullcalendar.min.js',

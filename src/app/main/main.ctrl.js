@@ -10,9 +10,7 @@ app.controller('homeCtrl',  function( $location, $scope, $rootScope, $localStora
     });
     console.log("Home Ctrl");
     if ($localStorage.currentUser) {
-        console.log($localStorage.currentUser);
         $rootScope.isAdmin = $localStorage.currentUser.role.includes('ADMIN');
-        console.log($rootScope.isAdmin);
     }
 
     $scope.$on('$routeChangeStart', function() {

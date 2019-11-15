@@ -157,19 +157,28 @@ app.controller('ordersCtrl', ["$scope", "ordersService", "$filter", "Upload", fu
         $scope.order = $filter('filter')($scope.ordersList, {
             id: orderId
         })[0];
-        if($scope.order.dispatchDate)   $scope.dispatchDate = new Date($scope.order.dispatchDate);
+        $scope.invoiceDate = new Date($scope.order.sales[0].invoiceDate);
     };
     $scope.openUploadModal = function (orderId) {
         $scope.order = $filter('filter')($scope.ordersList, {
             id: orderId
         })[0];
-        if($scope.order.companyInvoices){
+        if(!!$scope.order.companyInvoices){
             $scope.imagesProofList = $scope.order.companyInvoices;
+        }else{
+            $scope.imagesProofList =[];
         }
     };
     $scope.updateBatchAndExpiry = function () {
-        $scope.order.dispatchDate = $scope.dispatchDate;
-        if($scope.order.dispatchDate)   $scope.order.dispatchDate = new Date($scope.order.dispatchDate).getTime();
+        angular.forEach($scope.order.sales, function (item) {
+            if(item.HSNCode && item.batchName && item.expiryDate){
+                item.invoiceDate = new Date($scope.invoiceDate).getTime();
+            }
+            if (item.selected) {
+                delete item.selected;
+            }
+        });
+        $('#orderData').modal('hide');
         ordersAPI.updateOrderDetails($scope.orderId, $scope.order).then(function (response, status) {
             if (response.status == 200) {
                 $.notify({
@@ -178,7 +187,8 @@ app.controller('ordersCtrl', ["$scope", "ordersService", "$filter", "Upload", fu
                 }, {
                     type: 'success'
                 });
-                $('#orderData').modal('hide');
+                $scope.getTransactionsList(0, $scope.search);
+                
             } else {
                 $.notify({
                     title: '<strong>Unsuccessful!</strong>',
@@ -189,10 +199,55 @@ app.controller('ordersCtrl', ["$scope", "ordersService", "$filter", "Upload", fu
             }
         });
     };
-    $scope.updateTrackingDetails = function (sale, item) {
-        console.log(sale);
-        console.log(item);
+    $scope.splitInvoiceChange = function () {
+        var items = [];
+        var invoiceDate = new Date($scope.invoiceDate).getTime();
+        angular.forEach($scope.order.sales, function (item) {
+            if (item.selected) {
+                delete item.selected;
+                items.push({
+                    order_item_id:item.order_item_id,
+                    HSNCode: item.HSNCode,
+                    batchName: item.batchName,
+                    expiryDate: item.expiryDate,
+                    order_quantity: item.order_quantity
+                });
+            }
+        });
+        var fileName = "invoice" + $scope.orderId + ".pdf";
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+        NProgress.start();
+        $('#orderData').modal('hide');
+        $scope.splitInvoice = false;
+        ordersAPI.splitInvoiceService($scope.orderId, items, invoiceDate).then(function (response, status) {
+            if (response.status == 200) {
+                NProgress.done();
+                var file = new Blob([response.data], {
+                    type: 'application/pdf'
+                });
+                var fileURL = window.URL.createObjectURL(file);
+                a.href = fileURL;
+                a.download = fileName;
+                a.click();
+            } else {
+                $.notify({
+                    title: '<strong>Unsuccessful!</strong>',
+                    message: response.data
+                }, {
+                    type: 'danger'
+                });
+            }
+        });
     };
+    $scope.stateChanged = function(){
+        $scope.splitInvoice = false;
+        $scope.filterData = $filter('filter')($scope.order.sales, {
+            selected: true
+        });
+        if($scope.filterData.length >0) $scope.splitInvoice = true;
+    }
     // Upload image proofs
     $scope.uploadImageProof = function (files) {
         $scope.files = files;

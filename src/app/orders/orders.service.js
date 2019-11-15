@@ -130,6 +130,18 @@
               data: order
           });
       };
+      ordersServiceMethods.splitInvoiceService = function (orderId, items, date) {
+        var finalUrl = baseURL + "order/"+orderId+"/modify/split/invoice";
+        return $http({
+            method: 'POST',
+            responseType: 'arraybuffer',
+            url: finalUrl,
+            data: {
+                items: items,
+                invoiceDate : date
+            }
+        });
+    };
       ordersServiceMethods.uploadImage = function (url, name) {
         return $http({
             method: "POST",

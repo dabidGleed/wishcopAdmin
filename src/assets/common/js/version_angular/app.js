@@ -2,7 +2,7 @@ var app = angular.module('cleanUI', [
     "ui.router", "angularUtils.directives.dirPagination", "ngFileUpload", "summernote", "ngStorage","ui.grid", 'ui.grid.edit', 'ui.grid.rowEdit', 'ui.grid.cellNav'
 ]);
 
-app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+app.config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('main', { // Main Inner Page
             url: "/",

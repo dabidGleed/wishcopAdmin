@@ -35,17 +35,20 @@
                         <div class="form-group row">
 
                             <div class="col-md-6 col-sm-6 col-xs-6">
-                                <select ng-model="search.buyer" ng-options="buyers as (buyers.profile.companyName | uppercase) for buyers in buyersList | orderBy:'profile.companyName' track by buyers.id "
+                                <select ng-model="search.buyer"
+                                    ng-options="buyers as (buyers.profile.companyName | uppercase) for buyers in buyersList | orderBy:'profile.companyName' track by buyers.id "
                                     class="form-control" name="searchvendor">
 
                                     <option value="" selected>All</option>
                                 </select>
                             </div>
                             <div class="col-md-3 col-sm-3 col-xs-3">
-                                <a href="javascript: void(0);" class="btn btn-primary" ng-click="applyFilters(search)">Apply</a>
+                                <a href="javascript: void(0);" class="btn btn-primary"
+                                    ng-click="applyFilters(search)">Apply</a>
                             </div>
                             <div class="col-md-3 col-sm-3 col-xs-3">
-                                <a href="javascript: void(0);" class="btn btn-primary" ng-click="resetFilters()">Reset</a>
+                                <a href="javascript: void(0);" class="btn btn-primary"
+                                    ng-click="resetFilters()">Reset</a>
                             </div>
 
                         </div>
@@ -60,10 +63,10 @@
                         <tr dir-paginate="order in ordersList  | itemsPerPage:itemsPerPage" current-page="currentPage"
                             total-items="totalCount">
                             <td colspan="6">
-                                <table class="table  ">
+                                <table class="table">
                                     <thead ng-if="$index == 0">
                                         <tr>
-                                            <th width="80px">S.No</th>
+                                            <th>S.No</th>
                                             <th>OrderID</th>
                                             <th>Amount</th>
                                             <th>ShippedTo</th>
@@ -76,7 +79,9 @@
                                             <td>{{itemsPerPage *(currentPage-1)+$index+1}}</td>
                                             <td><span style="font-weight: bold">{{order.orderId? order.orderId:
                                                     order.id}} </span>
-                                                <p>COMPANY NAME: <span style="text-transform: capitalize; font-weight: bold">{{order.buyerprofile.companyName}}</span></p>
+                                                <p>COMPANY NAME: <span
+                                                        style="text-transform: capitalize; font-weight: bold">{{order.buyerprofile.companyName}}</span>
+                                                </p>
                                             </td>
 
                                             <td>{{order.order_total | currency:currency}}</td>
@@ -92,38 +97,45 @@
                                             </td>
                                             <td>{{order.orderDate | date : 'yyyy-MM-dd'}}</td>
                                             <td>
-                                                <button type="button" class="btn btn-primary btn-md margin-inline" data-toggle="modal"
-                                                    data-target="#orderData" ng-click="editBatchExpiry(order.id);"> Edit
+                                                <button type="button" class="btn btn-primary btn-md margin-inline"
+                                                    data-toggle="modal" data-target="#orderData"
+                                                    ng-click="editBatchExpiry(order.id);"> Edit
                                                 </button>
-                                                <button type="button" class="btn btn-primary margin-inline" data-toggle="modal"
-                                                    data-target="#uploadModal" ng-click="openUploadModal(order.id);"> Upload
+                                                <button type="button" class="btn btn-primary margin-inline"
+                                                    data-toggle="modal" data-target="#uploadModal"
+                                                    ng-click="openUploadModal(order.id);"> Upload
                                                 </button>
                                             </td>
                                         </tr>
                                         <tr ng-repeat="sales in order.sales ">
                                             <td> </td>
-                                            <td colspan="2">
-                                                <!-- <a href="javascript: void(0);"
+                                            <td colspan="3">
+                                                <a href="javascript: void(0);"
                                                     class="cui-ecommerce--dashboard--list--img">
                                                     <img ng-src="{{sales.sale_image.imageURL}}" />
-                                                </a> -->
+                                                </a>
                                                 <span>{{$index +1 }}</span>. {{sales.title | limitTo:
                                                 35}}{{sales.title.length > 35? '...': ''}} - {{ sales.order_quantity }}
+                                                - {{sales.tax_price*100/(sales.price-sales.tax_price) | number:0}}%
+                                                <span ng-class="sales.status === 'ORDER_APPROVED'? 'text-danger': 'text-success'">
+                                                    {{sales.status.replace("_"," ")}}
+                                                </span>
                                             </td>
-                                            <!-- <td colspan="2"> -->
-                                            <!-- <br>Quantity : {{sales.order_quantity}} -->
-                                            <!-- <br>Status : {{sales.status.replace("_"," ")}} -->
-                                            <!-- </td> -->
 
-                                            <td colspan="2">
-                                                <button type="button" class="btn btn-primary btn-sm margin-inline"
-                                                    data-toggle="modal" data-target="#userData" ng-click="userDetails(order.id,sales.order_item_id);">
+                                            <!-- <td colspan="2"> -->
+                                                <!-- <button type="button" class="btn btn-primary btn-sm margin-inline"
+                                                    data-toggle="modal" data-target="#userData"
+                                                    ng-click="userDetails(order.id,sales.order_item_id);">
                                                     Track
-                                                </button>
-                                                <button  ng-show="$index === 0"  ng-disabled ="sales.status === 'ORDER_DELIVERED'" type="button" class="btn btn-success btn-sm margin-inline" ng-click="confirmDelivery(order.id);">
+                                                </button> -->
+                                                
+                                                <!-- <button ng-show="$index === 0"
+                                                    ng-disabled="sales.status === 'ORDER_DELIVERED'" type="button"
+                                                    class="btn btn-success btn-sm margin-inline"
+                                                    ng-click="confirmDelivery(order.id);">
                                                     Update Delivered
-                                                </button>
-                                            </td>
+                                                </button> -->
+                                            <!-- </td> -->
                                         </tr>
 
                                     </tbody>
@@ -149,7 +161,8 @@
     <!-- End Ecommerce Products List -->
 </div>
 <!-- modal popup to edit order list-->
-<div class="modal fade modal-size-large" id="userData" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+<div class="modal fade modal-size-large" id="userData" tabindex="-1" role="dialog" aria-labelledby=""
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -185,31 +198,37 @@
                                                             }}</span>
                                                     </a>
                                                 </li>
-                                                <li role="tab" class=" done" ng-class="variant.trackListNew.ORDER_APPROVED[0].status == 'ORDER_APPROVED'  ? ' ' : 'disabled'">
+                                                <li role="tab" class=" done"
+                                                    ng-class="variant.trackListNew.ORDER_APPROVED[0].status == 'ORDER_APPROVED'  ? ' ' : 'disabled'">
                                                     <a>
                                                         <span class="number">2.</span>
                                                         <i class="icmn-circles cui-wizard--steps--icon"></i>
                                                         <span class="cui-wizard--steps--title">Order
                                                             <br>
-                                                            <span class="trackStatus" ng-if="variant.trackListNew.ORDER_APPROVED[0].status == 'ORDER_APPROVED'">Order
+                                                            <span class="trackStatus"
+                                                                ng-if="variant.trackListNew.ORDER_APPROVED[0].status == 'ORDER_APPROVED'">Order
                                                                 Confirmed </span>
-                                                            <span class="trackStatus" ng-if="variant.trackListNew.ORDER_CANCELED[0].status == 'ORDER_CANCELED'">Order
+                                                            <span class="trackStatus"
+                                                                ng-if="variant.trackListNew.ORDER_CANCELED[0].status == 'ORDER_CANCELED'">Order
                                                                 Cancelled</span>
                                                         </span>
                                                         {{variant.trackList[1].status_updated_at | date:'dd/MM/yyyy'}}</a>
                                                 </li>
-                                                <li role="tab" class=" done" ng-class="variant.trackListNew.ORDER_SHIPPED[0].status_updated_at ? '' : 'disabled'">
+                                                <li role="tab" class=" done"
+                                                    ng-class="variant.trackListNew.ORDER_SHIPPED[0].status_updated_at ? '' : 'disabled'">
                                                     <a>
                                                         <span class="current-info audible">current step: </span>
                                                         <span class="number">3.</span>
                                                         <i ng-hide="variant.trackListNew.ORDER_SHIPPED[0].status_updated_at"
-                                                            class="icmn-circles cui-wizard--steps--icon" style="cursor: pointer;"
+                                                            class="icmn-circles cui-wizard--steps--icon"
+                                                            style="cursor: pointer;"
                                                             ng-click="updateTrackingDetails(saleData, product)"></i>
                                                         <i ng-show="variant.trackListNew.ORDER_SHIPPED[0].status_updated_at"
                                                             class="icmn-circles cui-wizard--steps--icon"></i>
                                                         <span class="cui-wizard--steps--title">Tracking
                                                             <br>
-                                                            <span ng-show="variant.trackListNew.ORDER_SHIPPED[0].status_updated_at">
+                                                            <span
+                                                                ng-show="variant.trackListNew.ORDER_SHIPPED[0].status_updated_at">
                                                                 #
                                                                 {{variant.trackListNew.ORDER_SHIPPED[0].tracking_details.trackingId}}
                                                                 <br>
@@ -219,10 +238,11 @@
                                                         </span>
                                                     </a>
                                                 </li>
-                                                <li role="tab" 
-                                                    class="last" ng-class="variant.trackListNew.ORDER_DELIVERED[0].status == 'ORDER_DELIVERED' ? ' ' : 'disabled'"
+                                                <li role="tab" class="last"
+                                                    ng-class="variant.trackListNew.ORDER_DELIVERED[0].status == 'ORDER_DELIVERED' ? ' ' : 'disabled'"
                                                     ng-hide="DeliveredDa[$index]">
-                                                    <a ng-class="((variant.trackListNew.ORDER_SHIPPED[0].status == 'ORDER_SHIPPED') && (variant.trackListNew.ORDER_DELIVERED[0].status != 'ORDER_DELIVERED')) ? 'disableHover' : '' ">
+                                                    <a
+                                                        ng-class="((variant.trackListNew.ORDER_SHIPPED[0].status == 'ORDER_SHIPPED') && (variant.trackListNew.ORDER_DELIVERED[0].status != 'ORDER_DELIVERED')) ? 'disableHover' : '' ">
                                                         <span class="current-info audible">current step: </span>
                                                         <span class="number">3.</span>
                                                         <i class="icmn-circles cui-wizard--steps--icon"></i>
@@ -252,15 +272,17 @@
         </div>
     </div>
 </div>
-<div class="modal fade modal-size-large" id="orderData" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+<div class="modal fade modal-size-large" id="orderData" tabindex="-1" role="dialog" aria-labelledby=""
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">Update Batch and Expiry
-                    <i class="icmn-download5 pull-right" style="padding: 10px;cursor: pointer;" ng-click="downloadInvoice();">
+                <h4 class="modal-title">Update Details
+                    <i class="icmn-download5 pull-right" style="padding: 10px;cursor: pointer;"
+                        ng-click="downloadInvoice();">
                     </i>
                     <button type="button" class="btn btn-success pull-right" ng-click="sendInvoice();">
                         Send Invoice
@@ -270,10 +292,10 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-3 col-xs-12">
-                        <h4>Select Dispatch Date </h4>
+                        <h4>Select Invoice Date</h4>
                     </div>
-                    <div class="col-md-4 col-xs-12" style=" margin-bottom: 6px;">
-                        <input type="date" class="form-control" ng-model="dispatchDate">
+                    <div class="col-md-4 col-xs-12" style=" margin-bottom: 16px;">
+                        <input type="date" class="form-control" ng-model="invoiceDate">
                     </div>
                 </div>
                 <div class="table-responsive thead-default margin-bottom-50">
@@ -284,23 +306,31 @@
                                 <th>HSN</th>
                                 <th>Batch</th>
                                 <th>Expiry</th>
+                                <th>Quantity</th>
                                 <th>Price</th>
                                 <th>Tax</th>
-                                <th>Quantity</th>
+
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="sale in order.sales">
-                                <td>{{sale.title}}</td>
-                                <td style="min-width: 120px;"><input type="text" class="form-control" name="HSN"
-                                        ng-model="sale.HSNCode"></td>
-                                <td style="min-width: 120px;"><input type="text" class="form-control" name="batchName"
-                                        ng-model="sale.batchName"></td>
-                                <td style="min-width: 120px;"><input type="text" class="form-control" name="expiry"
-                                        ng-model="sale.expiryDate"></td>
-                                <td>{{sale.price | currency:currency }}</td>
-                                <td>{{sale.tax_price | currency:currency }}</td>
-                                <td>{{sale.order_quantity}}</td>
+                                <td>
+                                    <input type="checkbox" ng-hide="order.sales.length ==1" ng-model="sale.selected"
+                                        ng-change="stateChanged()">{{sale.title}}
+                                </td>
+                                <td style="min-width: 120px; width: 18%;"><input type="text" class="form-control"
+                                        name="HSN" ng-model="sale.HSNCode"></td>
+                                <td style="min-width: 120px;width: 18%;"><input type="text" class="form-control"
+                                        name="batchName" ng-model="sale.batchName"></td>
+                                <td style="min-width: 120px;width: 18%"><input type="text" class="form-control"
+                                        name="expiry" ng-model="sale.expiryDate"></td>
+                                <td style="width: 20%;"><input type="number" class="form-control" name="quantity"
+                                        ng-model="sale.order_quantity"></td>
+                                <td>{{(sale.price - sale.tax_price) | currency:currency }}</td>
+                                <td>{{sale.tax_price | currency:currency }}
+                                    ({{sale.tax_price*100/(sale.price-sale.tax_price) | number:0}}%)
+                                </td>
+                                <!-- <td>{{sale.order_quantity}}</td> -->
                             </tr>
                         </tbody>
                     </table>
@@ -308,13 +338,17 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" ng-click="updateBatchAndExpiry()">Update</button>
+                <button type="button" class="btn btn-primary" ng-show="splitInvoice"
+                    ng-click="splitInvoiceChange()">Split Invoice</button>
+                <button type="button" class="btn btn-primary" ng-hide="splitInvoice"
+                    ng-click="updateBatchAndExpiry()">Update</button>
                 <button type="button" class="btn" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
-<div class="modal fade modal-size-large" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+<div class="modal fade modal-size-large" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby=""
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -329,22 +363,28 @@
                     <div class="col-md-3 col-xs-12">
                         <h5>Upload Company Invoices</h5>
                     </div>
-                    <div class="col-md-4 col-xs-12" >
+                    <div class="col-md-4 col-xs-12">
                         <button type="file " class="inputfile btn btn-default" id="file"
-                            ngf-select="uploadImageProof($files)" accept="'.pdf, image/*'" name="button">Upload</button>
+                            ngf-select="uploadImageProof($files)" multiple accept=".pdf, .jpg, .jpeg, .png "
+                            name="button">Upload</button>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="image-product col-md-1" style="display: inline; margin-left:8px;" ng-repeat="f in imagesProofList">
-                        <a class="avatar1" href="javascript:void(0);">
-                            <img ng-src="{{f.link}}" alt="Alternative text to the image" />
-                            <span class="remove-product"><i ng-click="removeImgFiles($index)" class="icmn-cancel"></i></span>
+                    <div class="image-product col-md-1" style="display: inline; margin-left:8px;"
+                        ng-repeat="f in imagesProofList">
+                        <a target="_blank" download href="{{f.link}}">
+                            <div class="avatar1">
+                                <img ng-src="{{f.link}}" alt="Alternative text to the image" />
+                                <span class="remove-product"><i ng-click="removeImgFiles($index)"
+                                        class="icmn-cancel"></i></span>
+
+                            </div>
+                            <p style="margin:0px; font-size:12px;">
+                                {{f.imageName | limitTo:20}}{{f.imageName.length > 20? '...': ''}} </p>
                         </a>
-                        <p style="margin:0px;">{{f.imageName}}</p>
-        
                     </div>
                 </div>
-                
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" ng-click="uploadInvoices()">Save Changes</button>

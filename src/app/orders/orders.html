@@ -118,7 +118,7 @@
                                                 35}}{{sales.title.length > 35? '...': ''}} - {{ sales.order_quantity }}
                                                 - {{sales.tax_price*100/(sales.price-sales.tax_price) | number:0}}%
                                                 <span ng-class="sales.status === 'ORDER_APPROVED'? 'text-danger': 'text-success'">
-                                                    {{sales.status.replace("_"," ")}}
+                                                    {{ sales.status === 'ORDER_APPROVED'? 'SHIPMENT PENDING': sales.status.replace("_"," ")}}
                                                 </span>
                                             </td>
 

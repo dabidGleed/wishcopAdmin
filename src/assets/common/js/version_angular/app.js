@@ -136,6 +136,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             templateUrl: "orders/orderhistory.html",
             controller: "ordersCtrl"
         })
+        .state('main.orderreturns', {
+            url: "order-returns",
+            templateUrl: "orders/returnOrders.html",
+            controller: "ordersReturnsCtrl"
+        })
         .state('login', {
             url: "/login",
             templateUrl: "login/login.html",

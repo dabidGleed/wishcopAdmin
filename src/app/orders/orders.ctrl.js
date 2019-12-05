@@ -13,6 +13,7 @@ app.controller('ordersCtrl', ["$scope", "ordersService", "$filter", "Upload", fu
         buyer: ""
     };
     $scope.imagesProofList = [];
+    $scope.isAllSelected = false;
 
     // get account transfers list
     $scope.getTransactionsList = function (data, searchData) {
@@ -221,7 +222,47 @@ app.controller('ordersCtrl', ["$scope", "ordersService", "$filter", "Upload", fu
         NProgress.start();
         $('#orderData').modal('hide');
         $scope.splitInvoice = false;
+        $scope.isAllSelected = false;
         ordersAPI.splitInvoiceService($scope.orderId, items, invoiceDate).then(function (response, status) {
+            if (response.status == 200) {
+                NProgress.done();
+                var file = new Blob([response.data], {
+                    type: 'application/pdf'
+                });
+                var fileURL = window.URL.createObjectURL(file);
+                a.href = fileURL;
+                a.download = fileName;
+                a.click();
+            } else {
+                $.notify({
+                    title: '<strong>Unsuccessful!</strong>',
+                    message: response.data
+                }, {
+                    type: 'danger'
+                });
+            }
+        });
+    };
+    $scope.generateReturnInvoice = function () {
+        var items = [];
+        var returnDate = new Date($scope.invoiceDate).getTime();
+        angular.forEach($scope.order.sales, function (item) {
+            if (item.selected) {
+                delete item.selected;
+                items.push({
+                    order_item_id:item.order_item_id
+                });
+            }
+        });
+        var fileName = "invoice" + $scope.orderId + ".pdf";
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+        NProgress.start();
+        $('#orderData').modal('hide');
+        $scope.splitInvoice = false;
+        $scope.isAllSelected = false;
+        ordersAPI.returnInvoiceService($scope.orderId, items, returnDate).then(function (response, status) {
             if (response.status == 200) {
                 NProgress.done();
                 var file = new Blob([response.data], {
@@ -246,7 +287,17 @@ app.controller('ordersCtrl', ["$scope", "ordersService", "$filter", "Upload", fu
         $scope.filterData = $filter('filter')($scope.order.sales, {
             selected: true
         });
+        $scope.isAllSelected = false;
         if($scope.filterData.length >0) $scope.splitInvoice = true;
+        if($scope.filterData.length == $scope.order.sales.length){
+            $scope.isAllSelected = true;
+            $scope.splitInvoice = false;
+        }
+        
+    }
+    $scope.toggleAll = function() {
+        var toggleStatus = $scope.isAllSelected;
+        angular.forEach($scope.order.sales, function(itm){ itm.selected = toggleStatus; });
     }
     // Upload image proofs
     $scope.uploadImageProof = function (files) {

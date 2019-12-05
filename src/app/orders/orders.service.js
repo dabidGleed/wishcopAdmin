@@ -21,6 +21,21 @@
               url: finalUrl
           });
       };
+      //service to get all payment transactions list
+      ordersServiceMethods.getReturnsList = function (page, searchData) {
+        var query = "";
+        if (!!searchData.name) {
+            query = "&searchString=" + searchData.name;
+        }
+        if (!!searchData.buyer) {
+            query += "&userId=" + searchData.buyer.id;
+        }
+        var finalUrl = baseURL + "admin/list/all/order-returns?limit=30&sort=orderDate DESC&skip=" + page + query;
+        return $http({
+            method: 'GET',
+            url: finalUrl
+        });
+     };
       ordersServiceMethods.getDistributorOrdersList = function (page, searchData) {
           var query = "";
           if (searchData.name != "") {
@@ -95,6 +110,12 @@
             responseType: 'arraybuffer' 
         });
       };
+      ordersServiceMethods.downloadReturnInvoice = function (orderId) {
+        var finalUrl = baseURL + 'orders/' + orderId + '/download/return-invoices';
+        return $http.get(finalUrl, {
+            responseType: 'arraybuffer' 
+        });
+      };
       ordersServiceMethods.sendInvoice = function (orderId) {
         return $http.get(globalVars.baseURL + 'orders/' + orderId + '/send/invoice/email');
       };
@@ -141,7 +162,19 @@
                 invoiceDate : date
             }
         });
-    };
+        };
+        ordersServiceMethods.returnInvoiceService = function (orderId, items, date) {
+            var finalUrl = baseURL + "order/"+orderId+"/return/invoice";
+            return $http({
+                method: 'POST',
+                responseType: 'arraybuffer',
+                url: finalUrl,
+                data: {
+                    items: items,
+                    invoiceDate : date
+                }
+            });
+            };
       ordersServiceMethods.uploadImage = function (url, name) {
         return $http({
             method: "POST",

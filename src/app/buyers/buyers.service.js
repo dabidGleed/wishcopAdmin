@@ -53,7 +53,9 @@
               data: {
                   adminApprove: profile.adminApprove,
                   adminNotes: profile.adminNotes,
-                  role: profile.role
+                  role: profile.role,
+                  ptrFormat: profile.ptrFormat,
+                  ptrPerecent: profile.ptrPercent
               }
           });
       };

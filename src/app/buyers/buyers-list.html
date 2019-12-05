@@ -154,6 +154,23 @@
                             </tr>
                             <tr>
                                 <td class="text-nowrap">
+                                    PTR INVOICE FORMAT
+                                </td>
+                                <td >
+                                   <label style="display: inline;"><input type="checkbox" name="ptr" ng-model="companyProfile.ptrFormat" value="DISABLE" style="width: 5%;
+                                    height: 15px;"> {{companyProfile.ptrFormat? 'ENABLED': 'DISABLED'}}</label> 
+                                </td>
+                            </tr>
+                            <tr ng-show="!!companyProfile.ptrFormat">
+                                <td class="text-nowrap">
+                                    PTR INVOICE PERCENTAGE
+                                </td>
+                                <td >
+                                   <input class="form-control" type="number" name="ptrPercent" ng-model="companyProfile.ptrPercent">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
                                     Admin Notes
                                 </td>
                                 <td>

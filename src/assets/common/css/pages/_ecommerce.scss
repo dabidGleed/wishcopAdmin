@@ -167,7 +167,7 @@
         &--like {
             position: absolute;
             z-index: 100;
-            top: 10px;
+            top: 0px;
             right: 10px;
             font-size: 24px;
             cursor: pointer;
@@ -379,4 +379,11 @@
         overflow: hidden;
         border-radius: 0px
     }
+}
+.sortorder:after {
+    content: '\25b2'; // BLACK UP-POINTING TRIANGLE
+}
+
+.sortorder.reverse:after {
+    content: '\25bc'; // BLACK DOWN-POINTING TRIANGLE
 }

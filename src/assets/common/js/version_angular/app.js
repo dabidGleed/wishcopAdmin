@@ -51,6 +51,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             templateUrl: "products-list/products-list.html",
             controller: "productsListCtrl"
         })
+        .state('main.inventory', {
+            url: "inventory/:itemId",
+            templateUrl: "inventory/inventory.html",
+            controller: "inventoryCtrl"
+        })
         .state('main.productsbulkupload', {
             url: "products-upload",
             templateUrl: "products-list/products-bulk-upload.html",

@@ -190,6 +190,12 @@
                         <span class="menu-top-hidden">Order Returns</span>
                     </a>
                 </li>
+                <li ng-hide="isAdmin">
+                    <a class="left-menu-link" ui-sref="main.inventory({itemId:null})">
+                            <i class="left-menu-link-icon icmn-cart5"> </i>
+                            <span class="menu-top-hidden">Inventory</span>
+                    </a>
+                </li>
                 <li class="left-menu-list-separator">
 
                 </li>
@@ -224,9 +230,14 @@
                                 Sales List
                             </a>
                         </li>
-                        <li>
+                        <!-- <li>
                             <a class="left-menu-link" href="#!/products-list">
                                 Products List
+                            </a>
+                        </li> -->
+                         <li>
+                            <a class="left-menu-link" ui-sref="main.inventory({itemId:null})">
+                                Inventory
                             </a>
                         </li>
                         <li>

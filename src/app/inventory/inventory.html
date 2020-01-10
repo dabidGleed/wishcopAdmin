@@ -1,0 +1,590 @@
+<div class="page-content-inner">
+    <!-- Ecommerce Products List -->
+    <section class="panel panel-with-borders">
+        <div class="panel-heading">
+            <h2>
+                Inventory Management
+            </h2>
+        </div>
+        <div class="panel-body" style="padding-bottom: 0px;">
+            <h4 class="col-md-6 col-sm-6 col-xs-6">Filters</h4>
+            <div class="form-group order-total row pull-right col-md-6 col-sm-6 col-xs-6">
+                <div class="col-md-4 col-sm-4 col-xs-6">
+                    <span>Total Items: </span>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-6">
+                    <label>{{totalCount}} </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group row">
+                            <div class="col-md-2 col-sm-3 col-xs-3">
+                                <label class="form-control-label" for="l0">Search</label>
+                            </div>
+                            <div class="col-md-3 col-sm-4 col-xs-6">
+                                <input type="text" class="form-control" name="searchName" ng-model="search.name">
+                            </div>
+                            <div class="col-md-3 col-sm-4 col-xs-4">
+                                <a href="javascript: void(0);" ng-show="search.name || search.vendor || search.itemId" class="form-control btn btn-primary" ng-click="resetFilters()">Reset</a>
+                            </div>
+                            <div class="col-md-3 col-sm-4 col-xs-6 pull-right" ng-hide="search.itemId">
+                                <button type="button"
+                                    class="btn btn-primary btn-md margin-inline" data-toggle="modal" data-target="#addProduct" ng-click="addProduct(sale);"> +ADD PRODUCT
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-2 col-xs-2">
+                                <label class="form-control-label" for="l0">Vendor </label>
+                            </div>
+                            <div class="col-md-3 col-xs-4 form-group"
+                                ng-class="{'has-danger' : categoryForm.searchvendor.$invalid && categoryForm.$submitted}  ">
+                                <select class="form-control" name="searchvendor" ng-model="search.vendor"
+                                    ng-options="vendors.id as (vendors.profile.companyName | uppercase) for vendors in vendors | orderBy:'profile.companyName'">
+                                    <option value="" selected>Select</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 col-xs-2" ng-show="subBrands && subBrands.length > 0">
+                                <label class="form-control-label" for="l0">Sub Vendor </label>
+                            </div>
+                            <div class="col-md-3 col-xs-4 form-group"
+                                ng-if="subBrands && subBrands.length > 0"
+                                ng-class="{'has-danger' : categoryForm.searchvendor.$invalid && categoryForm.$submitted} ">
+                                <select class="form-control" name="searchvendor" ng-model="search.subVendor"
+                                    ng-options="subvendor.id as (subvendor.name | uppercase) for subvendor in subBrands | orderBy:'profile.name'">
+                                    <option value="" selected>Select</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class=" table-responsive table  margin-bottom-50">
+                <table class="table">
+                    <thead>
+                        <tr style="text-align: center;">
+                            <th style="width: 5%;">S.No</th>
+                            <th style="width: 15%; cursor: pointer;" ng-click="sortBy('title')" >Title
+                                <i class="sortorder"  ng-class="{reverse: reverse}"></i>
+                            </th>
+                            <th style="width: 15%; cursor: pointer;" ng-click="sortBy('total_MRP')">MRP
+                                <i class="sortorder"  ng-class="{reverse: reverse}"></i>
+                            </th>
+                            <th style="width: 15%;">Offer Price</th>
+                            <th style="width: 12%; cursor: pointer;" ng-click="sortBy('quantity')">Quantity
+                                <i class="sortorder"  ng-class="{reverse: reverse}"></i>
+                            </th>
+                            <th style="width: 10%;">Min Qty</th>
+                            <th style="width: 10%;">GST%</th>
+                            <th style="width: 8%;  cursor: pointer;" ng-click="sortBy('sold_quantity')">Sold
+                                <i class="sortorder"  ng-class="{reverse: reverse}"></i>
+                            </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr dir-paginate="sale in saleslist  | itemsPerPage:itemsPerPage | orderBy:propertyName:reverse" current-page="currentPage"
+                            total-items="totalCount">
+                            <td>{{itemsPerPage *(currentPage-1)+$index+1}}</td>
+                            <td style="font-size: 12px;"><span style="font-weight: bold">{{sale.title}}
+                                    {{ sale.composition? sale.composition: ''}}
+                                </span>
+                            </td>
+                            <td>
+                                <span ng-hide="sale.editable">{{sale.total_MRP}}</span>
+                                <input class="form-control" ng-show="sale.editable" type="number"
+                                    ng-model="sale.total_MRP">
+                            </td>
+                            <td>
+                                <span ng-hide="sale.editable">{{sale.sale_items[0].price}}</span>
+                                <input class="form-control" ng-show="sale.editable" type="number"
+                                    ng-model="sale.sale_items[0].price">
+                            </td>
+                            <td>
+                                <span ng-hide="sale.editable">{{sale.quantity}}</span>
+                                <input class="form-control" ng-show="sale.editable" type="number"
+                                    ng-model="sale.available">
+                                    <label ng-show="sale.editable">Available: {{sale.quantity + sale.available}}</label>
+                            </td>
+                            <td>
+                                <span ng-hide="sale.editable">{{sale.minimum_quantity}}</span>
+                                <input class="form-control" ng-show="sale.editable" type="number"
+                                    ng-model="sale.minimum_quantity">
+                            </td>
+                            <td>
+                                <span
+                                    ng-hide="sale.editable">{{round(100*sale.sale_items[0].tax_price/sale.sale_items[0].price)}}</span>
+                                <input class="form-control" ng-show="sale.editable" type="number"
+                                    ng-model="sale.gst">
+                                    <!-- <label ng-show="sale.editable">GST: {{}}</label> -->
+                            </td>
+                            <td>
+                                <span>{{sale.sold_quantity}}</span>
+                            </td>
+                            <td>
+                                <button type="button" ng-if="!sale.editable"
+                                    class="btn btn-primary btn-sm margin-inline" ng-click="editItem(sale)">Edit
+                                </button>
+                                <button type="button" ng-if="sale.editable" class="btn btn-primary btn-sm margin-inline"
+                                    ng-click="updateItem(sale)">Save
+                                </button>
+                                <button type="button" ng-if="sale.editable" class="btn btn-primary btn-sm margin-inline"
+                                    ng-click="cancelItem(sale)">Cancel
+                                </button>
+                                <button type="button" ng-if="!sale.editable"
+                                    class="btn btn-primary btn-sm margin-inline" data-toggle="modal" data-target="#productDetails" ng-click="productDetails(sale);"> View
+                                </button>
+                            </td>
+                        </tr>
+                        <tr ng-show="saleslist.length == 0">
+                            <td colspan="6">
+                                <center>No data found</center>
+                            </td>
+                        </tr>
+                        <tr ng-hide="saleslist.length == 0">
+                            <td colspan="6" align="center">
+                                <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true"
+                                    on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <!-- End Ecommerce Inventory List -->
+</div>
+
+<div class="modal modal-size-large" id="productDetails" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Item Details</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <colgroup>
+                            <col class="col-xs-4">
+                            <col class="col-xs-8">
+                        </colgroup>
+
+                        <tbody>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Owner
+                                </td>
+                                <td>{{modalDetials.owner}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Product Title
+                                </td>
+                                <td>{{modalDetials.title}}</td>
+                            </tr>
+                            <!-- <tr>
+                                <td class="text-nowrap">
+                                    Product Image
+                                </td>
+                                <td>
+                                    <img class="messaging-img" ng-src="{{modalDetials.images[0].imageURL}}" />
+                                </td>
+                            </tr> -->
+                            <tr>
+                                <td class="text-nowrap">
+                                    Max. Retail Price
+                                </td>
+                                <td>{{modalDetials.total_MRP | currency:currency}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Offer Price
+                                </td>
+                                <td>{{modalDetials.price | currency:currency}}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="text-nowrap">
+                                    Category
+                                </td>
+                                <td>{{modalDetials.categoryName}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Sub Category
+                                </td>
+                                <td>{{modalDetials.subCategoryName }}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Tax
+                                </td>
+                                <td>
+                                    {{modalDetials.taxes[0].discount}}
+                                </td>
+                            </tr>
+                            <!-- <tr>
+                                <td class="text-nowrap">
+                                    Description
+                                </td>
+                                <td ng-bind-html="modalDetials.htmlDesc"></td>
+                            </tr> -->
+                            <!-- <tr>
+                                <td class="text-nowrap">
+                                    Variants
+                                </td>
+                                <td>
+                                    <table class="table table-inverse">
+
+                                        <tbody>
+                                            <tr ng-repeat="variators in modalDetials.variator">
+
+                                                <td>{{variators.name}}</td>
+                                                <td>
+                                                    <span ng-repeat="variant in variators.value ">
+                                                        <span class="label label-info font-size-14 margin-inline">{{variant}}</span>
+                                                    </span>
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Variation list
+                                </td>
+                                <td>
+                                    <table class="table table-inverse">
+                                        <thead>
+                                            <tr>
+                                                <th>Product</th>
+                                                <th ng-repeat="variator in modalDetials.variator">{{variator.name}}</th>
+                                                <th>Available</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="variantsData in modalDetials.variants">
+
+                                                <td>
+                                                    <span ng-repeat="imageDetail in variantsData.images">
+                                                        <img ng-src="{{imageDetail.imageURL}}" class="messaging-img" /> </span>
+                                                </td>
+                                                <td ng-repeat="variators in modalDetials.variator">
+                                                    {{variantsData[variators.name]}}
+                                                </td>
+                                                <td>{{variantsData.isActive}}</td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr> -->
+                            <tr>
+                                <td class="text-nowrap">
+                                    Created Date
+                                </td>
+                                <td>{{modalDetials.createdAt | date : 'yyyy-MM-dd'}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Updated Date
+                                </td>
+                                <td>{{modalDetials.updatedAt | date : 'yyyy-MM-dd'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="changeProductStatus(modalDetials)">Save changes
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal modal-size-large" id="addProduct" role="dialog" aria-hidden="true">
+    <div  class="modal-dialog" role="document">
+        <!-- Ecommerce Product Add -->
+        <section class="panel panel-with-borders modal-content">
+            <div class="panel-heading">
+                <h2>
+                    Add Product
+                </h2>
+            </div>
+            <form name="addProductForm" id="add-product-form"
+                ng-submit="addProductForm.$valid && createProduct(product)" novalidate>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="l301">Title *</label>
+                                        <input type="text" name="titlename" class="form-control" ng-model="product.title"
+                                            placeholder="Enter Product Title" required>
+                                            <div ng-if="addProductForm.titlename.$touched || addProductForm.$submitted" class="errorText" style="color:red">
+                                                <span ng-show="addProductForm.titlename.$error.required">Please Enter Product Title </span>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="l302">Composition</label>
+                                        <input type="text" name="composition"  class="form-control" ng-model="product.composition" placeholder="Enter Product Composition">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="l301">Quantity</label>
+                                        <input class="form-control" ng-model="product.quantity" name="quantity" type="number" placeholder="Enter quantity">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="l302">Minimum Quantity</label>
+                                        <input type="number" class="form-control" ng-model="product.minimum_quantity" name="minimum_quantity" ng-pattern="/^[0-9]{1,6}$/"
+                                        placeholder="Enter quantity" min="1" required>
+                                        <div ng-if="addProductForm.minimum_quantity.$touched || addProductForm.$submitted" style="color:red" class="errorText">
+                                            <span ng-show="addProductForm.minimum_quantity.$error.pattern">Please Enter Valid Quantity </span>
+                                            <span ng-show="addProductForm.minimum_quantity.$error.required">Please Enter minimum purchase quantity</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="l30">Max. Retail Price *</label>
+                                        <input type="number" class="form-control" name="MRPproductprice" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" ng-model="product.MRPPrice"
+                                                    min="1" placeholder="Enter Product MRP" required>
+                                                <!--   <span ng-show="addProductForm.productprice.$invalid && !addProductForm.productprice.$pristine">Please Enter Product Price </span> -->
+                                                <div ng-if="addProductForm.MRPproductprice.$touched || addProductForm.$submitted" style="color:red" class="errorText">
+                                                    <span ng-show="addProductForm.MRPproductprice.$error.pattern">Please Enter Valid Max. Retail Price </span>
+                                                    <span ng-show="addProductForm.MRPproductprice.$error.number">Please Enter Valid Max. Retail Price </span>
+                                                    <span ng-show="addProductForm.MRPproductprice.$error.required">Please Enter Product MRP </span>
+                                                    <span ng-show="product.price > produc.MRPprice">Offer price cannot be greater than MRP price</span>
+                                                </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="l30">Offer Price*</label>
+                                        <input type="number" class="form-control" name="productprice" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" ng-model="product.price"
+                                                    min="1" placeholder="Enter Product Price" required>
+                                                <!--   <span ng-show="addProductForm.productprice.$invalid && !addProductForm.productprice.$pristine">Please Enter Product Price </span> -->
+                                                <div ng-if="addProductForm.productprice.$touched || addProductForm.$submitted" style="color:red" class="errorText">
+                                                    <span ng-show="addProductForm.productprice.$error.pattern">Please Enter Valid Product Price </span>
+                                                    <span ng-show="addProductForm.productprice.$error.required">Please Enter Product Price </span>
+                                                    <span ng-show="product.price > product.MRPprice">Offer price cannot be greater than MRP price</span>
+                                                </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="l30">GST(%)</label>
+                                        <input type="number" ng-model="product.gst" class="form-control" id="l30">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="l30">Choose Vendor</label>
+                                        <select class="form-control" name="Vendor" ng-change="selectVendor()" data-ng-model="product.owner" ng-options="k.id as k.profile.companyName for k in vendors">
+                                            <option value="" class="">Select Vendor</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group" ng-show="!!subVendors && subVendors.length > 0">
+                                        <label for="l30">Choose Sub Vendor</label>
+                                        <select class="form-control" name="subBrand" data-ng-model="product.subBrand" ng-options="k.id as k.name for k in subVendors">
+                                            <option value="" class="">Select SubBrand</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="l30">Category *</label>
+                                        <select class="form-control" name="productcategory" ng-change="selectCategory()" data-ng-model="product.category" ng-options="k.id as k.name for k in chooseCategory"
+                                                    required>
+                                                    <option value="" class="">Select Option</option>
+                                                </select>
+                                                <input ng-show="{{data-ng-model == other}}" type="text" name="name" value="">
+                                                <!--  <span ng-show="addProductForm.productcategory.$invalid && !addProductForm.productcategory.$pristine ">Please choose category</span> -->
+                                                <div ng-if="addProductForm.productcategory.$touched || addProductForm.$submitted" style="color:red" class="errorText">
+                                                    <span ng-show="addProductForm.productcategory.$error.required">Please Select Category </span>
+                                                </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="l30">Sub Category</label>
+                                        <select class="form-control" name="subcategory" ng-change="selectsubcat()" data-ng-model="product.sub_category" ng-options="j.id as j.name for j in chooseSubCategory">
+                                            <option value="" class="">Select Option</option>
+                                        </select>
+                                        <div class="errorText" ng-if="addProductForm.subcategory.$touched || addProductForm.$submitted" style="color:red">
+                                            <span ng-show="addProductForm.subcategory.$error.required">Please Select Sub Category </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="l151">Description</label>
+                                <textarea ng-model="product.description" class="form-control" rows="3" id="l151"></textarea>
+                            </div>
+            
+                            <!-- <h4> Variants <span>(press "," or "enter" for variant separation and Press '+' to confirm data
+                                    entered)</span></h4>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <input type="text" placeholder="Size" class="form-control" id="l30">
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="form-group">
+                                        <input type="text" placeholder="8,9, etc.." class="form-control" id="l30">
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="row col-add-remove-wrap md-chip-var">
+                                <div class="col-sm-12">
+                                    <label class="form-label">Variants</label>
+                                    <span>*</span>
+                                    <span href="#" data-toggle="tooltip" id="myTooltip" class="toggle-tooltip"
+                                        data-placement="right" title="The variant of the product such as size, colour, quantity,etc. are entered here. You can unselect any combination of varients which are not available in the stock.">
+                                        <i class="material-icons helpTooltip">info_outline</i>
+                                    </span>
+                                    <span>(press "," or "enter" for variant separation and Press '+' to confirm data
+                                        entered)</span>
+                                </div>
+                                <div class="col-sm-12 addMoreDataBlock" ng-repeat="variantDetails in product.variator track by $index">
+                                    <div class="row">
+                                        <ng-form name="variantTitleForm">
+                                            <div class="col-sm-4 col-xs-4 form-group afssg" ng-class="{'has-error' : variantTitleForm.variatorName.$invalid && !variantTitleForm.variatorName.$pristine}">
+                                                <input type="text" class="form-control" name="variatorName" ng-model="variantDetails.name" placeholder="Size:" required>
+                                                <div ng-if="variantTitleForm.variatorName.$invalid  " style="color:red">
+                                                    <p>Please Enter variant title </p>
+                                                </div>
+                                            </div>
+                                        </ng-form>
+                                        <div class="col-sm-6 col-xs-7 form-group from-control-group variant-detail" ng-class="{'has-error' : addProductForm.variatorValues{{$index}}.$viewValue.length == 0}">
+                                                <input type="text" name="variatorValues{{$index}}" ng-model="variantDetails.value" class="form-control" placeholder="Small, Medium, Large" data-ng-required="true">
+                                        </div>
+                                        <div class="col-sm-2 col-xs-2 tp-position tp-remove">
+                                            <a href="" class="icon-cancel-circled-1 iconRemove" ng-click="variantRemove($index)">Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row col-add-remove-wrap md-chip-var">
+                                <div class="col-sm-4 col-xs-4 form-group">
+                                    <input type="text" class="form-control" name="addVariant" ng-model="newVariant.name" placeholder="Ex: Size">
+                                    <div class="errorText" ng-show="variantTitleError" style="color:red">
+                                        <span>Please Enter Variant Title</span>
+                                    </div>
+                                    <div class="errorText" ng-if="(product.variator.length == 0) && addProductForm.$submitted" style="color:red">
+                                        <span>Please Add Variants </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xs-8 form-group from-control-group variant-detail">
+                                    <input ng-model="newVariant.value" name="addVariantsData" class="form-control" type="text">
+                                    <div class="errorText" ng-show="variantDataError" style="color:red">
+                                        <span>Please Enter Variants</span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2 tp-position">
+                                    <a href="" id="add-variant"class="icon-plus-circled-1 iconAdd" ng-click="variantAdd(newVariant)">+ADD</a>
+                                </div>
+                                <!-- <label class="btn btn-default btn-value" ng-click="permutationsData(product.variator)">View All</label> -->
+
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <label class="form-label">Variation list</label>
+                                    <span>*</span>
+                                    <span href="#" data-toggle="tooltip" id="myTooltip" class="toggle-tooltip"
+                                        data-placement="right" title="Here a combination of variants is generated based on the various variants described by the vendor. Vendor can remove any combination of variants which are not available in the stock.">
+                                        <i class="material-icons helpTooltip">info_outline</i>
+                                    </span>
+                                    <span ng-if="variantQuantityError">Sum of individual quantities should not be less than total quantities</span>
+                                </div>
+                                <div class="col-md-12 form-group-variation">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Product</th>
+                                                <th ng-repeat="variantTitle in variantsObjInitial track by $index">{{variantTitle}}</th>
+                                                <th>Available</th>
+                                                <th ng-if="bulkSale.isActive">Quantity</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="variantsData in variantsObj track by $index ">
+                                                <td>
+                                                    <div class="upload-products-container" ng-init="imgIndex=$index">
+                                                        <ul class="products-container row">
+                                                            <li class="col-xs-6 col-sm-3 image-product" ng-repeat-start="imageDetail in variantsData.images" ng-repeat-end>
+                                                                <img ngf-thumbnail="!imageDetail.imageURL.$error && imageDetail.imageURL" class="thumb">
+                                                                <p>&nbsp;</p>
+                                                                <a class="remove-product" ng-click="removeImgVariants(imgIndex,$index)">
+                                                                    <i class="icon-cancel-1"></i>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                        <div class="loadinggif" ng-init="loadingProgressIcon[$index]=false" ng-show="loadingProgressIcon[$index]"></div>
+                                                        <div class="products-upload-btn btn btn-default inputfile" ng-click="setDataValue($index)" data-toggle="modal" data-target="#myModaImageCrop2">
+                                                            <i class="icon-up-circle">
+                                                            </i> Upload product images (300px * 450px)
+                                                        </div>
+                                                        <span style="color:red">{{errorMsg.name}} {{errorMsg.$error}} {{errorMsg.$errorParam}}</span>
+
+                                                    </div>
+                                                </td>
+                                                <td ng-repeat="variantTitle in variantsObjInitial track by $index">{{variantsData[variantTitle]}}</td>
+                                                <td>
+                                                    <input type="button" name="name" ng-model="variantsData.isActive" value="{{variantsData.isActive}}" ng-click="toggleActive($index)">
+                                                </td>
+                                                <td ng-if="bulkSale.isActive">
+                                                    <input type="number" name="variant" min="0" ng-pattern="/^[0-9]{1,6}$/" ng-init="variantsData.variantQuantity = 0" ng-model="variantsData.variantQuantity">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary width-150">Save Product</button>
+                                <button type="button" class="btn btn-default">Cancel</button>
+                            </div>
+            
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </section>
+        <!-- End Ecommerce Product Edit -->
+    
+    </div>
+</div>
+<!-- End Page Scripts -->

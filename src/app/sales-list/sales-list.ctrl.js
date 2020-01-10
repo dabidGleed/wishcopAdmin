@@ -4,42 +4,71 @@
 
 app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesService", "$filter", "$state", "$sce", function ($location, $scope, $rootScope, salesServiceMethods, $filter, $state, $sce) {
     NProgress.start();
-    salesServiceMethods.getSalesList().then(function (response) {
-        $scope.salesList = response.data;
-        angular.forEach($scope.salesList, function (value, key) {
-            value.percentageFinalSalePrice = calculatePercentageDiscount(value.total_price, value.discount_percentage);
+    $scope.currentPage = 1;
+    $scope.itemsPerPage = 16;
+    $scope.totalCount = 0;
+    $scope.saleData = {};
+    $scope.search = {
+        name: "",
+        vendor: "",
+        subBrand: "",
+        status: ""
+    };
+    $scope.getSales = function(data, searchData){
+        salesServiceMethods.getSalesList(data, searchData).then(function (response) {
+            console.log(response);
+            $scope.salesList = response.data.sales;
+            $scope.totalCount = response.data.count;
+            angular.forEach($scope.salesList, function (value, key) {
+                value.percentageFinalSalePrice = calculatePercentageDiscount(value.total_price, value.discount_percentage);
+            });
+            NProgress.done();
         });
-        NProgress.done();
-    });
+    }
+    $scope.getSales(0, $scope.search);
+
+    $scope.pageChanged = function (newPage) {
+        var pageDataList = (newPage - 1) * ($scope.itemsPerPage);
+        $scope.getSales(pageDataList, $scope.search);
+    };
 
     salesServiceMethods.getVendorsList().then(function (response) {
         $scope.vendorList = response.data;
+        console.log($scope.vendorList);
 
     });
 
     $scope.convertHtml = function (description) {
         return $sce.trustAsHtml(description);
     };
-
-    $scope.saleData = {};
-    $scope.search = {
-        name: "",
-        vendor: "",
-        status: "",
-        sale_type: ""
-    };
+    
     $scope.$watch("search.vendor", function () {
-
-        if ($scope.search.vendor == null) {
-            $scope.search.vendor = "";
+        if (!!$scope.search.vendor) {
+            console.log($filter('filter')($scope.vendorList, {
+                id: $scope.search.vendor
+            }));
+            $scope.subBrands = $filter('filter')($scope.vendorList, {
+                id: $scope.search.vendor
+            })[0].profile.subBrands;
+        }
+    });
+    $scope.$watch("search.name", function(){
+        if(!!$scope.search.name){
+            $scope.getSales(0, $scope.search)  
         }
     });
 
+    $scope.$watch("search.subBrand", function(){
+        if(!!$scope.search.subBrand){
+            $scope.getSales(0, $scope.search)  
+        }
+    });
     // users list filters
     $scope.resetFilters = function () {
         $scope.search = {
             name: "",
             vendor: "",
+            subBrand: "",
             status: ""
         };
     };
@@ -48,6 +77,29 @@ app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesServ
     $scope.saleDetails = function (saleData) {
         $scope.modalDetials = {};
         angular.copy(saleData, $scope.modalDetials);
+    };
+
+     //update Sale details
+     $scope.updateSale = function (modaldetails) {
+        $('#editSale').modal('hide');
+        salesServiceMethods.updateSale(modaldetails.id, modaldetails).then(function (response) {
+            if (response.status == 200) {
+                $.notify({
+                    title: '<strong>Success!</strong>',
+                    message: response.data.message
+                }, {
+                    type: 'success'
+                });
+            } else {
+                $.notify({
+                    title: '<strong>Unsuccessful!</strong>',
+                    message: response.data.message
+                }, {
+                    type: 'danger'
+                });
+            }
+        });
+
     };
 
     $scope.closeButton = function () {

@@ -128,14 +128,14 @@
                                 </td>
                                 <td>{{modalDetials.title}}</td>
                             </tr>
-                            <tr>
+                            <!-- <tr>
                                 <td class="text-nowrap">
                                     Product Image
                                 </td>
                                 <td>
                                     <img class="messaging-img" ng-src="{{modalDetials.images[0].imageURL}}" />
                                 </td>
-                            </tr>
+                            </tr> -->
                             <tr>
                                 <td class="text-nowrap">
                                     Max. Retail Price
@@ -153,45 +153,29 @@
                                 <td class="text-nowrap">
                                     Category
                                 </td>
-                                <td>{{modalDetials.category.name}}</td>
+                                <td>{{modalDetials.categoryName}}</td>
                             </tr>
                             <tr>
                                 <td class="text-nowrap">
                                     Sub Category
                                 </td>
-                                <td>{{modalDetials.sub_category }}</td>
+                                <td>{{modalDetials.subCategoryName }}</td>
                             </tr>
                             <tr>
                                 <td class="text-nowrap">
                                     Tax
                                 </td>
                                 <td>
-                                    <table class="table table-inverse">
-                                        <thead>
-                                            <tr>
-                                                <th>Sale</th>
-                                                <th>Discount (%)</th>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="taxes in modalDetials.taxes">
-
-                                                <td>{{taxes.sale}}</td>
-                                                <td>{{taxes.discount}}</td>
-
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    {{modalDetials.taxes[0].discount}}
                                 </td>
                             </tr>
-                            <tr>
+                            <!-- <tr>
                                 <td class="text-nowrap">
                                     Description
                                 </td>
                                 <td ng-bind-html="modalDetials.htmlDesc"></td>
-                            </tr>
-                            <tr>
+                            </tr> -->
+                            <!-- <tr>
                                 <td class="text-nowrap">
                                     Variants
                                 </td>
@@ -243,9 +227,9 @@
                                         </tbody>
                                     </table>
                                 </td>
-                            </tr>
+                            </tr> -->
 
-                            <tr>
+                            <!-- <tr>
                                 <td class="text-nowrap">
                                     Specifications
                                 </td>
@@ -264,8 +248,8 @@
                                         </tbody>
                                     </table>
                                 </td>
-                            </tr>
-                            <tr>
+                            </tr> -->
+                            <!-- <tr>
                                 <td class="text-nowrap">
                                     Tags
                                 </td>
@@ -274,20 +258,20 @@
                                         <span class="label label-info font-size-14 margin-inline">{{tag}}</span>
                                     </span>
                                 </td>
-                            </tr>
-                            <tr>
+                            </tr> -->
+                            <!-- <tr>
                                 <td class="text-nowrap">
                                     Courier
                                 </td>
                                 <td>{{modalDetials.courier_details}}</td>
-                            </tr>
+                            </tr> -->
                             <tr>
                                 <td class="text-nowrap">
                                     Created Date
                                 </td>
                                 <td>{{modalDetials.createdAt | date : 'yyyy-MM-dd'}}</td>
                             </tr>
-                            <tr>
+                            <!-- <tr>
                                 <td class="text-nowrap">
                                     Competitive products
                                 </td>
@@ -300,7 +284,7 @@
                                     Ratings
                                 </td>
                                 <td> {{modalDetials.review.avg_rating}}</td>
-                            </tr>
+                            </tr> -->
                             <tr>
                                 <td class="text-nowrap">
                                     Status

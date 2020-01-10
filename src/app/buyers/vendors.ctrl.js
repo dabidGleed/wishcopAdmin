@@ -71,7 +71,7 @@ app.controller('vendorsListCtrl', ["$scope", "buyerService", "$filter", function
 
     };
     $scope.providePermission = function (userData) {
-        
+        console.log(userData);
         $scope.modalDetials = {};
         angular.copy(userData, $scope.modalDetials);
         $scope.companyProfile = userData.profile;
@@ -110,9 +110,12 @@ app.controller('vendorsListCtrl', ["$scope", "buyerService", "$filter", function
     };
     $scope.updatePermission = function (userId, access, subBrand) {
         $('#permission').modal('hide');
+        console.log(access);
         console.log(userId, access, subBrand.id);
         buyerService.updateVendorPermission(userId, access, subBrand.id).then(function (response) {
             if (response.status == 200) {
+                console.log($scope.access);
+                $scope.access = access;
                 $.notify({
                     title: '<strong>Success!</strong>',
                     message: response.data.message
@@ -127,6 +130,7 @@ app.controller('vendorsListCtrl', ["$scope", "buyerService", "$filter", function
                     type: 'danger'
                 });
             }
+            $scope.getVendorsList($scope.itemsPerPage, 0);
         });
     };
     $scope.selectSubBrand = function(subBrand){

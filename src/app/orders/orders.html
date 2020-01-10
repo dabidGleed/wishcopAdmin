@@ -69,7 +69,7 @@
                                             <th>S.No</th>
                                             <th>OrderID</th>
                                             <th>Amount</th>
-                                            <th>ShippedTo</th>
+                                            <th style="width: 25%;">ShippedTo</th>
                                             <th>Ordered Date</th>
                                             <th>Order Details</th>
                                         </tr>
@@ -117,7 +117,7 @@
                                                 <span>{{$index +1 }}</span>. {{sales.title | limitTo:
                                                 35}}{{sales.title.length > 35? '...': ''}} - {{ sales.order_quantity }}
                                                 - {{sales.tax_price*100/(sales.price-sales.tax_price) | number:0}}%
-                                                <span ng-class="sales.status === 'ORDER_APPROVED'? 'text-danger': 'text-success'">
+                                                <span style="padding-left: 2%;" ng-class="sales.status === 'ORDER_APPROVED'? 'text-danger': 'text-success'">
                                                     {{ sales.status === 'ORDER_APPROVED'? 'SHIPMENT PENDING': sales.status.replace("_"," ")}}
                                                 </span> 
                                                 <span ng-show="sales.deliverDate">
@@ -126,12 +126,10 @@
                                                 </span>
                                             </td>
 
-                                            <!-- <td colspan="2"> -->
-                                                <!-- <button type="button" class="btn btn-primary btn-sm margin-inline"
-                                                    data-toggle="modal" data-target="#userData"
-                                                    ng-click="userDetails(order.id,sales.order_item_id);">
-                                                    Track
-                                                </button> -->
+                                            <td colspan="2" style="padding: 15px;">
+                                                <button type="button" ui-sref="main.inventory({itemId:sales.id})"class="btn btn-primary btn-sm margin-inline">
+                                                    ADD TO INVENTORY
+                                                </button>
                                                 
                                                 <!-- <button ng-show="$index === 0"
                                                     ng-disabled="sales.status === 'ORDER_DELIVERED'" type="button"
@@ -139,7 +137,7 @@
                                                     ng-click="confirmDelivery(order.id);">
                                                     Update Delivered
                                                 </button> -->
-                                            <!-- </td> -->
+                                            </td>
                                         </tr>
 
                                     </tbody>
@@ -291,28 +289,45 @@
                     <button type="button" class="btn btn-success pull-right" ng-click="sendInvoice();">
                         Send Invoice
                     </button>
+                    <button type="button" ng-show="deliverData > 0 && deliverData != order.sales.length" class="btn btn-success pull-right" style="margin-right: 10px;" ng-click="downloadDeliveredInvoice();">
+                        Download Invoice( Delivered Only )
+                    </button>
+                    <button type="button" ng-show="deliverData > 0 && deliverData != order.sales.length" class="btn btn-success pull-right" style="margin-right: 10px;" ng-click="downloadDeliveredInvoice();">
+                        Download Invoice( Delivered Only )
+                    </button>
+                    
                 </h4>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-3 col-xs-12">
-                        <h4>Select Invoice Date</h4>
+                    <div class="col-md-2 col-xs-12">
+                        <h5>Select Invoice Date</h5>
                     </div>
-                    <div class="col-md-4 col-xs-12" style=" margin-bottom: 16px;">
+                    <div class="col-md-3 col-xs-12" style=" margin-bottom: 16px;">
                         <input type="date" class="form-control" ng-model="invoiceDate">
+                    </div>
+                    <div class="col-md-2 col-xs-12">
+                        <h5>Payment Mode</h5>
+                    </div>
+                    <div class="col-md-3 col-xs-12" style=" margin-bottom: 16px;">
+                        <select ng-model="order.paymentType" ng-options="payment.name as payment.name for payment in payments" class="form-control"
+                            name="paymentType">
+                            <option value="" selected>Select</option>
+                        </select>
                     </div>
                 </div>
                 <div class="table-responsive thead-default margin-bottom-50">
                     <table class="table table-hover">
                         <thead>
                             <tr class="header">
-                                <th><input type="checkbox" style="margin: 2px;width: 15px;" ng-hide="order.sales.length ==1" ng-model="isAllSelected"
+                                <th><input type="checkbox" style="margin: 2px;width: 15px;" ng-model="isAllSelected"
                                     ng-change="toggleAll()">Title</th>
                                 <th>HSN</th>
                                 <th>Batch</th>
                                 <th>Expiry</th>
                                 <th>Quantity</th>
                                 <th ng-show="order.sales[0].ptrFormat">Free</th>
+                                <th>MRP</th>
                                 <th>Price</th>
                                 <th>Tax</th>
 
@@ -321,7 +336,7 @@
                         <tbody>
                             <tr ng-repeat="sale in order.sales">
                                 <td>
-                                    <input type="checkbox" style="margin: 2px; width: 15px;"ng-hide="order.sales.length ==1" ng-model="sale.selected"
+                                    <input type="checkbox" style="margin: 2px; width: 15px;" ng-model="sale.selected"
                                         ng-change="stateChanged()">{{sale.title}}
                                 </td>
                                 <td style="min-width: 120px; width: 18%;"><input type="text" class="form-control" name="HSN"
@@ -334,6 +349,7 @@
                                         ng-model="sale.order_quantity"></td>
                                 <td ng-show="sale.ptrFormat" style="width: 20%;"><input type="string" class="form-control" name="free"
                                         ng-model="sale.free"></td>
+                                        <td>{{sale.MRP}}</td>
                                 <td>{{(sale.price - sale.tax_price) | currency:currency }}</td>
                                 <td>{{sale.tax_price | currency:currency }}
                                     ({{sale.tax_price*100/(sale.price-sale.tax_price) | number:0}}%)
@@ -348,9 +364,9 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" ng-show="splitInvoice"
                     ng-click="splitInvoiceChange()">Split Invoice</button>
-                <button type="button" class="btn btn-primary" ng-hide="splitInvoice"
+                <button type="button" class="btn btn-primary" ng-hide="splitInvoice || returnInv"
                     ng-click="updateBatchAndExpiry()">Update</button>
-                    <button type="button" class="btn btn-primary" ng-show="splitInvoice"
+                    <button type="button" class="btn btn-primary" ng-show="returnInv"
                     ng-click="generateReturnInvoice()">Return Invoice</button>
                 <button type="button" class="btn" data-dismiss="modal">Close</button>
             </div>

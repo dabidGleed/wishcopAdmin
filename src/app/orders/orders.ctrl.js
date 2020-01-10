@@ -14,6 +14,7 @@ app.controller('ordersCtrl', ["$scope", "ordersService", "$filter", "Upload", fu
     };
     $scope.imagesProofList = [];
     $scope.isAllSelected = false;
+    $scope.payments = [{name:"CHEQUE"}, {name:"CASH"}, {name:"OTHERS"}];
 
     // get account transfers list
     $scope.getTransactionsList = function (data, searchData) {
@@ -125,6 +126,30 @@ app.controller('ordersCtrl', ["$scope", "ordersService", "$filter", "Upload", fu
             }
         });
     };
+    $scope.downloadDeliveredInvoice = function () {
+        $scope.saleData = {};
+        var fileName = "invoice" + $scope.orderId + ".pdf";
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+        NProgress.start();
+        ordersAPI.downloadDeliveredInvoice($scope.orderId).then(function (response, status) {
+            if (response) {
+                $('#orderData').modal('hide');
+                NProgress.done();
+                var file = new Blob([response.data], {
+                    type: 'application/pdf'
+                });
+                var fileURL = window.URL.createObjectURL(file);
+                a.href = fileURL;
+                a.download = fileName;
+                a.click();
+            } else {
+                alert("try again");
+            }
+        });
+    };
+
     $scope.sendInvoice = function () {
         NProgress.start();
         ordersAPI.sendInvoice($scope.orderId).then(function (response, status) {
@@ -158,6 +183,12 @@ app.controller('ordersCtrl', ["$scope", "ordersService", "$filter", "Upload", fu
         $scope.order = $filter('filter')($scope.ordersList, {
             id: orderId
         })[0];
+        console.log($scope.order.paymentType);
+
+        $scope.deliverData = $filter('filter')($scope.order.sales, {
+            status: "ORDER_DELIVERED"
+        }).length;
+        console.log($scope.deliverData);
         $scope.invoiceDate = new Date($scope.order.sales[0].invoiceDate);
     };
     $scope.openUploadModal = function (orderId) {
@@ -180,6 +211,10 @@ app.controller('ordersCtrl', ["$scope", "ordersService", "$filter", "Upload", fu
             }
         });
         $('#orderData').modal('hide');
+        console.log($scope.order.paymentType);
+        // if($scope.order.paymentType){
+        //     $scope.order.paymentType = $scope.order.paymentType.name;
+        // }
         ordersAPI.updateOrderDetails($scope.orderId, $scope.order).then(function (response, status) {
             if (response.status == 200) {
                 $.notify({
@@ -222,6 +257,7 @@ app.controller('ordersCtrl', ["$scope", "ordersService", "$filter", "Upload", fu
         NProgress.start();
         $('#orderData').modal('hide');
         $scope.splitInvoice = false;
+        $scope.returnInv = false;
         $scope.isAllSelected = false;
         ordersAPI.splitInvoiceService($scope.orderId, items, invoiceDate).then(function (response, status) {
             if (response.status == 200) {
@@ -284,11 +320,15 @@ app.controller('ordersCtrl', ["$scope", "ordersService", "$filter", "Upload", fu
     };
     $scope.stateChanged = function(){
         $scope.splitInvoice = false;
+        $scope.returnInv = false;
         $scope.filterData = $filter('filter')($scope.order.sales, {
             selected: true
         });
         $scope.isAllSelected = false;
-        if($scope.filterData.length >0) $scope.splitInvoice = true;
+        if($scope.filterData.length >0){
+            $scope.splitInvoice = true;
+            $scope.returnInv = true;
+        } 
         if($scope.filterData.length == $scope.order.sales.length){
             $scope.isAllSelected = true;
             $scope.splitInvoice = false;
@@ -298,6 +338,7 @@ app.controller('ordersCtrl', ["$scope", "ordersService", "$filter", "Upload", fu
     $scope.toggleAll = function() {
         var toggleStatus = $scope.isAllSelected;
         angular.forEach($scope.order.sales, function(itm){ itm.selected = toggleStatus; });
+        $scope.stateChanged();
     }
     // Upload image proofs
     $scope.uploadImageProof = function (files) {

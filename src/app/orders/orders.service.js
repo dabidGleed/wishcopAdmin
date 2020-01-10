@@ -110,6 +110,13 @@
             responseType: 'arraybuffer' 
         });
       };
+      ordersServiceMethods.downloadDeliveredInvoice = function (orderId) {
+        var finalUrl = baseURL + 'orders/' + orderId + '/download-delivered-invoices';
+        return $http.get(finalUrl, {
+            responseType: 'arraybuffer' 
+        });
+      };
+
       ordersServiceMethods.downloadReturnInvoice = function (orderId) {
         var finalUrl = baseURL + 'orders/' + orderId + '/download/return-invoices';
         return $http.get(finalUrl, {

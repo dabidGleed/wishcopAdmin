@@ -1,0 +1,177 @@
+<div class="page-content-inner" id="exportthis">
+    <!-- Ecommerce Products List -->
+    <section class="panel panel-with-borders">
+        <div class="panel-heading">
+            <h2>
+                Generate Ledger Account
+            </h2>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group row">
+                            <div class="col-md-5 col-sm-3 col-xs-3">
+                                <label class="form-control-label" for="l0">Select Buyer</label>
+                            </div>
+                            <div class="col-md-7 col-sm-6 col-xs-6">
+                                <select ng-model="search.buyer" 
+                                    ng-options="buyers as (buyers.profile.companyName | uppercase) for buyers in buyersList | orderBy:'profile.companyName' track by buyers.id "
+                                    class="form-control" name="searchvendor">
+
+                                    <option value="" selected>All</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group row">
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <label class="form-control-label" for="l0" data-toggle="tooltip" data-placement="top" title="Ledger will calculate from April 1st to March 31st of Selected Year">Select Period
+                                    <i class="icmn-info"></i>
+                                </label>
+                                
+                            </div>
+                            <div class="col-md-4 col-sm-3 col-xs-3">
+                                <select ng-model="search.selectedYear" ng-change="selectLedgerPeriod(search.selectedYear)"
+                                ng-options="ledger as ledger.yearFrom for ledger in ledgerdetails track by ledger.year"
+                                class="form-control" name="searchvendor">
+                                <option value="" selected>Select Period</option>
+                            </select>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" >
+                <div class="col-md-2 pull-right" ng-show="orders.length > 0 && search.selectedYear && !search.selectedYear.ledgerDoc">
+                    <a href="javascript: void(0);" class="btn btn-primary"
+                        ng-click="generateLedgerPDF(search.buyer, orders)">Generate Ledger</a>
+                </div>
+                <div class="col-md-2 pull-right" ng-show="search.selectedYear.ledgerDoc">
+                    <a href="{{search.selectedYear.ledgerDoc}}" download target="_blank" class="btn btn-primary">Download Ledger</a>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-3 pull-right">
+                    <label class="form-control-label" for="l0">Ledger Opening Balance:</label>
+                    <span>{{search.buyer.openingLedgerBalance}}</span>
+                </div>
+                <!-- <div class="col-md-2 pull-right">
+                    <a href="javascript: void(0);" class="btn btn-primary" data-toggle="modal" data-target="#preview"
+                        ng-click="generatePreview(search.buyer, orders)">Preview</a>
+                </div> -->
+            </div>
+        </div>
+        <div class="panel-body" ng-hide="!search.selectedYear || search.selectedYear.ledgerDoc">
+            <div class="table-responsive thead-default margin-bottom-50">
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="header">
+                            <!-- <th><input type="checkbox" style="margin: 2px;width: 15px;" ng-model="isAllSelected"
+                                ng-change="toggleAll()">Title</th> -->
+                            <th>DATE</th>
+                            <th>PARTICULARS</th>
+                            <th>DEBIT</th>
+                            <th>CREDIT</th>
+                            <th>BALANCE</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="order in orders">
+                            <td><span ng-show="order.edited">{{order.orderDate | date:'mediumDate'}}</span>
+                                <input ng-hide="order.edited" type="date" class="form-control" name="orderDate" ng-model="order.orderDate">
+                            </td>
+                            <td style="min-width: 120px;width: 25%;">
+                                <span ng-show="order.edited">{{ order.invoiceId }}</span>
+                                <input ng-hide="order.edited" type="string" class="form-control" name="invoiceId" ng-model="order.invoiceId">
+                            </td>
+                            <td><span>{{order.order_total}}</span></td>
+                            <td><input type="number" class="form-control" name="Credit" ng-model="order.credit">
+                                <button  ng-if="!!order.credit && !order.credited" style="margin-top: 5px;" type="button" class="btn btn-primary btn-sm"
+                                ng-click="saveCredit(order);">add credit
+                            </button>
+                            </td>
+                            <td><span>{{ order.balance | number:2}}</span></td>
+                            <td>
+                                <button type="button" ng-show="order.edited" class="btn btn-primary btn-md margin-inline"
+                                    ng-click="editRecord(order);"> Edit
+                                </button>
+                                <button type="button" ng-hide="order.edited" class="btn btn-primary btn-md margin-inline"
+                                    ng-click="saveRecord(order);"> Save
+                                </button>
+                                
+                            </td>
+                        </tr>
+                        <tr ng-show="orders.length > 0">
+                            <td colspan="2" style="text-align: center;">Total :</td>
+                            <td style="min-width: 120px; width: 18%;">{{totalDebit | number:2}}</td>
+                            <td style="min-width: 120px; width: 18%;">{{totalCredit | number:2}}</td>
+                            <td style="min-width: 120px; width: 18%;">{{balance | number:2}}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <!-- End Ecommerce Products List -->
+</div>
+<div class="modal fade modal-size-large" id="preview" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" id="ledger">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" style="text-align: center;">LEDGER ACCOUNT: {{search.buyer.profile.companyName}}
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive thead-default margin-bottom-50">
+                    <table class="table table-hover" border="1">
+                        <thead>
+                            <tr class="header">
+                                <th>DATE</th>
+                                <th>PARTICULARS</th>
+                                <th>DEBIT</th>
+                                <th>CREDIT</th>
+                                <th>BALANCE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="order in orders">
+                                <td style="width: 12%;">{{order.orderDate | date:'mediumDate'}}</td>
+                                <td style="min-width: 120px;width: 25%;">Bill No: {{ order.invoiceId }}</td>
+                                <td>{{order.order_total | number:2}}</td>
+                                <td>{{order.credit }}</td>
+                                <td>{{ order.balance | number:2}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align: center;">Total :</td>
+                                <td style="min-width: 120px; width: 18%;">{{totalDebit | number:2}}</td>
+                                <td style="min-width: 120px; width: 18%;">{{totalCredit | number:2}}</td>
+                                <td style="min-width: 120px; width: 18%;">{{balance | number:2}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // $(function () {
+    //     $('.select2').select2();
+    //     $('.select2-tags').select2({
+    //         tags: true,
+    //         tokenSeparators: [',', ' ']
+    //     });
+    //     $('.selectpicker').selectpicker();
+    // })
+    $(function () {
+        $("[data-toggle=tooltip]").tooltip();
+    });
+</script>
+<!-- End Page Scripts -->

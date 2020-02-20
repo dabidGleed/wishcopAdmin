@@ -146,6 +146,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             templateUrl: "orders/returnOrders.html",
             controller: "ordersReturnsCtrl"
         })
+        .state('main.ledger', {
+            url: "ledger",
+            templateUrl: "reports/ledger.html",
+            controller: "ledgerCtrl"
+        })
         .state('login', {
             url: "/login",
             templateUrl: "login/login.html",

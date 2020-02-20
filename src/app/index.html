@@ -192,12 +192,17 @@
                 </li>
                 <li ng-hide="isAdmin">
                     <a class="left-menu-link" ui-sref="main.inventory({itemId:null})">
-                            <i class="left-menu-link-icon icmn-cart5"> </i>
-                            <span class="menu-top-hidden">Inventory</span>
+                        <i class="left-menu-link-icon icmn-cart5"> </i>
+                        <span class="menu-top-hidden">Inventory</span>
+                    </a>
+                </li>
+                <li ng-hide="isAdmin">
+                    <a class="left-menu-link" href="#!/ledger">
+                        <i class="left-menu-link-icon icmn-cart5"> </i>
+                        Generate Ledger
                     </a>
                 </li>
                 <li class="left-menu-list-separator">
-
                 </li>
                 <li class="left-menu-list-submenu" ng-show="isAdmin">
                     <a class="left-menu-link" href="javascript: void(0);">
@@ -230,11 +235,11 @@
                                 Sales List
                             </a>
                         </li>
-                        <!-- <li>
+                        <li>
                             <a class="left-menu-link" href="#!/products-list">
                                 Products List
                             </a>
-                        </li> -->
+                        </li>
                          <li>
                             <a class="left-menu-link" ui-sref="main.inventory({itemId:null})">
                                 Inventory
@@ -277,6 +282,19 @@
                 <li class="left-menu-list-submenu" ng-show="isAdmin">
                     <a class="left-menu-link" href="javascript: void(0);">
                         <i class="left-menu-link-icon icmn-cart5"> </i>
+                        Reports
+                    </a>
+                    <ul class="left-menu-list list-unstyled">
+                        <li>
+                            <a class="left-menu-link" href="#!/ledger">
+                                Generate Ledger
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="left-menu-list-submenu" ng-show="isAdmin">
+                    <a class="left-menu-link" href="javascript: void(0);">
+                        <i class="left-menu-link-icon icmn-cart5"> </i>
                         SMS / Email
                     </a>
                     <ul class="left-menu-list list-unstyled">
@@ -289,20 +307,9 @@
 
                     </ul>
                 </li>
-
-                <li ng-show="isAdmin">
-                    <a class="left-menu-link" href="#!/referrals-list">
-                        <i class="left-menu-link-icon icmn-collaboration">
-
-                        </i>
-                        <span class="menu-top-hidden">Referrals</span>
-                    </a>
-                </li>
-
                 <li class="left-menu-list-submenu" ng-show="isAdmin">
                     <a class="left-menu-link" href="javascript: void(0);">
                         <i class="left-menu-link-icon icmn-cog util-spin-delayed-pseudo"> </i>
-
                         <span class="menu-top-hidden">Settings</span>
                     </a>
                     <ul class="left-menu-list list-unstyled">
@@ -311,46 +318,53 @@
                                 Referrals
                             </a>
                         </li>
+                        <li ng-show="isAdmin">
+                            <a class="left-menu-link" href="#!/referrals-list">
+                                <i class="left-menu-link-icon icmn-collaboration">
+                                </i>
+                                <span class="menu-top-hidden">Referrals List</span>
+                            </a>
+                        </li>
                         <li>
                             <a class="left-menu-link" href="#!/app-settings">
                                 App Settings
                             </a>
                         </li>
-
+                        <li ng-show="isAdmin">
+                            <a class="left-menu-link" href="#!/account-transfer">
+                                <i class="left-menu-link-icon icmn-cash4">
+        
+                                </i>
+                                <span class="menu-top-hidden">Account Transfer</span>
+                            </a>
+                        </li>
+                        <li ng-show="isAdmin">
+                            <a class="left-menu-link" href="#!/payment-gateway">
+                                <i class="left-menu-link-icon icmn-credit-card2">
+        
+                                </i>
+                                <span class="menu-top-hidden">Payment Gateway</span>
+                            </a>
+                        </li>
+                        <li ng-show="isAdmin">
+                            <a class="left-menu-link" href="#!/payment-transactions">
+                                <i class="left-menu-link-icon icmn-credit-card2">
+        
+                                </i>
+                                <span class="menu-top-hidden">Payment Transactions</span>
+                            </a>
+                        </li>
+                        <li ng-show="isAdmin">
+                            <a class="left-menu-link" href="#!/audit-logs">
+                                <i class="left-menu-link-icon icmn-clipboard3">
+        
+                                </i>
+                                <span class="menu-top-hidden">Audit Logs</span>
+                            </a>
+                        </li>
                     </ul>
-                </li>
-                <li ng-show="isAdmin">
-                    <a class="left-menu-link" href="#!/account-transfer">
-                        <i class="left-menu-link-icon icmn-cash4">
-
-                        </i>
-                        <span class="menu-top-hidden">Account Transfer</span>
-                    </a>
-                </li>
-                <li ng-show="isAdmin">
-                    <a class="left-menu-link" href="#!/payment-gateway">
-                        <i class="left-menu-link-icon icmn-credit-card2">
-
-                        </i>
-                        <span class="menu-top-hidden">Payment Gateway</span>
-                    </a>
-                </li>
-                <li ng-show="isAdmin">
-                    <a class="left-menu-link" href="#!/payment-transactions">
-                        <i class="left-menu-link-icon icmn-credit-card2">
-
-                        </i>
-                        <span class="menu-top-hidden">Payment Transactions</span>
-                    </a>
-                </li>
-                <li ng-show="isAdmin">
-                    <a class="left-menu-link" href="#!/audit-logs">
-                        <i class="left-menu-link-icon icmn-clipboard3">
-
-                        </i>
-                        <span class="menu-top-hidden">Audit Logs</span>
-                    </a>
-                </li>
+                </li>    
+                
                 <li ng-show="isAdmin">
                     <a class="left-menu-link" href="#!/mandates">
                         <i class="left-menu-link-icon icmn-clipboard3">

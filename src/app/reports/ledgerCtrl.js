@@ -101,10 +101,9 @@ app.controller('ledgerCtrl', ["$scope","ordersService", "reportsService", "$filt
     //         $scope.getBuyerOrders($scope.search);
     //     }
     // });
-    // $scope.$watch("search.selectedYear", function () {
-        
-    // });
-    $scope.selectLedgerPeriod = function(year){
+    $scope.$watch("search.selectedYear", function () {
+        console.log($scope.search.selectedYear);
+        var year  = $scope.search.selectedYear;
         if (!!year) {
             var d = new Date();
             d.setFullYear(year.year);
@@ -120,8 +119,11 @@ app.controller('ledgerCtrl', ["$scope","ordersService", "reportsService", "$filt
             d1.setHours(23, 59, 59, 999);
             $scope.search.toDate = d1;
             $scope.getBuyerOrders($scope.search);
-        }
-    }
+        } 
+    });
+    // $scope.selectLedgerPeriod = function(year){
+        
+    // }
     
     $scope.saveCredit = function (order) {
         var new_order = {

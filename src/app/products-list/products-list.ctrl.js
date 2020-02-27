@@ -346,7 +346,6 @@ app.controller('productsListCtrl', ["$location", "$scope", "$rootScope", "produc
                         // you can declare how many rows should be treated as headers
                         headerRows: 1,
                         widths: [60, 'auto', 80],
-
                         body: [
                             [{
                                 text: 'S.NO',

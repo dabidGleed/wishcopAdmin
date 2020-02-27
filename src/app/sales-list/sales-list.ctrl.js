@@ -133,8 +133,8 @@ app.controller('salesListCtrl', ["$location", "$scope", "$rootScope", "salesServ
 
     };
 
-    calculatePercentageDiscount = function (price, perecentage) {
-        return (price - ((perecentage / 100) * price).toFixed(2));
+    calculatePercentageDiscount = function (price, percentage) {
+        return (price - ((percentage / 100) * price).toFixed(2));
     };
 
     $scope.discountExists = function (priceDiscount) {

@@ -178,12 +178,21 @@ app.controller('ordersCtrl', ["$scope", "ordersService", "$filter", "Upload", fu
         $scope.getTransactionsList(0, searchData);
 
     };
+    $scope.calculatePrice = function(sale){
+        sale.tax_price = parseFloat((sale.offer_price * sale.taxPercent/100).toFixed(2));
+        sale.price = sale.offer_price + sale.tax_price;
+    };
     $scope.editBatchExpiry = function (orderId) {
         $scope.orderId = orderId;
         $scope.order = $filter('filter')($scope.ordersList, {
             id: orderId
         })[0];
-        console.log($scope.order.paymentType);
+        angular.forEach($scope.order.sales, function (item) {
+            item.taxPercent = Math.round(item.tax_price*100/(item.price-item.tax_price))
+            if(!item.offer_price) item.offer_price = parseFloat((item.price - item.tax_price).toFixed(2));
+            if(!item.ptrDiscount) item.ptrDiscount = 0;
+            else item.ptrDiscount = Number(item.ptrDiscount);
+        });
 
         $scope.deliverData = $filter('filter')($scope.order.sales, {
             status: "ORDER_DELIVERED"
@@ -385,6 +394,31 @@ app.controller('ordersCtrl', ["$scope", "ordersService", "$filter", "Upload", fu
     $scope.removeItem = function(sale){
         var index = $scope.order.sales.indexOf(sale);
         $scope.order.sales.splice(index, 1);
+    };
+    $scope.removeItems = function(){
+        swal({
+            title: "Are you sure?",
+            text: "Do you want to delete the selected items",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Yes",
+            cancelButtonText: "Cancel",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        },
+        function (isConfirm) {
+            if (isConfirm) {
+                var selected = $filter('filter')($scope.order.sales, {
+                    selected: true
+                });
+                for (var i = selected.length - 1; i >= 0; i--) {
+                    // var index = $scope.order.sales.indexOf(selected[i]);
+                    $scope.order.sales.splice(selected[i], 1);
+                }
+            }
+        });
+        
     };
     $scope.uploadInvoices = function () {
         $scope.order.companyInvoices = $scope.imagesProofList;

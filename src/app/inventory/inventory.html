@@ -108,8 +108,8 @@
                             <td>
                                 <span ng-hide="sale.editable">{{sale.quantity}}</span>
                                 <input class="form-control" ng-show="sale.editable" type="number"
-                                    ng-model="sale.available">
-                                    <label ng-show="sale.editable">Available: {{sale.quantity + sale.available}}</label>
+                                    ng-model="sale.quantity">
+                                    <label ng-show="sale.editable">Available: {{sale.quantity - sale.sold}}</label>
                             </td>
                             <td>
                                 <span ng-hide="sale.editable">{{sale.minimum_quantity}}</span>

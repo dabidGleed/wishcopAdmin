@@ -55,7 +55,7 @@
                   adminNotes: profile.adminNotes,
                   role: profile.role,
                   ptrFormat: profile.ptrFormat,
-                  ptrPerecent: profile.ptrPercent,
+                  ptrPercent: profile.ptrPercent,
                   distPercent: profile.distPercent
               }
           });

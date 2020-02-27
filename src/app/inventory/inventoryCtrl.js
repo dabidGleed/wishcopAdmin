@@ -67,9 +67,11 @@ app.controller('inventoryCtrl', ["$scope", "inventoryService", "$filter","$state
         var item = {};
         item.MRPPrice = sale.total_MRP;
         item.offerPrice = sale.sale_items[0].price;
-        item.quantity = sale.quantity;
+        // sale.quantity = parseInt(sale.available + sale.quantity);
+        item.quantity = sale.quantity? sale.quantity: 0;
         item.minimum_quantity = sale.minimum_quantity;
         item.gst = sale.gst? sale.gst : $scope.round(100*sale.sale_items[0].tax_price/sale.sale_items[0].price);
+        console.log(item);
         inventoryService.updateItem(sale.id, item).then(function (response) {
             $.notify({
                 title: '<strong>Success!</strong>',

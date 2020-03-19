@@ -46,6 +46,7 @@ app.controller('inventoryCtrl', ["$scope", "inventoryService", "$filter","$state
         $scope.getItems(0, $scope.search);
     }
     $scope.editItem = function(sale){
+
         sale.gst = $scope.round(100*sale.sale_items[0].tax_price/sale.sale_items[0].price);
         $scope.saleDetails = JSON.parse(JSON.stringify(sale));
         sale.editable = true;
@@ -65,12 +66,14 @@ app.controller('inventoryCtrl', ["$scope", "inventoryService", "$filter","$state
     // Update Inventory
     $scope.updateItem = function (sale) {
         var item = {};
-        item.MRPPrice = sale.total_MRP;
+        item.MRPprice = sale.total_MRP;
         item.offerPrice = sale.sale_items[0].price;
+        sale.sale_items[0].tax_price = Number((item.offerPrice*sale.gst/100).toFixed(2))
         // sale.quantity = parseInt(sale.available + sale.quantity);
         item.quantity = sale.quantity? sale.quantity: 0;
         item.minimum_quantity = sale.minimum_quantity;
         item.gst = sale.gst? sale.gst : $scope.round(100*sale.sale_items[0].tax_price/sale.sale_items[0].price);
+        
         console.log(item);
         inventoryService.updateItem(sale.id, item).then(function (response) {
             $.notify({
@@ -161,14 +164,18 @@ app.controller('inventoryCtrl', ["$scope", "inventoryService", "$filter","$state
 
     //modal popup details of the Product
     $scope.productDetails = function (productData) {
-
         $scope.modalDetials = {};
-        angular.copy(productData, $scope.modalDetials);
-        if ("review" in $scope.modalDetials) {
-            $scope.modalDetials.starRatings = $scope.modalDetials.review.avg_rating;
-        } else {
-            $scope.modalDetials.starRatings = 0;
-        }
+        inventoryService.getSaleDetails(productData.id).then(function (response) {
+            console.log(response);
+            $scope.modalDetials = response.data;
+        }, function (response) {
+            $.notify({
+                title: '<strong>Unsuccessful!</strong>',
+                message: "Something went wrong"
+            }, {
+                type: 'danger'
+            });
+        });
     };
 
     /**
@@ -234,10 +241,9 @@ app.controller('inventoryCtrl', ["$scope", "inventoryService", "$filter","$state
         delete $scope.product.minimum_quantity;
         console.log($scope.product);
         inventoryService.createAddProduct($scope.product).then(function (response) {
-            
             $.notify({
                 title: '<strong>Success!</strong>',
-                message: response.data.message
+                message: "Successfully Created"
             }, {
                 type: 'success'
             });
@@ -289,10 +295,10 @@ app.controller('inventoryCtrl', ["$scope", "inventoryService", "$filter","$state
         var arraysToCombine = [];
         var keyNames = [];
         angular.forEach(variants, function (value, key) {
-            arraysToCombine.push(value.value);
+            arraysToCombine.push(value.value.split(","));
             keyNames.push(value.name);
         });
-
+        console.log(keyNames);
         $scope.variantsObjInitial = keyNames;
 
         if (arraysToCombine.length > 0) {
@@ -300,19 +306,14 @@ app.controller('inventoryCtrl', ["$scope", "inventoryService", "$filter","$state
             for (var i = arraysToCombine.length - 1; i >= 0; i--) {
                 divisors[i] = divisors[i + 1] ? divisors[i + 1] * arraysToCombine[i + 1].length : 1;
             }
-
-            
-
             var numPerms = arraysToCombine[0].length;
             for (i = 1; i < arraysToCombine.length; i++) {
                 numPerms *= arraysToCombine[i].length;
             }
-
             var combinations = [];
             for (i = 0; i < numPerms; i++) {
                 combinations.push(getPermutation(i, arraysToCombine, keyNames, divisors));
             }
-
             $scope.variantsObj = combinations;
         }
 

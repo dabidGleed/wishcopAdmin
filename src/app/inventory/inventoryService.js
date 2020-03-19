@@ -41,6 +41,13 @@ app.service('inventoryService', function ($http, globalVars, $localStorage) {
             data: sale
         });
     };
+    inventoryService.getSaleDetails = function(saleId){
+        var finalUrl = baseURL + "sales/"+saleId+"/saledetails";
+        return $http({
+            method: 'GET',
+            url: finalUrl
+        });
+    }
 
     inventoryService.getVendorsList = function (type) {
 
@@ -100,13 +107,11 @@ app.service('inventoryService', function ($http, globalVars, $localStorage) {
 
         var finalUrl = baseURL + 'products/' + formdata.owner + '/createproduct';
         console.log($localStorage.currentUser.accessToken);
-        $http({
+        return $http({
             method: "POST",
             url: finalUrl,
-
             data: formdata,
             headers: { 'Content-Type': 'application/json' , Authorization: 'Bearer ' + $localStorage.currentUser.accessToken }
-
         });
     }
     

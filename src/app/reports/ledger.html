@@ -18,8 +18,7 @@
                                 <select ng-model="search.buyer" 
                                     ng-options="buyers as (buyers.profile.companyName | uppercase) for buyers in buyersList | orderBy:'profile.companyName' track by buyers.id "
                                     class="form-control" name="searchvendor">
-
-                                    <option value="" selected>All</option>
+                                    <option value="" selected>Select Buyer</option>
                                 </select>
                             </div>
                         </div>
@@ -33,7 +32,7 @@
                                 
                             </div>
                             <div class="col-md-4 col-sm-3 col-xs-3">
-                                <select ng-model="search.selectedYear" ng-change="selectLedgerPeriod(search.selectedYear)"
+                                <select ng-model="search.selectedYear" ng-change="selectLedgerPeriod()"
                                 ng-options="ledger as ledger.yearFrom for ledger in ledgerdetails track by ledger.year"
                                 class="form-control" name="searchvendor">
                                 <option value="" selected>Select Period</option>
@@ -52,7 +51,7 @@
                 <div class="col-md-2 pull-right" ng-show="search.selectedYear.ledgerDoc">
                     <a href="{{search.selectedYear.ledgerDoc}}" download target="_blank" class="btn btn-primary">Download Ledger</a>
                 </div>
-                <div class="col-md-3 col-sm-3 col-xs-3 pull-right">
+                <div class="col-md-3 col-sm-3 col-xs-3 pull-right" ng-show="!!search.buyer.openingLedgerBalance">
                     <label class="form-control-label" for="l0">Ledger Opening Balance:</label>
                     <span>{{search.buyer.openingLedgerBalance}}</span>
                 </div>
@@ -77,9 +76,10 @@
                             <th>ACTION</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody ng-show="orders.length > 1">
                         <tr ng-repeat="order in orders">
-                            <td><span ng-show="order.edited">{{order.orderDate | date:'mediumDate'}}</span>
+                            <td><span ng-show="order.edited">{{ order.orderDate | date:'mediumDate' }}
+                            </span>
                                 <input ng-hide="order.edited" type="date" class="form-control" name="orderDate" ng-model="order.orderDate">
                             </td>
                             <td style="min-width: 120px;width: 25%;">
@@ -87,14 +87,14 @@
                                 <input ng-hide="order.edited" type="string" class="form-control" name="invoiceId" ng-model="order.invoiceId">
                             </td>
                             <td><span>{{order.order_total}}</span></td>
-                            <td><input type="number" class="form-control" name="Credit" ng-model="order.credit">
+                            <td><input type="number" ng-disabled ="order.invoiceId === 'Opening Balance'" class="form-control" name="Credit" ng-model="order.credit">
                                 <button  ng-if="!!order.credit && !order.credited" style="margin-top: 5px;" type="button" class="btn btn-primary btn-sm"
                                 ng-click="saveCredit(order);">add credit
                             </button>
                             </td>
                             <td><span>{{ order.balance | number:2}}</span></td>
                             <td>
-                                <button type="button" ng-show="order.edited" class="btn btn-primary btn-md margin-inline"
+                                <button type="button" ng-show="order.edited && order.invoiceId != 'Opening Balance'" class="btn btn-primary btn-md margin-inline"
                                     ng-click="editRecord(order);"> Edit
                                 </button>
                                 <button type="button" ng-hide="order.edited" class="btn btn-primary btn-md margin-inline"

@@ -91,8 +91,8 @@
                         <tr dir-paginate="sale in saleslist  | itemsPerPage:itemsPerPage | orderBy:propertyName:reverse" current-page="currentPage"
                             total-items="totalCount">
                             <td>{{itemsPerPage *(currentPage-1)+$index+1}}</td>
-                            <td style="font-size: 12px;"><span style="font-weight: bold">{{sale.title}}
-                                    {{ sale.composition? sale.composition: ''}}
+                            <td style="font-size: 12px;"><span style="font-weight: bold">{{sale.title}} 
+                                    {{ sale.composition? "/ "+ sale.composition: '' }}
                                 </span>
                             </td>
                             <td>
@@ -178,11 +178,23 @@
                         </colgroup>
 
                         <tbody>
+                                <tr>
+                                        <td class="text-nowrap">
+                                            Vendor Id
+                                        </td>
+                                        <td>{{modalDetials.owner}}</td>
+                                    </tr>
                             <tr>
                                 <td class="text-nowrap">
-                                    Owner
+                                    Vendor Name
                                 </td>
-                                <td>{{modalDetials.owner}}</td>
+                                <td>{{modalDetials.vendor.firstName}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">
+                                    Email Id
+                                </td>
+                                <td>{{modalDetials.vendor.email}}</td>
                             </tr>
                             <tr>
                                 <td class="text-nowrap">
@@ -206,12 +218,12 @@
                             </tr>
                             <tr>
                                 <td class="text-nowrap">
-                                    Offer Price
+                                    Price
                                 </td>
-                                <td>{{modalDetials.price | currency:currency}}</td>
+                                <td>{{modalDetials.sale_items[0].price | currency:currency}}</td>
                             </tr>
 
-                            <tr>
+                            <!-- <tr>
                                 <td class="text-nowrap">
                                     Category
                                 </td>
@@ -222,74 +234,15 @@
                                     Sub Category
                                 </td>
                                 <td>{{modalDetials.subCategoryName }}</td>
-                            </tr>
+                            </tr> -->
                             <tr>
                                 <td class="text-nowrap">
                                     Tax
                                 </td>
                                 <td>
-                                    {{modalDetials.taxes[0].discount}}
+                                    {{round(100*modalDetials.sale_items[0].tax_price/modalDetials.sale_items[0].price)}}
                                 </td>
                             </tr>
-                            <!-- <tr>
-                                <td class="text-nowrap">
-                                    Description
-                                </td>
-                                <td ng-bind-html="modalDetials.htmlDesc"></td>
-                            </tr> -->
-                            <!-- <tr>
-                                <td class="text-nowrap">
-                                    Variants
-                                </td>
-                                <td>
-                                    <table class="table table-inverse">
-
-                                        <tbody>
-                                            <tr ng-repeat="variators in modalDetials.variator">
-
-                                                <td>{{variators.name}}</td>
-                                                <td>
-                                                    <span ng-repeat="variant in variators.value ">
-                                                        <span class="label label-info font-size-14 margin-inline">{{variant}}</span>
-                                                    </span>
-                                                </td>
-
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-nowrap">
-                                    Variation list
-                                </td>
-                                <td>
-                                    <table class="table table-inverse">
-                                        <thead>
-                                            <tr>
-                                                <th>Product</th>
-                                                <th ng-repeat="variator in modalDetials.variator">{{variator.name}}</th>
-                                                <th>Available</th>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="variantsData in modalDetials.variants">
-
-                                                <td>
-                                                    <span ng-repeat="imageDetail in variantsData.images">
-                                                        <img ng-src="{{imageDetail.imageURL}}" class="messaging-img" /> </span>
-                                                </td>
-                                                <td ng-repeat="variators in modalDetials.variator">
-                                                    {{variantsData[variators.name]}}
-                                                </td>
-                                                <td>{{variantsData.isActive}}</td>
-
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr> -->
                             <tr>
                                 <td class="text-nowrap">
                                     Created Date
@@ -308,8 +261,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" ng-click="changeProductStatus(modalDetials)">Save changes
-                </button>
+                <!-- <button type="button" class="btn btn-primary" ng-click="changeProductStatus(modalDetials)">Save changes
+                </button> -->
             </div>
         </div>
     </div>
@@ -369,7 +322,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="l30">Max. Retail Price *</label>
-                                        <input type="number" class="form-control" name="MRPproductprice" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" ng-model="product.MRPPrice"
+                                        <input type="number" class="form-control" name="MRPproductprice" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" ng-model="product.MRPprice"
                                                     min="1" placeholder="Enter Product MRP" required>
                                                 <!--   <span ng-show="addProductForm.productprice.$invalid && !addProductForm.productprice.$pristine">Please Enter Product Price </span> -->
                                                 <div ng-if="addProductForm.MRPproductprice.$touched || addProductForm.$submitted" style="color:red" class="errorText">
@@ -452,53 +405,32 @@
                                 <label class="form-control-label" for="l151">Description</label>
                                 <textarea ng-model="product.description" class="form-control" rows="3" id="l151"></textarea>
                             </div>
-            
-                            <!-- <h4> Variants <span>(press "," or "enter" for variant separation and Press '+' to confirm data
-                                    entered)</span></h4>
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="form-group">
-                                        <input type="text" placeholder="Size" class="form-control" id="l30">
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="form-group">
-                                        <input type="text" placeholder="8,9, etc.." class="form-control" id="l30">
-                                    </div>
-                                </div>
-                            </div> -->
-                            <div class="row col-add-remove-wrap md-chip-var">
+                            <div class="row col-add-remove-wrap">
                                 <div class="col-sm-12">
                                     <label class="form-label">Variants</label>
                                     <span>*</span>
-                                    <span href="#" data-toggle="tooltip" id="myTooltip" class="toggle-tooltip"
-                                        data-placement="right" title="The variant of the product such as size, colour, quantity,etc. are entered here. You can unselect any combination of varients which are not available in the stock.">
-                                        <i class="material-icons helpTooltip">info_outline</i>
-                                    </span>
                                     <span>(press "," or "enter" for variant separation and Press '+' to confirm data
                                         entered)</span>
                                 </div>
-                                <div class="col-sm-12 addMoreDataBlock" ng-repeat="variantDetails in product.variator track by $index">
+                                <div class="col-md-12 col-sm-12 addMoreDataBlock" ng-repeat="variantDetails in product.variator track by $index">
                                     <div class="row">
-                                        <ng-form name="variantTitleForm">
-                                            <div class="col-sm-4 col-xs-4 form-group afssg" ng-class="{'has-error' : variantTitleForm.variatorName.$invalid && !variantTitleForm.variatorName.$pristine}">
+                                            <div class="col-md-4 col-sm-4 col-xs-12 form-group afssg" ng-class="{'has-error' : variantTitleForm.variatorName.$invalid && !variantTitleForm.variatorName.$pristine}">
                                                 <input type="text" class="form-control" name="variatorName" ng-model="variantDetails.name" placeholder="Size:" required>
                                                 <div ng-if="variantTitleForm.variatorName.$invalid  " style="color:red">
                                                     <p>Please Enter variant title </p>
                                                 </div>
                                             </div>
-                                        </ng-form>
-                                        <div class="col-sm-6 col-xs-7 form-group from-control-group variant-detail" ng-class="{'has-error' : addProductForm.variatorValues{{$index}}.$viewValue.length == 0}">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group from-control-group variant-detail" ng-class="{'has-error' : addProductForm.variatorValues{{$index}}.$viewValue.length == 0}">
                                                 <input type="text" name="variatorValues{{$index}}" ng-model="variantDetails.value" class="form-control" placeholder="Small, Medium, Large" data-ng-required="true">
                                         </div>
-                                        <div class="col-sm-2 col-xs-2 tp-position tp-remove">
+                                        <div class="col-md-2 col-sm-2 col-xs-12 tp-position tp-remove">
                                             <a href="" class="icon-cancel-circled-1 iconRemove" ng-click="variantRemove($index)">Remove</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row col-add-remove-wrap md-chip-var">
-                                <div class="col-sm-4 col-xs-4 form-group">
+                            <div class="row col-add-remove-wrap">
+                                <div class="col-sm-4 col-xs-12 form-group">
                                     <input type="text" class="form-control" name="addVariant" ng-model="newVariant.name" placeholder="Ex: Size">
                                     <div class="errorText" ng-show="variantTitleError" style="color:red">
                                         <span>Please Enter Variant Title</span>
@@ -507,13 +439,13 @@
                                         <span>Please Add Variants </span>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-xs-8 form-group from-control-group variant-detail">
+                                <div class="col-sm-6 col-xs-12 form-group from-control-group variant-detail">
                                     <input ng-model="newVariant.value" name="addVariantsData" class="form-control" type="text">
                                     <div class="errorText" ng-show="variantDataError" style="color:red">
                                         <span>Please Enter Variants</span>
                                     </div>
                                 </div>
-                                <div class="col-sm-2 tp-position">
+                                <div class="col-sm-2 col-xs-12 tp-position">
                                     <a href="" id="add-variant"class="icon-plus-circled-1 iconAdd" ng-click="variantAdd(newVariant)">+ADD</a>
                                 </div>
                                 <!-- <label class="btn btn-default btn-value" ng-click="permutationsData(product.variator)">View All</label> -->

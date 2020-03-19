@@ -16,20 +16,28 @@ app.controller('ledgerCtrl', ["$scope","ordersService", "reportsService", "$filt
             $scope.balance = 0;
             $scope.totalDebit = 0;
             $scope.totalCredit = 0;
-            $scope.orders.unshift({orderDate: searchData.fromDate,
+            $scope.orders.unshift({
+                orderDate: searchData.fromDate,
                 invoiceId: "Opening Balance",
                 order_total: $scope.search.buyer.openingLedgerBalance,
                 credit: 0
             });
-            angular.forEach($scope.orders, function (item) {
-                item.edited = true;
+            angular.forEach($scope.orders, function(item){
                 item.orderDate = new Date(item.orderDate);
+            })
+            $scope.orders = $filter('orderBy')($scope.orders, 'orderDate');
+            angular.forEach($scope.orders, function (item) {
+                console.log(item.orderDate);
+                item.edited = true;
                 if(item.invoiceId != "Opening Balance"){
                     var invoiceId = item.sales[0].invoiceId? item.sales[0].invoiceId: item.sales[0].order_item_id;
                     item.invoiceId = "Bill No:" + invoiceId;
+                    $scope.totalDebit +=  item.order_total;
+                    $scope.balance += item.order_total;
+                }else{
+                    $scope.balance =  $scope.search.buyer.openingLedgerBalance;
                 }
-                $scope.totalDebit +=  item.order_total;
-                $scope.balance += item.order_total;
+                console.log($scope.orders);
                 item.balance = $scope.balance;
             });
             NProgress.done();
@@ -44,51 +52,53 @@ app.controller('ledgerCtrl', ["$scope","ordersService", "reportsService", "$filt
                     $scope.buyersList.push(response.data[i]);  
                 }
             }
-            $scope.search.buyer = $scope.buyersList[0];
-        }
-
-    });
-
-    $scope.$watch("search.buyer", function () {
-        if (!!$scope.search.buyer) {
             $scope.search.selectedYear = null;
-            if(!$scope.search.buyer.openingLedgerBalance) $scope.search.buyer.openingLedgerBalance = 0;
             var date = new Date();
             date.setMonth(2);
             date.setDate(31);
             date.setHours(23, 59, 59, 999);
-            var selectedYear;
-            if(new Date().getTime() > date.getTime()){
-                selectedYear = {
+            if (new Date().getTime() > date.getTime()) {
+                $scope.search.selectedYear = {
                     year: new Date().getFullYear(),
-                    yearFrom : (new Date().getFullYear()).toString() + "-" + (new Date().getFullYear()+1).toString()
+                    yearFrom: (new Date().getFullYear()).toString() + "-" + (new Date().getFullYear() + 1).toString()
                 };
-            }else{
-                selectedYear = {
-                    year: new Date().getFullYear() -1,
-                    yearFrom : (new Date().getFullYear() -1).toString() + "-" + new Date().getFullYear().toString()
+            } else {
+                $scope.search.selectedYear = {
+                    year: new Date().getFullYear() - 1,
+                    yearFrom: (new Date().getFullYear() - 1).toString() + "-" + new Date().getFullYear().toString()
                 };
             }
-            
-            if(!!$scope.search.buyer.ledgerDetails && $scope.search.buyer.ledgerDetails.length >0 ){
+            // $scope.search.buyer = $scope.buyersList[0];
+        }
+    });
+
+    $scope.$watch("search.buyer", function () {
+        console.log($scope.search.buyer);
+        if (!!$scope.search.buyer) {
+       
+            console.log($scope.search.buyer.ledgerDetails);
+            console.log($scope.search.selectedYear);
+            if (!$scope.search.buyer.openingLedgerBalance) $scope.search.buyer.openingLedgerBalance = 0;
+            if (!!$scope.search.buyer.ledgerDetails && $scope.search.buyer.ledgerDetails.length > 0) {
                 $scope.yearsData = $filter('filter')($scope.search.buyer.ledgerDetails, {
-                    yearFrom: selectedYear.yearFrom
+                    yearFrom: $scope.search.selectedYear.yearFrom
                 });
-                if($scope.yearsData.length > 0){
-                $scope.ledgerdetails = $scope.search.buyer.ledgerDetails;
-                $scope.getBuyerOrders($scope.search);
-                }else{
-                    $scope.search.buyer.ledgerDetails.push(selectedYear); 
+                if ($scope.yearsData.length > 0) {
+                    $scope.ledgerdetails = $scope.search.buyer.ledgerDetails;
+                    $scope.getBuyerOrders($scope.search);
+                } else {
+                    $scope.search.buyer.ledgerDetails.push($scope.search.selectedYear);
                     $scope.ledgerdetails = $scope.search.buyer.ledgerDetails;
                 }
-                
-            }else{
+            } else {
                 $scope.getBuyerOrders($scope.search);
                 $scope.ledgerdetails = [];
-                $scope.ledgerdetails.push(selectedYear);
-                $scope.search.selectedYear = selectedYear;
+                $scope.ledgerdetails.push($scope.search.selectedYear);
             }
-            
+        }else{
+            $scope.ledgerdetails = [];
+            $scope.search.selectedYear ={};
+            $scope.orders = [];
         }
     });
     // $scope.$watch("search.fromDate", function () {
@@ -102,9 +112,28 @@ app.controller('ledgerCtrl', ["$scope","ordersService", "reportsService", "$filt
     //     }
     // });
     $scope.$watch("search.selectedYear", function () {
-        console.log($scope.search.selectedYear);
-        var year  = $scope.search.selectedYear;
-        if (!!year) {
+        if($scope.search.selectedYear){
+            var year  = $scope.search.selectedYear;
+            var d = new Date();
+            d.setFullYear(year.year);
+            d.setMonth(3);
+            d.setDate(1);
+            d.setHours(0, 0, 0, 0);
+            $scope.search.fromDate = d;
+        }
+    });
+    $scope.selectLedgerPeriod = function(year){
+        if (!!$scope.search.selectedYear) {
+            if(!!$scope.search.buyer.ledgerDetails && $scope.search.buyer.ledgerDetails.length >0 ){
+                $scope.yearsData = $filter('filter')($scope.search.buyer.ledgerDetails, {
+                    yearFrom: $scope.search.selectedYear.year
+                });
+                if($scope.yearsData.length > 0){
+                    $scope.search.selectedYear.balance = $scope.yearsData[0].balance;
+                    $scope.search.selectedYear.ledgerDoc = $scope.yearsData[0].ledgerDoc;
+                }
+            }
+            var year  = $scope.search.selectedYear;
             var d = new Date();
             d.setFullYear(year.year);
             d.setMonth(3);
@@ -119,11 +148,10 @@ app.controller('ledgerCtrl', ["$scope","ordersService", "reportsService", "$filt
             d1.setHours(23, 59, 59, 999);
             $scope.search.toDate = d1;
             $scope.getBuyerOrders($scope.search);
-        } 
-    });
-    // $scope.selectLedgerPeriod = function(year){
-        
-    // }
+        } else{
+
+        }
+    }
     
     $scope.saveCredit = function (order) {
         var new_order = {
@@ -140,6 +168,7 @@ app.controller('ledgerCtrl', ["$scope","ordersService", "reportsService", "$filt
         $scope.balance = 0;
         $scope.totalDebit = 0;
         $scope.totalCredit = 0;
+        $scope.orders = $filter('orderBy')($scope.orders, 'orderDate');
         angular.forEach($scope.orders, function (item) {
             if(item.credit){
                 $scope.totalCredit += item.credit;
@@ -190,6 +219,26 @@ app.controller('ledgerCtrl', ["$scope","ordersService", "reportsService", "$filt
             }
         }
         ];
+        // $scope.orders = $filter('orderBy')($scope.orders, 'orderDate');
+        // angular.forEach($scope.orders, function (item) {
+        //     if(item.invoiceId != "Opening Balance"){
+        //         $scope.totalDebit +=  item.order_total;
+        //         $scope.balance += item.order_total;
+        //     }
+        //     item.balance = $scope.balance;
+        // });
+        // angular.forEach($scope.orders, function (item) {
+        //     if(item.invoiceId != "Opening Balance"){
+        //         if(item.credit){
+        //             $scope.totalCredit += item.credit;
+        //             $scope.balance = $scope.balance - item.credit;
+        //         }else{
+        //             $scope.totalDebit +=  item.order_total;
+        //             $scope.balance += item.order_total;
+        //         }
+        //     }
+        //     item.balance = Number($scope.balance.toFixed(2));
+        // });
         $scope.pdfFilterData = JSON.parse(JSON.stringify($scope.orders));
         angular.forEach($scope.pdfFilterData, function (value, key) {
             

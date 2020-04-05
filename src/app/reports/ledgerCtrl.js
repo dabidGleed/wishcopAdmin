@@ -54,7 +54,7 @@ app.controller('ledgerCtrl', ["$scope","ordersService", "reportsService", "$filt
             }
             $scope.search.selectedYear = null;
             var date = new Date();
-            date.setMonth(2);
+            date.setMonth(4);
             date.setDate(31);
             date.setHours(23, 59, 59, 999);
             if (new Date().getTime() > date.getTime()) {

@@ -128,252 +128,254 @@
 </head>
 
 
-<body class="theme-default mode-box-shadow mode-superclean menu-static colorful-enabled">
+<body>
+    <div class="theme-default mode-box-shadow mode-superclean menu-static colorful-enabled">
+        <nav class="left-menu" ui-view="leftMenuBlock" left-menu ng-class="{'hidden-left-menu': hideLeftMenu}"
+            ng-controller="MainCtrl">
+            <div class="logo-container">
+                <a href="#!/dashboard" class="logo">
+                    <img src="../assets/common/img/logo1.png" alt="Clean UI Admin Template" />
+                    <img class="logo-inverse" src="../assets/common/img/logo-inverse.png"
+                        alt="Clean UI Admin Template" />
+                </a>
+            </div>
+            <div class="left-menu-inner scroll-pane">
+                <ul class="left-menu-list left-menu-list-root list-unstyled">
+                    <li>
+                        <a class="left-menu-link" href="#!/dashboard">
+                            <i class="left-menu-link-icon icmn-home2">
+                            </i>
+                            <span class="menu-top-hidden">Dashboard</span>
+                        </a>
+                    </li>
 
-    <nav class="left-menu" ui-view="leftMenuBlock" left-menu ng-class="{'hidden-left-menu': hideLeftMenu}" ng-controller="MainCtrl">
-        <div class="logo-container">
-            <a href="#!/dashboard" class="logo">
-                <img src="../assets/common/img/logo1.png" alt="Clean UI Admin Template" />
-                <img class="logo-inverse" src="../assets/common/img/logo-inverse.png" alt="Clean UI Admin Template" />
-            </a>
-        </div>
-        <div class="left-menu-inner scroll-pane">
-            <ul class="left-menu-list left-menu-list-root list-unstyled">
-                <li>
-                    <a class="left-menu-link" href="#!/dashboard">
-                        <i class="left-menu-link-icon icmn-home2">
-                        </i>
-                        <span class="menu-top-hidden">Dashboard</span>
-                    </a>
-                </li>
+                    <li class="left-menu-list-separator">
 
-                <li class="left-menu-list-separator">
+                    </li>
+                    <li class="left-menu-list-submenu" ng-show="isAdmin">
+                        <a class="left-menu-link" href="javascript: void(0);">
+                            <i class="left-menu-link-icon icmn-users2"></i>Users
+                        </a>
+                        <ul class="left-menu-list list-unstyled">
+                            <li>
+                                <a class="left-menu-link" href="#!/users/list">
+                                    Users List
+                                </a>
+                            </li>
+                            <li>
+                                <a class="left-menu-link" href="#!/buyers/list">
+                                    Buyers List
+                                </a>
+                            </li>
+                            <li>
+                                <a class="left-menu-link" href="#!/vendors/list">
+                                    Vendors List
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li ng-hide="isAdmin">
+                        <a class="left-menu-link" href="#!/buyers/list">
+                            <i class="left-menu-link-icon icmn-users2"> </i>
+                            <span class="menu-top-hidden">Buyers</span>
+                        </a>
+                    </li>
+                    <li ng-hide="isAdmin">
+                        <a class="left-menu-link" href="#!/orders">
+                            <i class="left-menu-link-icon icmn-cart5"> </i>
+                            <span class="menu-top-hidden">Orders</span>
+                        </a>
+                    </li>
+                    <li ng-hide="isAdmin">
+                        <a class="left-menu-link" href="#!/order-returns">
+                            <i class="left-menu-link-icon icmn-cart5"> </i>
+                            <span class="menu-top-hidden">Order Returns</span>
+                        </a>
+                    </li>
+                    <li ng-hide="isAdmin">
+                        <a class="left-menu-link" ui-sref="main.inventory({itemId:null})">
+                            <i class="left-menu-link-icon icmn-cart5"> </i>
+                            <span class="menu-top-hidden">Inventory</span>
+                        </a>
+                    </li>
+                    <li ng-hide="isAdmin">
+                        <a class="left-menu-link" href="#!/ledger">
+                            <i class="left-menu-link-icon icmn-cart5"> </i>
+                            Generate Ledger
+                        </a>
+                    </li>
+                    <li class="left-menu-list-separator">
+                    </li>
+                    <li class="left-menu-list-submenu" ng-show="isAdmin">
+                        <a class="left-menu-link" href="javascript: void(0);">
+                            <i class="left-menu-link-icon icmn-cart5"> </i>
+                            Master Data
+                        </a>
+                        <ul class="left-menu-list list-unstyled">
+                            <li>
+                                <a class="left-menu-link" href="#!/category">
+                                    Category
+                                </a>
+                            </li>
+                            <li>
+                                <a class="left-menu-link" href="#!/sub-category">
+                                    Sub Category
+                                </a>
+                            </li>
 
-                </li>
-                <li class="left-menu-list-submenu" ng-show="isAdmin">
-                    <a class="left-menu-link" href="javascript: void(0);">
-                        <i class="left-menu-link-icon icmn-users2"></i>Users
-                    </a>
-                    <ul class="left-menu-list list-unstyled">
-                        <li>
-                            <a class="left-menu-link" href="#!/users/list">
-                                Users List
-                            </a>
-                        </li>
-                        <li>
-                            <a class="left-menu-link" href="#!/buyers/list">
-                                Buyers List
-                            </a>
-                        </li>
-                        <li>
-                            <a class="left-menu-link" href="#!/vendors/list">
-                                Vendors List
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li ng-hide="isAdmin">
-                    <a class="left-menu-link" href="#!/buyers/list">
-                        <i class="left-menu-link-icon icmn-users2"> </i>
-                        <span class="menu-top-hidden">Buyers</span>
-                    </a>
-                </li>
-                <li ng-hide="isAdmin">
-                    <a class="left-menu-link" href="#!/orders">
-                        <i class="left-menu-link-icon icmn-cart5"> </i>
-                        <span class="menu-top-hidden">Orders</span>
-                    </a>
-                </li>
-                <li ng-hide="isAdmin">
-                    <a class="left-menu-link" href="#!/order-returns">
-                        <i class="left-menu-link-icon icmn-cart5"> </i>
-                        <span class="menu-top-hidden">Order Returns</span>
-                    </a>
-                </li>
-                <li ng-hide="isAdmin">
-                    <a class="left-menu-link" ui-sref="main.inventory({itemId:null})">
-                        <i class="left-menu-link-icon icmn-cart5"> </i>
-                        <span class="menu-top-hidden">Inventory</span>
-                    </a>
-                </li>
-                <li ng-hide="isAdmin">
-                    <a class="left-menu-link" href="#!/ledger">
-                        <i class="left-menu-link-icon icmn-cart5"> </i>
-                        Generate Ledger
-                    </a>
-                </li>
-                <li class="left-menu-list-separator">
-                </li>
-                <li class="left-menu-list-submenu" ng-show="isAdmin">
-                    <a class="left-menu-link" href="javascript: void(0);">
-                        <i class="left-menu-link-icon icmn-cart5"> </i>
-                        Master Data
-                    </a>
-                    <ul class="left-menu-list list-unstyled">
-                        <li>
-                            <a class="left-menu-link" href="#!/category">
-                                Category
-                            </a>
-                        </li>
-                        <li>
-                            <a class="left-menu-link" href="#!/sub-category">
-                                Sub Category
-                            </a>
-                        </li>
+                        </ul>
+                    </li>
 
-                    </ul>
-                </li>
+                    <li class="left-menu-list-submenu" ng-show="isAdmin">
+                        <a class="left-menu-link" href="javascript: void(0);">
+                            <i class="left-menu-link-icon icmn-cart5"> </i>
+                            Ecommerce
+                        </a>
+                        <ul class="left-menu-list list-unstyled">
+                            <li>
+                                <a class="left-menu-link" href="#!/sales-list">
+                                    Sales List
+                                </a>
+                            </li>
+                            <li>
+                                <a class="left-menu-link" href="#!/products-list">
+                                    Products List
+                                </a>
+                            </li>
+                            <li>
+                                <a class="left-menu-link" ui-sref="main.inventory({itemId:null})">
+                                    Inventory
+                                </a>
+                            </li>
+                            <li>
+                                <a class="left-menu-link" href="#!/products-upload">
+                                    Products Bulk Upload
+                                </a>
+                            </li>
 
-                <li class="left-menu-list-submenu" ng-show="isAdmin">
-                    <a class="left-menu-link" href="javascript: void(0);">
-                        <i class="left-menu-link-icon icmn-cart5"> </i>
-                        Ecommerce
-                    </a>
-                    <ul class="left-menu-list list-unstyled">
-                        <li>
-                            <a class="left-menu-link" href="#!/sales-list">
-                                Sales List
-                            </a>
-                        </li>
-                        <li>
-                            <a class="left-menu-link" href="#!/products-list">
-                                Products List
-                            </a>
-                        </li>
-                         <li>
-                            <a class="left-menu-link" ui-sref="main.inventory({itemId:null})">
-                                Inventory
-                            </a>
-                        </li>
-                        <li>
-                            <a class="left-menu-link" href="#!/products-upload">
-                                Products Bulk Upload
-                            </a>
-                        </li>
-
-                        <li>
-                            <a class="left-menu-link" href="#!/orders">
-                                Orders List
-                            </a>
-                        </li>
-                        <li>
-                            <a class="left-menu-link" href="#!/order-history">
-                                Order History
-                            </a>
-                        </li>
-                        <li>
-                            <a class="left-menu-link" href="#!/order-returns">
-                                Order Returns
-                            </a>
-                        </li>
-                        <!-- <li>
+                            <li>
+                                <a class="left-menu-link" href="#!/orders">
+                                    Orders List
+                                </a>
+                            </li>
+                            <li>
+                                <a class="left-menu-link" href="#!/order-history">
+                                    Order History
+                                </a>
+                            </li>
+                            <li>
+                                <a class="left-menu-link" href="#!/order-returns">
+                                    Order Returns
+                                </a>
+                            </li>
+                            <!-- <li>
                             <a class="left-menu-link" href="#!/neworders">
                                 Distributor Orders
                             </a>
                         </li> -->
-                        <!-- <li>
+                            <!-- <li>
                             <a class="left-menu-link" href="#!/products-prices">
                                 Products Prices Upload
                             </a>
                         </li> -->
 
-                    </ul>
-                </li>
-                <li class="left-menu-list-submenu" ng-show="isAdmin">
-                    <a class="left-menu-link" href="javascript: void(0);">
-                        <i class="left-menu-link-icon icmn-cart5"> </i>
-                        Reports
-                    </a>
-                    <ul class="left-menu-list list-unstyled">
-                        <li>
-                            <a class="left-menu-link" href="#!/ledger">
-                                Generate Ledger
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="left-menu-list-submenu" ng-show="isAdmin">
-                    <a class="left-menu-link" href="javascript: void(0);">
-                        <i class="left-menu-link-icon icmn-cart5"> </i>
-                        SMS / Email
-                    </a>
-                    <ul class="left-menu-list list-unstyled">
-                        <li>
-                            <a class="left-menu-link" href="#!/smsemail">
-                                Send Sms / Email
-                            </a>
-                        </li>
+                        </ul>
+                    </li>
+                    <li class="left-menu-list-submenu" ng-show="isAdmin">
+                        <a class="left-menu-link" href="javascript: void(0);">
+                            <i class="left-menu-link-icon icmn-cart5"> </i>
+                            Reports
+                        </a>
+                        <ul class="left-menu-list list-unstyled">
+                            <li>
+                                <a class="left-menu-link" href="#!/ledger">
+                                    Generate Ledger
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="left-menu-list-submenu" ng-show="isAdmin">
+                        <a class="left-menu-link" href="javascript: void(0);">
+                            <i class="left-menu-link-icon icmn-cart5"> </i>
+                            SMS / Email
+                        </a>
+                        <ul class="left-menu-list list-unstyled">
+                            <li>
+                                <a class="left-menu-link" href="#!/smsemail">
+                                    Send Sms / Email
+                                </a>
+                            </li>
 
 
-                    </ul>
-                </li>
-                <li class="left-menu-list-submenu" ng-show="isAdmin">
-                    <a class="left-menu-link" href="javascript: void(0);">
-                        <i class="left-menu-link-icon icmn-cog util-spin-delayed-pseudo"> </i>
-                        <span class="menu-top-hidden">Settings</span>
-                    </a>
-                    <ul class="left-menu-list list-unstyled">
-                        <li>
-                            <a class="left-menu-link" href="#!/referral-settings">
-                                Referrals
-                            </a>
-                        </li>
-                        <li ng-show="isAdmin">
-                            <a class="left-menu-link" href="#!/referrals-list">
-                                <i class="left-menu-link-icon icmn-collaboration">
-                                </i>
-                                <span class="menu-top-hidden">Referrals List</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="left-menu-link" href="#!/app-settings">
-                                App Settings
-                            </a>
-                        </li>
-                        <li ng-show="isAdmin">
-                            <a class="left-menu-link" href="#!/account-transfer">
-                                <i class="left-menu-link-icon icmn-cash4">
-        
-                                </i>
-                                <span class="menu-top-hidden">Account Transfer</span>
-                            </a>
-                        </li>
-                        <li ng-show="isAdmin">
-                            <a class="left-menu-link" href="#!/payment-gateway">
-                                <i class="left-menu-link-icon icmn-credit-card2">
-        
-                                </i>
-                                <span class="menu-top-hidden">Payment Gateway</span>
-                            </a>
-                        </li>
-                        <li ng-show="isAdmin">
-                            <a class="left-menu-link" href="#!/payment-transactions">
-                                <i class="left-menu-link-icon icmn-credit-card2">
-        
-                                </i>
-                                <span class="menu-top-hidden">Payment Transactions</span>
-                            </a>
-                        </li>
-                        <li ng-show="isAdmin">
-                            <a class="left-menu-link" href="#!/audit-logs">
-                                <i class="left-menu-link-icon icmn-clipboard3">
-        
-                                </i>
-                                <span class="menu-top-hidden">Audit Logs</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>    
-                
-                <li ng-show="isAdmin">
-                    <a class="left-menu-link" href="#!/mandates">
-                        <i class="left-menu-link-icon icmn-clipboard3">
+                        </ul>
+                    </li>
+                    <li class="left-menu-list-submenu" ng-show="isAdmin">
+                        <a class="left-menu-link" href="javascript: void(0);">
+                            <i class="left-menu-link-icon icmn-cog util-spin-delayed-pseudo"> </i>
+                            <span class="menu-top-hidden">Settings</span>
+                        </a>
+                        <ul class="left-menu-list list-unstyled">
+                            <li>
+                                <a class="left-menu-link" href="#!/referral-settings">
+                                    Referrals
+                                </a>
+                            </li>
+                            <li ng-show="isAdmin">
+                                <a class="left-menu-link" href="#!/referrals-list">
+                                    <i class="left-menu-link-icon icmn-collaboration">
+                                    </i>
+                                    <span class="menu-top-hidden">Referrals List</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="left-menu-link" href="#!/app-settings">
+                                    App Settings
+                                </a>
+                            </li>
+                            <li ng-show="isAdmin">
+                                <a class="left-menu-link" href="#!/account-transfer">
+                                    <i class="left-menu-link-icon icmn-cash4">
 
-                        </i>
-                        <span class="menu-top-hidden">Physical Mandates</span>
-                    </a>
-                </li>
-                <!-- <li>
+                                    </i>
+                                    <span class="menu-top-hidden">Account Transfer</span>
+                                </a>
+                            </li>
+                            <li ng-show="isAdmin">
+                                <a class="left-menu-link" href="#!/payment-gateway">
+                                    <i class="left-menu-link-icon icmn-credit-card2">
+
+                                    </i>
+                                    <span class="menu-top-hidden">Payment Gateway</span>
+                                </a>
+                            </li>
+                            <li ng-show="isAdmin">
+                                <a class="left-menu-link" href="#!/payment-transactions">
+                                    <i class="left-menu-link-icon icmn-credit-card2">
+
+                                    </i>
+                                    <span class="menu-top-hidden">Payment Transactions</span>
+                                </a>
+                            </li>
+                            <li ng-show="isAdmin">
+                                <a class="left-menu-link" href="#!/audit-logs">
+                                    <i class="left-menu-link-icon icmn-clipboard3">
+
+                                    </i>
+                                    <span class="menu-top-hidden">Audit Logs</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li ng-show="isAdmin">
+                        <a class="left-menu-link" href="#!/mandates">
+                            <i class="left-menu-link-icon icmn-clipboard3">
+
+                            </i>
+                            <span class="menu-top-hidden">Physical Mandates</span>
+                        </a>
+                    </li>
+                    <!-- <li>
                     <a class="left-menu-link" href="#!/competitors-list">
                         <i class="left-menu-link-icon icmn-clipboard3">
 
@@ -381,31 +383,32 @@
                         <span class="menu-top-hidden">Competitors List</span>
                     </a>
                 </li> -->
-            </ul>
-        </div>
-    </nav>
-    <nav class="top-menu" ng-class="{'hidden-top-menu': hideTopMenu}" ng-controller="topMenuCtrl">
+                </ul>
+            </div>
+        </nav>
+        <nav class="top-menu" ng-class="{'hidden-top-menu': hideTopMenu}" ng-controller="topMenuCtrl">
 
-        <div class="menu-icon-container hidden-md-up">
-            <div class="animate-menu-button left-menu-toggle">
-                <div>
+            <div class="menu-icon-container hidden-md-up">
+                <div class="animate-menu-button left-menu-toggle">
+                    <div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="menu">
-            <div class="menu-user-block">
-                <div class="dropdown dropdown-avatar">
-                    <a href="javascript: void(0);" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <span class="avatar" href="javascript:void(0);">
-                            <img src="../assets/common/img/default-profile.jpg"  alt="Alternative text to the image">
+            <div class="menu">
+                <div class="menu-user-block">
+                    <div class="dropdown dropdown-avatar">
+                        <a href="javascript: void(0);" class="dropdown-toggle" data-toggle="dropdown"
+                            aria-expanded="false">
+                            <span class="avatar" href="javascript:void(0);">
+                                <img src="../assets/common/img/default-profile.jpg" alt="Alternative text to the image">
 
-                        </span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="" role="menu">
-                        <a class="dropdown-item" href="javascript:void(0)">
-                            <i class="dropdown-icon icmn-user"></i> Profile</a>
-                        <div class="dropdown-divider"></div>
-                        <!-- <div class="dropdown-header">Home</div>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="" role="menu">
+                            <a class="dropdown-item" href="javascript:void(0)">
+                                <i class="dropdown-icon icmn-user"></i> Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <!-- <div class="dropdown-header">Home</div>
                         <a class="dropdown-item" href="javascript:void(0)">
                             <i class="dropdown-icon icmn-circle-right"></i> System Dashboard</a>
                         <a class="dropdown-item" href="javascript:void(0)">
@@ -413,12 +416,12 @@
                         <a class="dropdown-item" href="javascript:void(0)">
                             <i class="dropdown-icon icmn-circle-right"></i> Issue Navigator (35 New)</a>
                         <div class="dropdown-divider"></div> -->
-                        <a class="dropdown-item" href="javascript:void(0)" ng-click="logout()">
-                            <i class="dropdown-icon icmn-exit"></i> Logout</a>
-                    </ul>
+                            <a class="dropdown-item" href="javascript:void(0)" ng-click="logout()">
+                                <i class="dropdown-icon icmn-exit"></i> Logout</a>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <!-- <div class="menu-user-block menu-notifications">
+                <!-- <div class="menu-user-block menu-notifications">
                 <div class="dropdown dropdown-avatar">
                     <a href="javascript: void(0);" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         <i class="menu-notification-icon icmn-bubbles7"></i>
@@ -525,16 +528,16 @@
                 </div>
                 
             </div> -->
+            </div>
+
+        </nav>
+        <section class="page-content" ui-view></section>
+
+
+        <div class="main-backdrop">
+
         </div>
-
-    </nav>
-    <section class="page-content" ui-view></section>
-
-
-    <div class="main-backdrop">
-
     </div>
-
 </body>
 
 <script src="assets/common/js/common.js"></script>

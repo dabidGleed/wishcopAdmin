@@ -29,6 +29,9 @@ app.controller('ledgerCtrl', ["$scope","ordersService", "reportsService", "$filt
             angular.forEach($scope.orders, function (item) {
                 console.log(item.orderDate);
                 item.edited = true;
+                if(!!item.credit){
+                    item.credited  = true;
+                }
                 if(item.invoiceId != "Opening Balance"){
                     var invoiceId = item.sales[0].invoiceId? item.sales[0].invoiceId: item.sales[0].order_item_id;
                     item.invoiceId = "Bill No:" + invoiceId;

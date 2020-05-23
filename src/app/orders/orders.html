@@ -103,9 +103,13 @@
                                                     data-toggle="modal" data-target="#orderData"
                                                     ng-click="editBatchExpiry(order.id);"> Edit
                                                 </button>
-                                                <button type="button" class="btn btn-primary margin-inline"
+                                                <!-- <button type="button" class="btn btn-primary margin-inline"
                                                     data-toggle="modal" data-target="#uploadModal"
                                                     ng-click="openUploadModal(order.id);"> Upload
+                                                </button> -->
+                                                <button type="button" class="btn btn-primary margin-inline"
+                                                    data-toggle="modal" data-target="#uploadSign"
+                                                    ng-click="openSignatureModal(order.id);"> Add Sign
                                                 </button>
                                             </td>
                                         </tr>
@@ -356,9 +360,8 @@
                                 <td ng-show="order.ptrFormat" style="min-width: 100px; width: 18%;">
                                     <input type="number" class="form-control" name="ptrDiscount"
                                         ng-model="sale.ptrDiscount"></td>{{sale.ptrDiscount}}
-                                <td ng-hide="order.ptrFormat"><input type="number" style="min-width: 100px; width: 18%;"
+                                <td><input type="number" style="min-width: 100px; width: 18%;"
                                         class="form-control" name="mrp" ng-model="sale.MRP"></td>
-                                <td ng-show="order.ptrFormat">{{sale.MRP}}</td>
                                 <td ng-show="order.ptrFormat">{{(sale.price - sale.tax_price) | currency:currency }}
                                 </td>
                                 <td ng-hide="order.ptrFormat"><input type="number" style="min-width: 100px; width: 18%;"
@@ -376,13 +379,13 @@
             </div>
             <div class="modal-footer">
                 <!-- <button type="button" class="btn btn-warning" ng-show="splitInvoice" ng-click="removeItems()">Delete Items</button> -->
-                <button type="button" class="btn btn-primary" ng-show="splitInvoice"
-                    ng-click="splitInvoiceChange()">Split
+                <button type="button" class="btn btn-primary" ng-show="splitInvoice" ng-click="splitInvoiceChange()">Split
                     Invoice</button>
+                <!-- <button type="button" class="btn btn-primary" ng-show="returnInv" ng-click="duplicateInvoice()">Duplicate
+                    Item</button> -->
                 <button type="button" class="btn btn-primary" ng-hide="splitInvoice || returnInv"
                     ng-click="updateBatchAndExpiry()">Update</button>
-                <button type="button" class="btn btn-primary" ng-show="returnInv"
-                    ng-click="generateReturnInvoice()">Return
+                <button type="button" class="btn btn-primary" ng-show="returnInv" ng-click="generateReturnInvoice()">Return
                     Invoice</button>
                 <button type="button" class="btn" data-dismiss="modal">Close</button>
             </div>
@@ -430,6 +433,52 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" ng-click="uploadInvoices()">Save Changes</button>
+                <button type="button" class="btn" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade modal-size-large" id="uploadSign" tabindex="-1" role="dialog" aria-labelledby=""
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Upload Digital Signature
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3 col-xs-12">
+                        <h5>Upload Digital Signature</h5>
+                    </div>
+                    <div class="col-md-4 col-xs-12">
+                        <button type="file " class="inputfile btn btn-default" id="file"
+                            ngf-select="uploadImageProof($files)" accept=".jpg, .jpeg, .png "
+                            name="button">Upload</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="image-product col-md-1" style="display: inline; margin-left:8px;"
+                        ng-repeat="f in imagesProofList">
+                        <a target="_blank" download href="{{f.link}}">
+                            <div class="avatar1">
+                                <img ng-src="{{f.link}}" alt="Alternative text to the image" />
+                                <span class="remove-product"><i ng-click="removeImgFiles($index)"
+                                        class="icmn-cancel"></i></span>
+
+                            </div>
+                            <p style="margin:0px; font-size:12px;">
+                                {{f.imageName | limitTo:20}}{{f.imageName.length > 20? '...': ''}} </p>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="uploadDigitalSign()">Save Changes</button>
                 <button type="button" class="btn" data-dismiss="modal">Close</button>
             </div>
         </div>

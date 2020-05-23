@@ -210,6 +210,16 @@ app.controller('ordersCtrl', ["$scope", "ordersService", "$filter", "Upload", fu
             $scope.imagesProofList =[];
         }
     };
+    $scope.openSignatureModal = function (orderId) {
+        $scope.order = $filter('filter')($scope.ordersList, {
+            id: orderId
+        })[0];
+        if(!!$scope.order.digitalSign){
+            $scope.imagesProofList = $scope.order.digitalSign;
+        }else{
+            $scope.imagesProofList =[];
+        }
+    };
     $scope.updateBatchAndExpiry = function () {
         angular.forEach($scope.order.sales, function (item) {
             if(item.HSNCode && item.batchName && item.expiryDate){
@@ -422,6 +432,27 @@ app.controller('ordersCtrl', ["$scope", "ordersService", "$filter", "Upload", fu
     };
     $scope.uploadInvoices = function () {
         $scope.order.companyInvoices = $scope.imagesProofList;
+        ordersAPI.updateOrderDetails($scope.order.id, $scope.order).then(function (response, status) {
+            if (response.status == 200) {
+                $.notify({
+                    title: '<strong>Success!</strong>',
+                    message: response.data.message
+                }, {
+                    type: 'success'
+                });
+                $('#uploadModal').modal('hide');
+            } else {
+                $.notify({
+                    title: '<strong>Unsuccessful!</strong>',
+                    message: response.data
+                }, {
+                    type: 'danger'
+                });
+            }
+        });
+    };
+    $scope.uploadDigitalSign = function () {
+        $scope.order.digitalSign = $scope.imagesProofList;
         ordersAPI.updateOrderDetails($scope.order.id, $scope.order).then(function (response, status) {
             if (response.status == 200) {
                 $.notify({

@@ -46,12 +46,10 @@
     <script src="assets/vendors/jquery-typeahead/dist/jquery.typeahead.min.js"></script>
     <script src="assets/vendors/jquery-mask-plugin/dist/jquery.mask.min.js"></script>
     <script src="assets/vendors/autosize/dist/autosize.min.js"></script>
-    <script src="assets/vendors/bootstrap-show-password/dist/bootstrap-show-password.min.js"></script>
+    <script src="assets/vendors/bootstrap-show-password/bootstrap-show-password.min.js"></script>
     <script src="assets/vendors/moment/min/moment.min.js"></script>
     <script src="assets/vendors/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
     <script src="assets/vendors/fullcalendar/dist/fullcalendar.min.js"></script>
-    <script src="assets/vendors/cleanhtmlaudioplayer/src/jquery.cleanaudioplayer.js"></script>
-    <script src="assets/vendors/cleanhtmlvideoplayer/src/jquery.cleanvideoplayer.js"></script>
     <script src="assets/vendors/bootstrap-sweetalert/dist/sweetalert.min.js"></script>
     <script src="assets/vendors/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js"></script>
     <script src="assets/vendors/summernote/dist/summernote.min.js"></script>
@@ -178,6 +176,12 @@
                         <a class="left-menu-link" href="#!/buyers/list">
                             <i class="left-menu-link-icon icmn-users2"> </i>
                             <span class="menu-top-hidden">Buyers</span>
+                        </a>
+                    </li>
+                    <li ng-hide="isAdmin">
+                        <a class="left-menu-link" href="#!/users/list">
+                            <i class="left-menu-link-icon icmn-users2"> </i>
+                            <span class="menu-top-hidden">Users List</span>
                         </a>
                     </li>
                     <li ng-hide="isAdmin">

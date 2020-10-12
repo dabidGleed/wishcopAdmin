@@ -7,16 +7,24 @@ app.controller('usersListCtrl', ["$location", "$scope", "$rootScope", "usersServ
 
     $scope.currentPage = 1;
     $scope.itemsPerPage = 15;
-
-    // get users list
-    usersServiceMethods.getUsersList().then(function (response) {
-        $scope.userList = response.data;
-    });
+    $scope.totalCount = 0;
     $scope.search = {
         name: "",
         role: "",
         status: ""
     };
+    // get users list
+    $scope.getUsersList = function(itemsPerPage, skip, search){
+        NProgress.start();
+        usersServiceMethods.getUsersList(itemsPerPage,skip, search).then(function (response) {
+            $scope.totalCount = response.data.count;
+            $scope.userList = response.data.users;
+            console.log($scope.totalCount);
+            NProgress.done();
+        });
+    };
+    $scope.getUsersList($scope.itemsPerPage, 0, $scope.search);
+    
 
     // users list filters
     $scope.resetFilters = function () {
@@ -121,5 +129,19 @@ app.controller('usersListCtrl', ["$location", "$scope", "$rootScope", "usersServ
             }
         }
     };
+    $scope.pageChanged = function (newPage) {
+        var pageDataList = (newPage - 1) * ($scope.itemsPerPage);
+        $scope.getUsersList($scope.itemsPerPage, pageDataList, $scope.search);
+    };
+    $scope.$watch('search.name', function() {
+        if($scope.search.name){
+            $scope.getUsersList($scope.itemsPerPage, 0, $scope.search);
+        }
+    });
+    $scope.$watch('search.status', function() {
+        if($scope.search.status){
+            $scope.getUsersList($scope.itemsPerPage, 0, $scope.search);
+        }
+    });
 
 }]);

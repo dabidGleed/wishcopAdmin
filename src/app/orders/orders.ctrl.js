@@ -182,13 +182,16 @@ app.controller('ordersCtrl', ["$scope", "ordersService", "$filter", "Upload", fu
         sale.tax_price = parseFloat((sale.offer_price * sale.taxPercent/100).toFixed(2));
         sale.price = sale.offer_price + sale.tax_price;
     };
+    $scope.addflag = function(sale){
+        sale.priceEdit = true;
+    };
     $scope.editBatchExpiry = function (orderId) {
         $scope.orderId = orderId;
         $scope.order = $filter('filter')($scope.ordersList, {
             id: orderId
         })[0];
         angular.forEach($scope.order.sales, function (item) {
-            item.taxPercent = Math.round(item.tax_price*100/(item.price-item.tax_price))
+            item.taxPercent = Math.round(item.tax_price*100/(item.price-item.tax_price));
             if(!item.offer_price) item.offer_price = parseFloat((item.price - item.tax_price).toFixed(2));
             if(!item.ptrDiscount) item.ptrDiscount = 0;
             else item.ptrDiscount = Number(item.ptrDiscount);
@@ -353,12 +356,12 @@ app.controller('ordersCtrl', ["$scope", "ordersService", "$filter", "Upload", fu
             $scope.splitInvoice = false;
         }
         
-    }
+    };
     $scope.toggleAll = function() {
         var toggleStatus = $scope.isAllSelected;
         angular.forEach($scope.order.sales, function(itm){ itm.selected = toggleStatus; });
         $scope.stateChanged();
-    }
+    };
     // Upload image proofs
     $scope.uploadImageProof = function (files) {
         $scope.files = files;

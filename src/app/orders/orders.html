@@ -364,6 +364,9 @@
                                         class="form-control" name="mrp" ng-model="sale.MRP"></td>
                                 <td ng-show="order.ptrFormat">{{(sale.price - sale.tax_price) | currency:currency }}
                                 </td>
+                                <td ng-show="order.ptrFormat"><input type="number" style="min-width: 100px; width: 18%;"
+                                    class="form-control" name="offer_price" ng-change="addflag(sale)"
+                                    ng-model="sale.offer_price"></td>
                                 <td ng-hide="order.ptrFormat"><input type="number" style="min-width: 100px; width: 18%;"
                                         class="form-control" name="offer_price" ng-change="calculatePrice(sale)"
                                         ng-model="sale.offer_price"></td>

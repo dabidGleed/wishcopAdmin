@@ -22,7 +22,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-4">
+                <!-- <div class="col-xs-4">
                     <div class="form-group row">
                         <div class="col-md-3">
                             <label class="form-control-label" for="l0">Role </label>
@@ -37,7 +37,7 @@
                         </div>
                     </div>
 
-                </div>
+                </div> -->
                 <div class="col-xs-3">
                     <div class="form-group row">
                         <div class="col-md-3">
@@ -79,8 +79,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr dir-paginate="users in userList   | filter : {firstName:search.name,role:search.role,status:search.status} | itemsPerPage:itemsPerPage"
-                            current-page="currentPage">
+                        <tr dir-paginate="users in userList | orderBy:'-updatedAt' | itemsPerPage:itemsPerPage"
+                        current-page="currentPage" total-items="totalCount">
                             <td>{{itemsPerPage *(currentPage-1)+$index+1}}</td>
                             <td>
                                 <a href="javascript: void(0);" class="cui-ecommerce--dashboard--list--img">
@@ -114,9 +114,8 @@
 
                         <tr>
                             <td colspan="10">
-                                <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                                <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
                             </td>
-
                         </tr>
                     </tbody>
                 </table>

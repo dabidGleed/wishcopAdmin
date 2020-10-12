@@ -7,9 +7,21 @@
       var baseURL = globalVars.baseURL;
 
       //service to get all users list
-      usersServiceMethods.getUsersList = function () {
-
-          var finalUrl = baseURL + "admin/users/get/all";
+      usersServiceMethods.getUsersList = function (limit, skip, search) {
+        var finalUrl = baseURL + "admin/user/list/all?role=BUYER";
+        if (limit) {
+            finalUrl = finalUrl + "&limit=" + limit;
+        }
+        if (skip) {
+            finalUrl = finalUrl + "&skip=" + skip;
+        }
+        if (search.name) {
+            finalUrl = finalUrl + "&str=" + search.name;
+        }
+        if (search.status) {
+            finalUrl = finalUrl + "&status=" + search.status;
+        }
+          
           return $http({
               method: 'POST',
               url: finalUrl
